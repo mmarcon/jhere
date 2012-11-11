@@ -2,15 +2,130 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>HTML5 boilerplate—all you really need…</title>
+    <title>Coming soon</title>
+    <link href='http://fonts.googleapis.com/css?family=Copse|Oswald' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="normalize.css" />
     <!--[if IE]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <style>
+        body {
+            height: 100%;
+            background: url(textured_stripes.png);
+            font-size: 20px;
+            font-family: 'Oswald', sans-serif;
+            color: #222;
+        }
+        .container {
+            position: relative;
+            z-index: 0;
+            margin: 80px auto 20px auto;
+            max-width: 940px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff6347;
+            color: rgba(255, 99, 71, 0.9);
+            text-transform: uppercase;
+            font-size: 72px;
+            margin: 0;
+        }
+
+        section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        section div {
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin: 0 10px;
+            width: 80px;
+            height: 100px;
+            position: relative;
+            background: #222;
+        }
+
+        .unit {
+            text-transform: uppercase;
+            font-size: 14px;
+            position: absolute;
+            bottom: 0;
+            left: -2px;
+            right: -2px;
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 3px;
+            margin-bottom: 3px;
+            background: #fff;
+        }
+
+        .number {
+            font-size: 52px;
+            color: #fff;
+            line-height: 1.25;
+        }
+
+        footer {
+            margin-top: 80px;
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            right: 0;
+            padding: 3px;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+    </style>
 </head>
 
-<body id="home">
+<body>
+    <div class="container">
+        <header>
+            <h1>Coming Soon</h1>
+        </header>
+        <section>
+            <div class="days"><span class="number">0</span><span class="unit">Days</span></div>
+            <div class="hours"><span class="number">0</span><span class="unit">Hours</span></div>
+            <div class="minutes"><span class="number">0</span><span class="unit">Minutes</span></div>
+            <div class="seconds"><span class="number">0</span><span class="unit">Seconds</span></div>
+        </section>
+    </div>
+    <footer>
+        <small>Massimiliano Marcon &copy; 2012</small>
+    </footer>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script>
+    $(function(){
+        var when = 1352851200000;
+        function getDifference() {
+            var diff = when - Date.now();
+            return {
+                diff : diff,
+                ms : Math.floor(diff % 1000 ),
+                s  : Math.floor(diff / 1000 % 60),
+                m  : Math.floor(diff / 60000 % 60),
+                h  : Math.floor(diff / 3600000 % 24),
+                d  : Math.floor(diff / 86400000)
+            };
+        }
 
-    <h1>HTML5 boilerplate</h1>
+        function render(){
+            var d = getDifference();
+            $('.days .number').text(d.d);
+            $('.hours .number').text(d.h);
+            $('.minutes .number').text(d.m);
+            $('.seconds .number').text(d.s);
+            setTimeout(render, 300);
+        }
 
+        render();
+
+    });
+    </script>
 </body>
 </html>
