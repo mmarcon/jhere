@@ -1,14 +1,14 @@
-#jOVI
+#jHERE
 
 Maps are cool, but map APIs are complicated. jHERE solves this problem by offering a simple but powerful map API in the form of a jQuery (or Zepto.JS) plugin.
 
 With jHERE, you can easily add interactive maps to your website. In only 4KB, you get a powerful map API, highly customizable markers, event handling and info bubbles. Bonus features are KML support and data visualization via heatmaps.
 
-![Screenshot](https://raw.github.com/mmarcon/jOVI/new_version/docs/shot.png)
+![Screenshot](https://raw.github.com/mmarcon/jhere/docs/shot.png)
 
-## Add jOVI to your pages
+## Add jHERE to your pages
 
-Adding jOVI to a web page or web application is very easy. jOVI supports both jQuery as well as Zepto.JS, so first of all include one of these libraries.
+Adding jHERE to a web page or web application is very easy. jHERE supports both jQuery as well as Zepto.JS, so first of all include one of these libraries.
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	
@@ -24,13 +24,13 @@ In case you are using Zepto, you will need to include the Zepto adapter, that in
 	
 Finally include the plugin.
 
-	<script type="text/javascript" src="js/jquery.jovi.js"></script>
+	<script type="text/javascript" src="js/jhere.js"></script>
 	
 And done. Execute your code on window load.
 
 	<script>
 		$(window).on('load', function(){
-			$('#map').jOVI({
+			$('#map').jHERE({
 				enable: ['behavior'],
         		center: [40.664167, -73.838611],
 		        zoom: 8

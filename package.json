@@ -1,5 +1,5 @@
 {
-  "name": "jOVI",
+  "name": "jHERE",
   "version": "0.2.0",
   "description": "Maps made simple.",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mmarcon/jOVI.git"
+    "url": "git://github.com/mmarcon/jhere.git"
   },
   "keywords": [
     "maps",

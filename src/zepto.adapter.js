@@ -1,6 +1,6 @@
 ;(function($){
     /*MINIMAL implementation of $.Deferred*/
-    /*This only implements the method required by jOVI*/
+    /*This only implements the method required by jHERE*/
     /*So do not use it for real "promises" purpose*/
     $.Deferred = function(){
         if(!(this instanceof $.Deferred)) {
