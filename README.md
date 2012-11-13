@@ -4,7 +4,7 @@ Maps are cool, but map APIs are complicated. jHERE solves this problem by offeri
 
 With jHERE, you can easily add interactive maps to your website. In only 4KB, you get a powerful map API, highly customizable markers, event handling and info bubbles. Bonus features are KML support and data visualization via heatmaps.
 
-![Screenshot](https://raw.github.com/mmarcon/jhere/docs/shot.png)
+![Screenshot](https://github.com/mmarcon/jhere/blob/master/docs/shot.png)
 
 ## Add jHERE to your pages
 
