@@ -1,0 +1,27 @@
+{
+  "name": "jOVI",
+  "version": "0.2.0",
+  "description": "Maps made simple.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mmarcon/jOVI.git"
+  },
+  "keywords": [
+    "maps",
+    "nokia",
+    "maps",
+    "jquery"
+  ],
+  "author": "Massimiliano Marcon (@mmarcon)",
+  "license": "MIT",
+  "devDependencies": {
+    "uglify-js": "1.3.4"
+  }
+}
