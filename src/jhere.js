@@ -369,10 +369,10 @@
     //documentation.
     //
     //`closure` should look like this:
-    //<pre><code>function(map, nokia){
-    //    this is the DOM element
-    //    map is the JSLA map object
-    //    nokia is the whole JSLA API namespace
+    //<pre><code>function(map, here){
+    //    //this is the DOM element
+    //    //map is the JSLA map object
+    //    //here is the whole JSLA API namespace
     //}</code></pre>
     H.originalMap = function(closure){
         /*
