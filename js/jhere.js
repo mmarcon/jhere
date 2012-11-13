@@ -11,7 +11,7 @@
     //
     //`<script type="text/javascript" src="js/zepto.min.js"></script>`
     //
-    //[Download]() the plugin code, copy it in your project folder and
+    //[Download](https://github.com/mmarcon/jhere/archive/master.zip) the plugin code, copy it in your project folder and
     //add the necessary script tags below jQuery or Zepto.JS. **If you are using Zepto.JS**
     //the you will need to **include the Zepto adapter** before including the plugin.
     //
@@ -369,10 +369,10 @@
     //documentation.
     //
     //`closure` should look like this:
-    //<pre><code>function(map, nokia){
-    //    this is the DOM element
-    //    map is the JSLA map object
-    //    nokia is the whole JSLA API namespace
+    //<pre><code>function(map, here){
+    //    //this is the DOM element
+    //    //map is the JSLA map object
+    //    //here is the whole JSLA API namespace
     //}</code></pre>
     H.originalMap = function(closure){
         /*
