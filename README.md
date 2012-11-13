@@ -38,7 +38,10 @@ And done. Execute your code on window load.
 		});
 	</script>
 
-That's it.
+That's it. All the documentation is available at [jhere.net/docs.html](http://jhere.net/docs.html).
+
+### Playground
+Because [@thingsinjars](http://twitter.com/thingsinjars) is awesome **jHERE** has a playground, where you can go and experiment with the API, make cool maps, save the result as a Gist and share it with the world.
 
 ## Contributing
 
