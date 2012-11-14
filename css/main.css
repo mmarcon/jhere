@@ -157,16 +157,26 @@ nav a:hover, nav a:active, nav a.active {
     color: #ff6347;;
 }
 
+.twitter, .twitter-follow, .facebook {
+    color: #fff;
+}
+
 .twitter {
     position: absolute;
     top: 6px;
-    right: -15px;
+    right: 50px;
+}
+
+.twitter-follow {
+    position: absolute;
+    top: 6px;
+    right: 5px;
 }
 
 .facebook {
     position: absolute;
     top: 2px;
-    right: 105px;
+    right: 168px;
     display: none;
 }
 
