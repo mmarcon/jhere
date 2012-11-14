@@ -22,6 +22,7 @@
   "author": "Massimiliano Marcon (@mmarcon)",
   "license": "MIT",
   "devDependencies": {
-    "uglify-js": "1.3.4"
+    "uglify-js": "1.3.4",
+    "jshint": "0.9.1"
   }
 }
