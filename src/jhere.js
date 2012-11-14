@@ -365,7 +365,7 @@
     //
     //This is useful when advanced operations
     //that are not exposed by this plugin need to be
-    //performed. Check [api.maps.nokia.com](http://api.maps.nokia.com) for the
+    //performed. Check [developer.here.net](http://developer.here.net) for the
     //documentation.
     //
     //`closure` should look like this:
