@@ -327,7 +327,7 @@ $(window).on('load', function(){
         } else if(el.hasClass('heatmap')) {
             makeHeatmap('.demo-map');
         }
-        $('.caption').text(el.attr('title'));
+        $('.caption').html(el.attr('title').replace(/\[(.*)\]/, '<a href="$1" title="Code">View Code</a>'));
     });
 
     function closeLightbox() {

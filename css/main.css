@@ -254,6 +254,12 @@ footer {
     font-family: 'Oswald', sans-serif;
 }
 
+.caption a {
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+}
+
 .demos li:hover span {
     background: #444;
 }
