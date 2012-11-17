@@ -4,9 +4,9 @@ $(function(){
         if(!_gaq) {
             return true;
         }
-        e.preventDefault();
         var url = $(this).attr("href");
         if (e.currentTarget.host != window.location.host) {
+            e.preventDefault();
             try {
                 _gaq.push(['_trackEvent', 'Outbound Links', e.currentTarget.host, url, 0]);
                 setTimeout('document.location = "' + url + '"', 100);
