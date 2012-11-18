@@ -16,7 +16,7 @@ or
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
 	
-In case you are using Zepto, you will need to include the Zepto adapter, that includes a couple of little things that are not implmented in Zepto and I used in my plugin (`$.Deferred` and `$.data`).
+In case you are using Zepto, you will need to include the Zepto adapter, that includes a couple of little things that are not implemented in Zepto and I used in my plugin (`$.Deferred` and `$.data`).
 
 	<script type="text/javascript" src="js/zepto.adapter.js">
 	<!--Only when using Zepto-->
@@ -41,9 +41,9 @@ And done. Execute your code on window load.
 That's it. All the documentation is available at [jhere.net/docs.html](http://jhere.net/docs.html).
 
 ### Playground
-Because [@thingsinjars](http://twitter.com/thingsinjars) is awesome **jHERE** has a playground, where you can go and experiment with the API, make cool maps, save the result as a Gist and share it with the world.
+Because [@thingsinjars](http://twitter.com/thingsinjars) is awesome **jHERE** has [a playground](http://bin.jhere.net), where you can go and experiment with the API, make cool maps, save the result as a Gist and share it with the world.
 
-## Contributing
+## Contribute
 
 Feel free to submit pull requests and report the issues you may find when using the plugin.
 
