@@ -51,7 +51,7 @@ Feel free to submit pull requests and report the issues you may find when using 
 
 I am not a code style super-geek, but here are the things I like and I don't like:
 
- 1. **☼ Like:** semicolons, at the end of the line, **never at the beginning**.
+ 1. **☼ Like:** semicolons at the end of the line.
  2. **☁ Don't like:** tabs, use **4** spaces instead. Not 1, not 2, **4**.
  3. **☼ Like:** single quotes for strings.
  4. **☁ Don't like:** trailing whitespaces, messed up indentation.
