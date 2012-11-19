@@ -13,6 +13,9 @@ plugin:
 zepto:
 	@./node_modules/.bin/uglifyjs -o dist/zepto.adapter.min.js src/zepto.adapter.js
 
+extensions:
+	@./build-scripts/build-extensions.sh
+
 summary:
 	@ls -nhl dist | awk '{print $$9,$$5}' | tail -n +2
 
