@@ -16,7 +16,7 @@ or
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
 	
-In case you are using Zepto, you will need to include the Zepto adapter, that includes a couple of little things that are not implmented in Zepto and I used in my plugin (`$.Deferred` and `$.data`).
+In case you are using Zepto, you will need to include the Zepto adapter, that includes a couple of little things that are not implemented in Zepto and I used in my plugin (`$.Deferred` and `$.data`).
 
 	<script type="text/javascript" src="js/zepto.adapter.js">
 	<!--Only when using Zepto-->
@@ -45,9 +45,9 @@ That's it. All the documentation is available at [jhere.net/docs.html](http://jh
 Please refer to `EXTENSIONS.md` for information about the extensions for jHERE.
 
 ### Playground
-Because [@thingsinjars](http://twitter.com/thingsinjars) is awesome **jHERE** has a playground, where you can go and experiment with the API, make cool maps, save the result as a Gist and share it with the world.
+Because [@thingsinjars](http://twitter.com/thingsinjars) is awesome **jHERE** has [a playground](http://bin.jhere.net), where you can go and experiment with the API, make cool maps, save the result as a Gist and share it with the world.
 
-## Contributing
+## Contribute
 
 Feel free to submit pull requests and report the issues you may find when using the plugin.
 
@@ -55,7 +55,7 @@ Feel free to submit pull requests and report the issues you may find when using 
 
 I am not a code style super-geek, but here are the things I like and I don't like:
 
- 1. **☼ Like:** semicolons, at the end of the line, **never at the beginning**.
+ 1. **☼ Like:** semicolons at the end of the line.
  2. **☁ Don't like:** tabs, use **4** spaces instead. Not 1, not 2, **4**.
  3. **☼ Like:** single quotes for strings.
  4. **☁ Don't like:** trailing whitespaces, messed up indentation.
