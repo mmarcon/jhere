@@ -17,9 +17,17 @@
 </head>
 
 <body>
-<div id="map" data-center="40.6699,-73.91461" data-zoom="12" data-type="pt"></div>
+<div id="map"></div>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="../jhere.js"></script>
-<script type="text/javascript" src="../extensions/autoinit.js"></script>
+<script type="text/javascript" src="../extensions/route.js"></script>
+<script type="text/javascript">
+    $(window).on('load', function(){
+        $('#map').jHERE({
+            center: [52.5, 13.3],
+            zoom: 10
+        }).jHERE('route', {latitude: 52.711, longitude: 13.011}, {latitude: 52.514, longitude: 13.453});
+    });
+</script>
 </body>
 </html>

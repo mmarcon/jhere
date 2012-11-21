@@ -506,5 +506,13 @@
         });
     };
 
+    /*Open up prototype for extensions*/
+    $[plugin] = {};
+    $[plugin].extend = function(name, fn){
+        if (typeof name === 'string' && isFunction(fn)) {
+            H[name] = fn;
+        }
+    };
+
 
 })(jQuery, window, document);
