@@ -5,7 +5,7 @@ PLUGIN = jhere
 deps:
 	npm install
 
-dist: hint plugin zepto summary
+dist: hint plugin zepto extensions summary
 
 plugin:
 	@./node_modules/.bin/uglifyjs -o dist/$(PLUGIN).min.js src/$(PLUGIN).js
@@ -17,7 +17,8 @@ extensions:
 	@./build-scripts/build-extensions.sh
 
 summary:
-	@ls -nhl dist | awk '{print $$9,$$5}' | tail -n +2
+	@ls -nhl dist | grep -v ^d | awk '{print $$9,$$5}' | tail -n +2; \
+	ls -nhl dist/extensions | grep -v ^d | awk '{print $$9,$$5}' | tail -n +2
 
 hint:
 	@./node_modules/.bin/jshint ./src
