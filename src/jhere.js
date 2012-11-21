@@ -471,6 +471,25 @@
 
     /*Open up prototype for extensions*/
     $[plugin] = {};
+
+    //###Extend jHERE
+    //jHERE can be easily extended with additional features. Some example of
+    //extensions are located [here](https://github.com/mmarcon/jhere/blob/master/EXTENSIONS.md).
+    //An extension should be implemented within a self-invoking function.
+    //Add the function(s)
+    //that will be called via
+    //
+    //`$('.selector').jHERE('myextension', param1, param2);`
+    //
+    //as follows:
+    //
+    //<pre><code class="dark">$.jHERE.extend('myextension', function(param1, param2){
+    //  //this is the plugin object
+    //  //this.element is the DOM element
+    //  //this.map is the JSLA map
+    //});</code></pre>
+    //
+    //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
     $[plugin].extend = function(name, fn){
         if (typeof name === 'string' && isFunction(fn)) {
             H[name] = fn;

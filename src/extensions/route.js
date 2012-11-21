@@ -41,7 +41,7 @@
     //}</code></pre>
     //
     //`marker` is an object containing the same options used for
-    //`$('.selector').jHERE('marker'). Options apply to both start and destionation markers.
+    //`$('.selector').jHERE('marker')`. Options apply to both start and destionation markers.
     route = function(from, to, options){
         var router, wp, done;
         _ns = _ns || nokia.maps;
