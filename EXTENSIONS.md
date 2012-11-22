@@ -56,3 +56,5 @@ or an array
 
 `marker` is an object containing the same options used for
 `$('.selector').jHERE('marker')`. Options apply to both start and destionation markers.
+
+**DEMO:** a demo of the routing extension is available [here](http://bin.jhere.net/4128297).
