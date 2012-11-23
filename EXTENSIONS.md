@@ -44,17 +44,21 @@ or an array
 
 	{
 	  marker: {},
-	  type: 'shortest',       //can be shortest, fastest, fastestNow, directDrive, scenic
-	  transportMode: 'car',   //can be car, pedestrian, publicTransport, truck
-	  options: '',            //can be avoidTollroad, avoidMotorway, avoidBoatFerry,
-	                          //avoidRailFerry, avoidPublicTransport, avoidTunnel,
-	                          //avoidDirtRoad, avoidPark, preferHOVLane, avoidStairs
-	  trafficMode: 'default', //can be enabled, disabled, default
-	  width: 4,               //width in px of the route drawn on the map
-	  color: '#ff6347'        //color of the route drawn on the map
+	  type: 'shortest',          //can be shortest, fastest, fastestNow, directDrive, scenic
+	  transportMode: 'car',      //can be car, pedestrian, publicTransport, truck
+	  options: '',               //can be avoidTollroad, avoidMotorway, avoidBoatFerry,
+	                             //avoidRailFerry, avoidPublicTransport, avoidTunnel,
+	                             //avoidDirtRoad, avoidPark, preferHOVLane, avoidStairs
+	  trafficMode: 'default',    //can be enabled, disabled, default
+	  width: 4,                  //width in px of the route drawn on the map
+	  color: '#ff6347',          //color of the route drawn on the map
+	  onroute: function(route){} //optional callbacks that gets the list of maneuvers with some
+                                 //basic info, plus total time (seconds) and length (meters)
 	}
 
 `marker` is an object containing the same options used for
 `$('.selector').jHERE('marker')`. Options apply to both start and destionation markers.
+
+For jQuery a `jhere.route` event is also triggered, which can be caught with `on` on the map element. With Zepto the call to `trigger` seems to be ignored.
 
 **DEMO:** a demo of the routing extension is available [here](http://bin.jhere.net/4128297).

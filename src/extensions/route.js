@@ -93,7 +93,7 @@
                 if(typeof options.onroute === 'function') {
                     options.onroute.call(this.element, info);
                 }
-                /*And trigger event*/
+                /*And trigger event (jQuery only)*/
                 evt = $.Event('jhere.route', {
                     route: info,
                     target: this.element
