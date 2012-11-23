@@ -37,8 +37,12 @@
     //               //avoidDirtRoad, avoidPark, preferHOVLane, avoidStairs
     //  trafficMode: 'default', //can be enabled, disabled, default
     //  width: 4, //width in px of the route drawn on the map
-    //  color: '#ff6347' //color of the route drawn on the map
+    //  color: '#ff6347', //color of the route drawn on the map,
+    //  onroute: function(route){} //optional callbacks that gets the list of maneuvers with some
+    //                             //basic info, plus total time (seconds) and length (meters)
     //}</code></pre>
+    //
+    //Once route is calculated a jhere.route event is also triggered.
     //
     //`marker` is an object containing the same options used for
     //`$('.selector').jHERE('marker')`. Options apply to both start and destionation markers.
@@ -51,7 +55,7 @@
 
         /*Call me with the correct context!*/
         done = function(router, key, status) {
-            var routes, routeContainer, poly, r;
+            var routes, routeContainer, poly, r, leg, info = {}, evt;
             if (status == 'finished') {
                 routes = router.getRoutes();
                 r = routes[0];
@@ -74,6 +78,27 @@
                     this.marker(w.originalPosition, o);
                 }, this));
                 this.map.objects.add(routeContainer);
+                /*Now let's look into the route infos*/
+                leg = r.legs && r.legs.length && r.legs[0];
+                info.time = leg.travelTime;
+                info.length = leg.length;
+                info.maneuvers = $.map(leg.maneuvers, function(m){
+                    return {
+                        street: m.streetName,
+                        length: m.length,
+                        route: m.routeName
+                    };
+                });
+                /*Fire callback if present*/
+                if(typeof options.onroute === 'function') {
+                    options.onroute.call(this.element, info);
+                }
+                /*And trigger event (jQuery only)*/
+                evt = $.Event('jhere.route', {
+                    route: info,
+                    target: this.element
+                });
+                $(this.element).trigger(evt);
             } else if (status == 'failed') {
                 $.error('Failed to calcolate route');
             }
