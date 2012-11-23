@@ -61,4 +61,4 @@ or an array
 
 For jQuery a `jhere.route` event is also triggered, which can be caught with `on` on the map element. With Zepto the call to `trigger` seems to be ignored.
 
-**DEMO:** a demo of the routing extension is available [here](http://bin.jhere.net/4128297).
+**DEMO:** a demo of the routing extension is available [here](http://bin.jhere.net/4134408).
