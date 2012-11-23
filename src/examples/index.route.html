@@ -13,22 +13,47 @@
             right: 0;
             background: white;
         }
+        .route {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 100px;
+            background: rgba(255,255,255,0.7);
+        }
+
+        .route p {
+            font-family: 'Helvetica', sans-serif;
+            padding: 6px 3px;
+            margin: 0;
+            line-height: 1;
+            font-size: 28px;
+            font-weight: 100;
+            text-align: right;
+        }
     </style>
 </head>
 
 <body>
 <div id="map"></div>
+<div class="route"></div>
 <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
 <script type="text/javascript" src="../zepto.adapter.js"></script>
 <script type="text/javascript" src="../jhere.js"></script>
 <script type="text/javascript" src="../extensions/route.js"></script>
 <script type="text/javascript">
+    function onroute(route){
+        $('.route').append('<p>Time: ' + Math.floor(route.time/60) + ' min</p>')
+                   .append('<p>Length: ' + Math.floor(route.length/1000) + ' Km</p>')
+    }
+
     $(window).on('load', function(){
         $('#map').jHERE({
             center: [52.5, 13.3],
             zoom: 10
-        }).jHERE('route', [52.711, 13.011], [52.514, 13.453]);
+        })
+        .jHERE('route', [52.711, 13.011], [52.514, 13.453], {onroute: onroute});
     });
 </script>
 </body>
