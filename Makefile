@@ -8,10 +8,10 @@ deps:
 dist: hint plugin zepto extensions summary
 
 plugin:
-	@./node_modules/.bin/uglifyjs -o dist/$(PLUGIN).min.js src/$(PLUGIN).js
+	@./node_modules/.bin/uglifyjs -nc -o dist/$(PLUGIN).min.js src/$(PLUGIN).js
 
 zepto:
-	@./node_modules/.bin/uglifyjs -o dist/zepto.adapter.min.js src/zepto.adapter.js
+	@./node_modules/.bin/uglifyjs -nc -o dist/zepto.adapter.min.js src/zepto.adapter.js
 
 extensions:
 	@./build-scripts/build-extensions.sh
