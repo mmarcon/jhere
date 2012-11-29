@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //inputs for locations (i.e. latitude and longitude)
     $(function(){
         var input = $('input[data-type="location"]'),
-        button = $('<button class="location">'),
+        button = $('<button class="location" type="button">'),
         map = $('<div class="input-map">').hide();
 
         function injectCSS() {
