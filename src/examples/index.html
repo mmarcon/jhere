@@ -275,7 +275,7 @@ var heatMapData = [
 </script>
 <script type="text/javascript">
 $(window).on('load', function(){
-    $.jHERE.geocode('Berlin, Germany', function(center){
+    $.jHERE.geocode('Berlin, Germany').done(function(center){
         $('#map').jHERE({enable: ['behavior', 'zoombar', 'typeselector', 'positioning', 'contextmenu'], center: center});
         $('#map').jHERE('type', 'smart').jHERE('marker', [52.49, 13.37], {text: '●', textColor: '#fff', fill: '#004C9A',
             click: function(e){

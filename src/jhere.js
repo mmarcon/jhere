@@ -133,20 +133,40 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     //### Set default credentials
     //`$.jHERE.defaultCredentials(appId, authToken);`
+    //For `appId` and `authToken` refer to the note above.
     P.defaultCredentials = function(appId, authToken) {
-        defaults.appId = appId;
-        defaults.authToken = authToken;
+        _credentials = {
+            appId: appId,
+            authenticationToken: authToken
+        };
+        _ns.util.ApplicationContext.set(_credentials);
     };
 
 
+    //### Geocode
+    //`$.JHERE.geocode('Berlin, Germany', function(position){}, function(){/*error*/});`
+    //jHERE exposes the possibility of geocoding an address
+    //into (latitude, longitude). This call is asynchronous
+    //and supports a `success` and a `error` callback.
+    //When jHERE is used with jQuery a $.Deferred object is also returned
+    //and can be used instead of callbacks. For Zepto.JS a Deferred os also returned,
+    //however note that it is a custom implementation that only supports the `done` method.
     /*@component=geocode*/
     P.geocode = function(query, success, error) {
+        var deferred = $.Deferred();
+        success = isFunction(success) ? success : $.noop;
+        error = isFunction(error) ? error : $.noop;
         _JSLALoader.load().is.done(function(){
             var searchCenter = new _ns.geo.Coordinate(0, 0),
                 searchManager = nokia.places.search.manager;
             function geocodeCallback(data, status) {
+                var location = data.location && data.location.position;
                 if(status === 'OK') {
-                    success(data.location && data.location.position);
+                    deferred.resolve(location);
+                    success(location);
+                } else {
+                    deferred.reject();
+                    error();
                 }
             }
             searchManager.geoCode({
@@ -154,6 +174,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 onComplete: geocodeCallback
             });
         });
+        return deferred;
     };
     /*@endcomponent*/
 
