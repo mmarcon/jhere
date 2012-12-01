@@ -50,7 +50,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     var plugin = 'jHERE',
         version = '0.2.0',
         defaults, H, _ns, _JSLALoader,
-        _credentials, bind = $.proxy;
+        _credentials, bind = $.proxy, P;
 
     defaults = {
         appId: '_peU-uCkp-j8ovkzFGNU',
@@ -80,6 +80,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             coarseness: 2
         }
     };
+
+    $[plugin] = P = {};
+
 
     //### Make a map
     //`$('.selector').jHERE(options);`
@@ -127,6 +130,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     }
 
     H = jHERE.prototype;
+
+    //### Set default credentials
+    //`$.jHERE.defaultCredentials(appId, authToken);`
+    P.defaultCredentials = function(appId, authToken) {
+        defaults.appId = appId;
+        defaults.authToken = authToken;
+    };
+
+
+    /*@component=geocode*/
+    P.geocode = function(query, success, error) {
+        _JSLALoader.load().is.done(function(){
+            var searchCenter = new _ns.geo.Coordinate(0, 0),
+                searchManager = nokia.places.search.manager;
+            function geocodeCallback(data, status) {
+                if(status === 'OK') {
+                    success(data.location && data.location.position);
+                }
+            }
+            searchManager.geoCode({
+                searchTerm: query,
+                onComplete: geocodeCallback
+            });
+        });
+    };
+    /*@endcomponent*/
 
     H.init = function(){
         var options = this.options;
@@ -492,9 +521,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         return this;
     };
 
-    /*Open up prototype for extensions*/
-    $[plugin] = {};
-
     //###Extend jHERE
     //jHERE can be easily extended with additional features. Some example of
     //extensions are located [here](https://github.com/mmarcon/jhere/blob/master/EXTENSIONS.md).
@@ -513,7 +539,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //});</code></pre>
     //
     //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
-    $[plugin].extend = function(name, fn){
+    P.extend = function(name, fn){
         if (typeof name === 'string' && isFunction(fn)) {
             H[name] = fn;
         }
