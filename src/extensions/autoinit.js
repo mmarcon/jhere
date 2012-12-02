@@ -34,10 +34,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         if(target.length === 0) {
             return;
         }
-        target = target.first();
-        options.center = (target.data('center')||"52.49,13.37").split(',').map(function(v){return parseFloat(v);});
-        options.zoom = target.data('zoom');
-        options.type = target.data('type');
-        target.jHERE(options);
+        target.each(function(i, t){
+            var target = $(t);
+            options.center = target.data('center');
+            options.zoom = target.data('zoom');
+            options.type = target.data('type');
+            /*if it is something like 52.49,13.37*/
+            if(options.center.match(/[\-+]?\d+(?:\.\d+)?,\s?[\-+]?\d+(?:\.\d+)?/)) {
+                options.center = options.center.split(',').map(function(v){return parseFloat(v);});
+                target.jHERE(options);
+            } else {
+                $.jHERE.geocode(options.center, function(center){
+                    options.center = center;
+                    target.jHERE(options);
+                }, function(){
+                    $.error('Geocoding error');
+                });
+            }
+        });
     });
 })(jQuery, window);
