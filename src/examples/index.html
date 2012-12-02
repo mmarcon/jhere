@@ -286,6 +286,7 @@ $(window).on('load', function(){
             }}).jHERE('heatmap', heatMapData, 'value');
          $('#map').jHERE('kml', 'resources/berlin.kml');
     });
+    $.jHERE.reverseGeocode({latitude: 52.49, longitude: 13.39}).done(function(address){console.log(address)});
 });
 </script>
 </body>
