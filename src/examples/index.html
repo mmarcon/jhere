@@ -275,19 +275,19 @@ var heatMapData = [
 </script>
 <script type="text/javascript">
 $(window).on('load', function(){
-    $.jHERE.geocode('Berlin, Germany').done(function(center){
-        $('#map').jHERE({enable: ['behavior', 'zoombar', 'typeselector', 'positioning', 'contextmenu'], center: center});
-        $('#map').jHERE('type', 'smart').jHERE('marker', [52.49, 13.37], {text: '●', textColor: '#fff', fill: '#004C9A',
-            click: function(e){
-                alert(JSON.stringify(e.geo));
-            }}).jHERE('marker', [52.49, 13.39], {text: '❤', textColor: '#fff', fill: '#004C9A',
-            click: function(e){
-                $(this).jHERE('bubble', [52.49, 13.39], {content: JSON.stringify(e.geo), closable: false});
-            }}).jHERE('heatmap', heatMapData, 'value');
-         $('#map').jHERE('kml', 'resources/berlin.kml');
+    //Set default credentials
+    $.jHERE.defaultCredentials('_peU-uCkp-j8ovkzFGNU', 'gBoUkAMoxoqIWfxWA5DuMQ');
+
+    $('#map').jHERE({enable: ['behavior', 'zoombar', 'typeselector', 'positioning', 'contextmenu']});
+    $('#map').jHERE('type', 'smart').jHERE('marker', [52.49, 13.37], {text: '●', textColor: '#fff', fill: '#004C9A',
+        click: function(e){
+            alert(JSON.stringify(e.geo));
+        }}).jHERE('marker', [52.49, 13.39], {text: '❤', textColor: '#fff', fill: '#004C9A',
+        click: function(e){
+            $(this).jHERE('bubble', [52.49, 13.39], {content: JSON.stringify(e.geo), closable: false});
+        }}).jHERE('heatmap', heatMapData, 'value');
+     $('#map').jHERE('kml', 'resources/berlin.kml', true);
     });
-    $.jHERE.reverseGeocode({latitude: 52.49, longitude: 13.39}).done(function(address){console.log(address)});
-});
 </script>
 </body>
 </html>

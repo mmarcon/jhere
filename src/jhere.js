@@ -133,72 +133,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     //### Set default credentials
     //`$.jHERE.defaultCredentials(appId, authToken);`
+    //
+    //Set the default credentials. After this method has been called it is
+    //no longer necessary to include credentials in all the calls
+    //to `$('.selector').jHERE(options);`.
+    //
     //For `appId` and `authToken` refer to the note above.
     P.defaultCredentials = function(appId, authToken) {
         _credentials = {
             appId: appId,
             authenticationToken: authToken
         };
-        _ns.util.ApplicationContext.set(_credentials);
-    };
-
-    function geocode(query, success, error, reverse) {
-        var deferred = $.Deferred();
-        success = isFunction(success) ? success : $.noop;
-        error = isFunction(error) ? error : $.noop;
         _JSLALoader.load().is.done(function(){
-            var searchCenter = new _ns.geo.Coordinate(0, 0),
-                searchManager = nokia.places.search.manager;
-            function geocodeCallback(data, status) {
-                var location = data.location;
-                location = reverse ? data.location.address : data.location.position;
-                if(status === 'OK') {
-                    deferred.resolve(location);
-                    success(location);
-                } else {
-                    deferred.reject();
-                    error();
-                }
-            }
-            if (reverse) {
-                searchManager.reverseGeoCode({
-                    latitude: query.latitude || query[0],
-                    longitude: query.longitude  || query[1],
-                    onComplete: geocodeCallback
-                });
-            } else {
-                searchManager.geoCode({
-                    searchTerm: query,
-                    onComplete: geocodeCallback
-                });
-            }
+            _ns.util.ApplicationContext.set(_credentials);
         });
-        return deferred;
-    }
-
-
-    //### Geocode
-    //`$.JHERE.geocode('Berlin, Germany', function(position){}, function(){/*error*/});`
-    //jHERE exposes the possibility of geocoding an address
-    //into (latitude, longitude). This call is asynchronous
-    //and supports a `success` and a `error` callback.
-    //When jHERE is used with jQuery a $.Deferred object is also returned
-    //and can be used instead of callbacks. For Zepto.JS a Deferred is also returned,
-    //however note that it is a custom implementation that only supports the `done` method.
-    P.geocode = function(query, success, error) {
-        return geocode(query, success, error);
-    };
-
-    //### Reverse Geocode
-    //`$.JHERE.reverseGeocode({latitude: 52.5, longitude: 13.3}, function(address){}, function(){/*error*/});`
-    //jHERE exposes the possibility of reverse geocoding a position
-    //into an address. This call is asynchronous
-    //and supports a `success` and a `error` callback.
-    //When jHERE is used with jQuery a $.Deferred object is also returned
-    //and can be used instead of callbacks. For Zepto.JS a Deferred is also returned,
-    //however note that it is a custom implementation that only supports the `done` method.
-    P.reverseGeocode = function(query, success, error) {
-        return geocode(query, success, error, true);
     };
 
     H.init = function(){
@@ -564,6 +512,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         */
         return this;
     };
+
+    /*
+      Need to expose this for extensions that need to do things
+      only after JSLA is completely loaded.
+      I don't really like this, but is serves the purpose very well,
+      handles queuing of functions and all.
+    */
+    P._JSLALoader = _JSLALoader;
 
     //###Extend jHERE
     //jHERE can be easily extended with additional features. Some example of
