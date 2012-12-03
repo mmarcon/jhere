@@ -50,7 +50,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     var plugin = 'jHERE',
         version = '0.2.0',
         defaults, H, _ns, _JSLALoader,
-        _credentials, bind = $.proxy;
+        _credentials, bind = $.proxy, P;
 
     defaults = {
         appId: '_peU-uCkp-j8ovkzFGNU',
@@ -80,6 +80,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             coarseness: 2
         }
     };
+
+    $[plugin] = P = {};
+
 
     //### Make a map
     //`$('.selector').jHERE(options);`
@@ -127,6 +130,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     }
 
     H = jHERE.prototype;
+
+    //### Set default credentials
+    //`$.jHERE.defaultCredentials(appId, authToken);`
+    //
+    //Set the default credentials. After this method has been called it is
+    //no longer necessary to include credentials in all the calls
+    //to `$('.selector').jHERE(options);`.
+    //
+    //For `appId` and `authToken` refer to the note above.
+    P.defaultCredentials = function(appId, authToken) {
+        _credentials = {
+            appId: appId,
+            authenticationToken: authToken
+        };
+        _JSLALoader.load().is.done(function(){
+            _ns.util.ApplicationContext.set(_credentials);
+        });
+    };
 
     H.init = function(){
         var options = this.options;
@@ -492,8 +513,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         return this;
     };
 
-    /*Open up prototype for extensions*/
-    $[plugin] = {};
+    /*
+      Need to expose this for extensions that need to do things
+      only after JSLA is completely loaded.
+      I don't really like this, but is serves the purpose very well,
+      handles queuing of functions and all.
+    */
+    P._JSLALoader = _JSLALoader;
 
     //###Extend jHERE
     //jHERE can be easily extended with additional features. Some example of
@@ -513,7 +539,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //});</code></pre>
     //
     //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
-    $[plugin].extend = function(name, fn){
+    P.extend = function(name, fn){
         if (typeof name === 'string' && isFunction(fn)) {
             H[name] = fn;
         }

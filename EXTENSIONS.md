@@ -15,7 +15,7 @@ Extensions extend the behavior of jHERE. A minified version of each extension is
 
 ###autoinit extension
 
-When this extension is included a map is automatically initialized on a container with `id` or `class` `map`. Options are passed via data attributes as follows:
+When this extension is included a map is automatically initialized on ~~the first~~ each container with `id` or `class` `map`. Options are passed via data attributes as follows:
 
 	<div id="map"
 		  class="map"
@@ -23,6 +23,8 @@ When this extension is included a map is automatically initialized on a containe
 		  data-zoom="8"
 		  data-type="map">
 	</div>
+	
+If `data-center` is an address, e.g. *Largo da Matriz de Nossa Senhora do Ó, 203, São Paulo, SP, Brazil*, the address will be geocoded in the attempt of obtaining the geographical coordinates where to center the map.
 	
 This extension packaged together with the plugin enables *HTML developers* to insert a map in their pages without having to write a single line of JavaScript.
  

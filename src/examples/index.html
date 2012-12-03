@@ -275,6 +275,9 @@ var heatMapData = [
 </script>
 <script type="text/javascript">
 $(window).on('load', function(){
+    //Set default credentials
+    $.jHERE.defaultCredentials('_peU-uCkp-j8ovkzFGNU', 'gBoUkAMoxoqIWfxWA5DuMQ');
+
     $('#map').jHERE({enable: ['behavior', 'zoombar', 'typeselector', 'positioning', 'contextmenu']});
     $('#map').jHERE('type', 'smart').jHERE('marker', [52.49, 13.37], {text: '●', textColor: '#fff', fill: '#004C9A',
         click: function(e){
