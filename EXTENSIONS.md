@@ -2,14 +2,11 @@
 
 Extensions extend the behavior of jHERE. A minified version of each extension is available in the `dist/extensions` folder.
 
-**Note** that to improve performance the plugin and the needed extensions should be combined in a single file.
+**Note** that to improve performance the plugin and the needed extensions should be combined in a single file. **Luckily for you this is now automated! Keep reading…**
 
-	<div id="map"
-		  class="map"
-		  data-center="40.664167,-73.838611"
-		  data-zoom="8"
-		  data-type="map">
-	</div>
+##jHERE Custom Builder
+
+With [jHERE Custom Builder](http://custom.jhere.net/) you can build a custom version of jHERE that contains only what you need, all concatenated together in a single file, minified and ready for production.
 
 ##Available extensions
 
@@ -30,7 +27,7 @@ This extension packaged together with the plugin enables *HTML developers* to in
  
 ###routing extension
 
-When this extension is include it is possible to add routes to the map by simply doing the following:
+When this extension is included it is possible to add routes to the map by simply doing the following:
 
 `$('.selector').jHERE('route', from, to, routeOptions);`
 
@@ -64,3 +61,37 @@ or an array
 For jQuery a `jhere.route` event is also triggered, which can be caught with `on` on the map element. With Zepto the call to `trigger` seems to be ignored.
 
 **DEMO:** a demo of the routing extension is available [here](http://bin.jhere.net/4134408).
+
+### geocode extension
+
+By including this extension it is possible to do very easily geocoding and reverse geocoding operations.
+
+#### Geocode
+
+	$.JHERE.geocode('Berlin, Germany',
+	                function(position){
+	                    //Do stuff with position
+	                },
+	                function(){/*error*/});
+
+jHERE exposes the possibility of geocoding an address
+into (latitude, longitude). This call is asynchronous
+and supports a `success` and a `error` callback.
+When jHERE is used with jQuery a $.Deferred object is also returned
+and can be used instead of callbacks. For Zepto.JS a Deferred is also returned,
+however note that it is a custom implementation that only supports the `done` method.
+
+#### Reverse Geocode
+
+	$.JHERE.reverseGeocode({latitude: 52.5, longitude: 13.3},
+	                       function(address){
+	                           //Do stuff with address
+	                       },
+	                       function(){/*error*/});`
+
+jHERE exposes the possibility of reverse geocoding a position
+into an address. This call is asynchronous
+and supports a `success` and a `error` callback.
+When jHERE is used with jQuery a $.Deferred object is also returned
+and can be used instead of callbacks. For Zepto.JS a Deferred is also returned,
+however note that it is a custom implementation that only supports the `done` method.
