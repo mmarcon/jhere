@@ -21,6 +21,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 ;(function($){
+    $.error = function(msg){
+        throw new Error(msg);
+    };
     /*MINIMAL implementation of $.Deferred*/
     /*This only implements the method required by jHERE*/
     /*So do not use it for real "promises" purpose*/

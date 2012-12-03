@@ -44,6 +44,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 options.center = options.center.split(',').map(function(v){return parseFloat(v);});
                 target.jHERE(options);
             } else {
+                if(!$.jHERE.geocode){
+                    /*Uhmm... missing geocode dependency*/
+                    $.error('Geocode extension is required to resolve an address to a location.');
+                }
                 $.jHERE.geocode(options.center, function(center){
                     options.center = center;
                     target.jHERE(options);
