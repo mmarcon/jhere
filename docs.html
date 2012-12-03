@@ -62,7 +62,15 @@ Pass <code>false</code> for no components.</p>
 I used development, and it is ok for you to use the same credentials for development
 and testing purpose. However you should really register on the Nokia developer website
 and get your own. I stringly encourage you to do it especially for production use as
-my credentials may unexpectedtly stop working at any time.</p>                     </div>                                                           <div id="section-4">                         <h3>Center the map</h3>
+my credentials may unexpectedtly stop working at any time.</p>                     </div>                                                           <div id="section-4">                         <h3>Set default credentials</h3>
+
+<p><code>$.jHERE.defaultCredentials(appId, authToken);</code></p>
+
+<p>Set the default credentials. After this method has been called it is
+no longer necessary to include credentials in all the calls
+to <code>$('.selector').jHERE(options);</code>.</p>
+
+<p>For <code>appId</code> and <code>authToken</code> refer to the note above.</p>                     </div>                                                           <div id="section-5">                         <h3>Center the map</h3>
 
 <p><code>$('.selector').jHERE('center', centerObject);</code></p>
 
@@ -72,11 +80,11 @@ my credentials may unexpectedtly stop working at any time.</p>                  
 
 <p>or an array</p>
 
-<p><code>[-43, 55]</code></p>                     </div>                                                           <div id="section-5">                         <h3>Zoom the map</h3>
+<p><code>[-43, 55]</code></p>                     </div>                                                           <div id="section-6">                         <h3>Zoom the map</h3>
 
 <p><code>$('.selector').jHERE('zoom', zoomLevel);</code></p>
 
-<p><code>zoomLevel</code> is a positive integer</p>                     </div>                                                           <div id="section-6">                         <h3>Set the map type</h3>
+<p><code>zoomLevel</code> is a positive integer</p>                     </div>                                                           <div id="section-7">                         <h3>Set the map type</h3>
 
 <p><code>$('.selector').jHERE('type', mapType);</code></p>
 
@@ -88,7 +96,7 @@ my credentials may unexpectedtly stop working at any time.</p>                  
 <li><code>'pt'</code>: a smart map where the tiles also contain the <strong>public transport lines</strong>.</li>
 <li><code>'satellite'</code>: satellite view.</li>
 <li><code>'terrain'</code>: terrain view.</li>
-</ol>                     </div>                                                           <div id="section-7">                         <h3>Add markers to the map</h3>
+</ol>                     </div>                                                           <div id="section-8">                         <h3>Add markers to the map</h3>
 
 <p><code>$('.selector').jHERE('marker', positionObject, markerOptions);</code></p>
 
@@ -117,7 +125,7 @@ my credentials may unexpectedtly stop working at any time.</p>                  
  mouseenter: function(event){/*this is the element, event.geo contains the coordinates*/},
  mouseleave: function(event){/*this is the element, event.geo contains the coordinates*/},
  longpress: function(event){/*this is the element, event.geo contains the coordinates*/}
-}</code></pre>                     </div>                                                           <div id="section-8">                         <h3>Add bubbles to the map</h3>
+}</code></pre>                     </div>                                                           <div id="section-9">                         <h3>Add bubbles to the map</h3>
 
 <p><code>$('.selector').jHERE('bubble', positionObject, bubbleOptions);</code></p>
 
@@ -137,7 +145,7 @@ my credentials may unexpectedtly stop working at any time.</p>                  
  onclose: function(){}
 }</code></pre>
 
-<p><code>content</code> can be a String or a jQuery object.</p>                     </div>                                                           <div id="section-9">                         <h3>Display KMLs on the map</h3>
+<p><code>content</code> can be a String or a jQuery object.</p>                     </div>                                                           <div id="section-10">                         <h3>Display KMLs on the map</h3>
 
 <p><code>$('.selector').jHERE('kml', KMLfile, zoomToKML, ondone);</code></p>
 
@@ -146,7 +154,7 @@ my credentials may unexpectedtly stop working at any time.</p>                  
 <p><code>zoomToKML</code> is a boolean. If set to true, once the KML has been parsed
 and displayed the map will be zoomed to the bounding box of the KML.</p>
 
-<p><code>ondone</code> is a function, called once the KML has been rendered.</p>                     </div>                                                           <div id="section-10">                         <h3>Add heatmap layers to the map</h3>
+<p><code>ondone</code> is a function, called once the KML has been rendered.</p>                     </div>                                                           <div id="section-11">                         <h3>Add heatmap layers to the map</h3>
 
 <p><code>$('.selector').jHERE('heatmap', data, type, options);</code></p>
 
@@ -169,7 +177,7 @@ customize the heatmap look.</p>
    "0.3": "rgba(0, 0, 64, 1)",
    ...
  }
-}</code></pre>                     </div>                                                           <div id="section-11">                         <h3>Access the underlying JSLA framework</h3>
+}</code></pre>                     </div>                                                           <div id="section-12">                         <h3>Access the underlying JSLA framework</h3>
 
 <p><code>$('.selector').jHERE('originalMap', closure);</code></p>
 
@@ -184,7 +192,7 @@ documentation.</p>
    //this is the DOM element
    //map is the JSLA map object
    //here is the whole JSLA API namespace
-}</code></pre>                     </div>                                                           <div id="section-12">                         <h3>Extend jHERE</h3>
+}</code></pre>                     </div>                                                           <div id="section-13">                         <h3>Extend jHERE</h3>
 
 <p>jHERE can be easily extended with additional features. Some example of
 extensions are located <a href="https://github.com/mmarcon/jhere/blob/master/EXTENSIONS.md">here</a>.
@@ -202,4 +210,4 @@ that will be called via</p>
  //this.map is the JSLA map
 });</code></pre>
 
-<p>A good example of extension is the <a href="https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js">routing extension</a>.</p>                     </div>                              </section>         </div>     </div>      <footer>         <small>Massimiliano Marcon &copy; 2012</small>     </footer>      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>     <script type="text/javascript" src="js/jhere.js"></script>     <script type="text/javascript" src="js/main.js"></script>     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>     <div id="fb-root"></div>     <script>(function(d, s, id) {       var js, fjs = d.getElementsByTagName(s)[0];       if (d.getElementById(id)) return;       js = d.createElement(s); js.id = id;       js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=185145734898525";       fjs.parentNode.insertBefore(js, fjs);     }(document, 'script', 'facebook-jssdk'));</script> </body> </html>
+<p>A good example of extension is the <a href="https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js">routing extension</a>.</p>                     </div>                              </section>         </div>     </div>      <footer>         <small>Massimiliano Marcon &copy; 2012</small>     </footer>      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>     <script type="text/javascript" src="js/jhere.js"></script>     <script type="text/javascript" src="js/main.js?v2"></script>     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>     <div id="fb-root"></div>     <script>(function(d, s, id) {       var js, fjs = d.getElementsByTagName(s)[0];       if (d.getElementById(id)) return;       js = d.createElement(s); js.id = id;       js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=185145734898525";       fjs.parentNode.insertBefore(js, fjs);     }(document, 'script', 'facebook-jssdk'));</script> </body> </html>
