@@ -42,7 +42,7 @@ That's it. All the documentation is available at [jhere.net/docs.html](http://jh
 
 ## Extensions
 
-Please refer to `EXTENSIONS.md` for information about the extensions for jHERE.
+Please refer to [EXTENSIONS.md](https://github.com/mmarcon/jhere/blob/master/EXTENSIONS.md) for information about the extensions for jHERE.
 
 ### Playground
 Because [@thingsinjars](http://twitter.com/thingsinjars) is awesome **jHERE** has [a playground](http://bin.jhere.net), where you can go and experiment with the API, make cool maps, save the result as a Gist and share it with the world.
