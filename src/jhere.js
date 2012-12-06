@@ -452,7 +452,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     function triggerEvent(event) {
         var handler = event.target[event.type];
-        if ($.isFunction(handler)) {
+        if (isFunction(handler)) {
             var e = $.Event(event.type, {
                 originalEvent: event,
                 geo: {
