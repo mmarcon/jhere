@@ -24,6 +24,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     $.error = function(msg){
         throw new Error(msg);
     };
+    $.noop = function(){};
     /*MINIMAL implementation of $.Deferred*/
     /*This only implements the method required by jHERE*/
     /*So do not use it for real "promises" purpose*/

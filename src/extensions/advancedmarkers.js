@@ -8,7 +8,6 @@ without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
 the following conditions:
-
 The above copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.
 
@@ -69,16 +68,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     G.hide = function(){
         if(this.visible) {
             this.map.objects.remove(this.container);
+            this.visible = false;
         }
     };
 
     G.show = function(){
         if(!this.visible) {
-            this.map.objects.show(this.container);
+            this.map.objects.add(this.container);
+            this.visible = true;
         }
     };
 
-    jHEREMarkerGroup.getGroup = function(group){
+    G.toggle = function(){
+        if(this.visible) {
+            return this.hide();
+        }
+        this.show();
+    };
+
+    $.jHERE.getMarkersGroup = function(group){
         group = group || UNGROUPED;
         return groups[group];
     };
@@ -134,11 +142,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     M.remove = function(){
-        groups[this.group].objects.remove(this.marker);
+        groups[this.group.name].container.objects.remove(this.marker);
     };
 
     M.add = function(){
-        groups[this.group].objects.add(this.marker);
+        groups[this.group.name].container.objects.add(this.marker);
     };
 
     /*
@@ -166,6 +174,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             closure = markerOptions;
             markerOptions = {};
         }
+        closure = closure || $.noop;
 
         markerOptions = $.extend({}, _default.marker, markerOptions);
         /*Normalize settings*/
@@ -175,10 +184,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         /*Create group if not existing already*/
         if(!groups[markerOptions.group]){
-            groups[markerOptions.group] = new jHEREMarkerGroup(_ns.map.Container(), markerOptions.group, this.map);
+            groups[markerOptions.group] = new jHEREMarkerGroup(new _ns.map.Container(), markerOptions.group, this.map);
             this.map.objects.add(groups[markerOptions.group].container);
-            markerOptions.group = groups[markerOptions.group];
         }
+        markerOptions.group = groups[markerOptions.group];
 
         if (markerOptions.icon) {
             marker = new jHEREMarker(new _ns.map.Marker(position, markerOptions), markerOptions);
@@ -187,7 +196,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }
 
         marker.add();
-        closure.call(this.element, marker);
+        closure.call(this.element, marker, marker.group);
     };
 
     function isFunction(fn) {
