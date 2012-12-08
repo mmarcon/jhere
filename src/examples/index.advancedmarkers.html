@@ -29,7 +29,7 @@
             font-family: 'American Typewriter', sans-serif;
             font-weight: 100;
             font-size: 24px;
-            padding: 28px 10px;
+            padding: 24px 10px;
             line-height: 1;
             cursor: pointer;
             color: #fff;
@@ -39,6 +39,21 @@
         li:hover, li.active {
             color: #4169e1;
         }
+
+        li a:link, li a:visited {
+            margin: 5px 0;
+            display: inline-block;
+            font-size: 13px;
+            text-decoration: none;
+            color: #222;
+            background: #fff;
+            padding: 3px;
+            border-radius: 4px;
+        }
+
+        li a:hover, li a:active {
+            background: #4169e1;
+        }
     </style>
 </head>
 
@@ -46,7 +61,8 @@
 <div id="map"></div>
 <ul class="toolbar">
     <li data-group="restaurants">
-        Restaurants
+        Restaurants<br/>
+        <a href="#zoom">View All</a>
     </li>
 </ul>
 <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
@@ -56,20 +72,33 @@
 <script type= "text/javascript" src="../extensions/advancedmarkers.js"></script>
 <script type="text/javascript">
     $(window).on('load', function(){
+        function addClick(marker){
+            marker.on('click', function(){
+                this.toggle();
+            });
+        };
+
         $('#map').jHERE({
             center: [52.5, 13.3],
             zoom: 12
         })
-        .jHERE('marker', [52.5, 13.3], {group: 'restaurants', fill: '#4169e1'})
-        .jHERE('marker', [52.5, 13.35], {group: 'restaurants', fill: '#4169e1'})
-        .jHERE('marker', [52.52, 13.3], {group: 'restaurants', fill: '#4169e1'})
-        .jHERE('marker', [52.51, 13.27], {group: 'restaurants', fill: '#4169e1'})
-        .jHERE('marker', [52.52, 13.34], {group: 'restaurants', fill: '#4169e1'})
-        .jHERE('marker', [52.48, 13.4], {group: 'restaurants', fill: '#4169e1'});
+        .jHERE('marker', [52.5, 13.3], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c'}, addClick)
+        .jHERE('marker', [52.5, 13.35], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c'}, addClick)
+        .jHERE('marker', [52.52, 13.3], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c'}, addClick)
+        .jHERE('marker', [52.51, 13.27], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c'}, addClick)
+        .jHERE('marker', [52.52, 13.34], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c'}, addClick)
+        .jHERE('marker', [52.48, 13.4], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c'}, addClick)
+        .jHERE('marker', [52.52, 13.35], {group: 'restaurants', icon: 'resources/monkey2.png', selectedIcon: 'resources/monkey.png', draggable: true}, addClick);
 
-        $('li').on('click', function(){
+        $('li').on('click', function(e){
+            var group = $.jHERE.getMarkersGroup($(this).data('group'));
+            if(e.target.tagName.match(/a/i)){
+                e.preventDefault();
+                group.zoomTo();
+                return;
+            }
             $(this).toggleClass('active');
-            $.jHERE.getMarkersGroup($(this).data('group')).toggle();
+            group.toggle();
         });
     });
 </script>

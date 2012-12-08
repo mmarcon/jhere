@@ -86,6 +86,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         this.show();
     };
 
+    G.zoomTo = function(){
+        this.map.zoomTo(this.container.getBoundingBox());
+    };
+
     $.jHERE.getMarkersGroup = function(group){
         group = group || UNGROUPED;
         return groups[group];
@@ -98,6 +102,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         this.element = config.element;
         this.map = config.map;
         this.group = config.group;
+        this.config = config;
+        this.selected = false;
     }
 
     M = jHEREMarker.prototype;
@@ -149,14 +155,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         groups[this.group.name].container.objects.add(this.marker);
     };
 
+    function setColor(color){
+        this.marker.set('brush', {color: color});
+    }
+    function setIcon(icon){
+        this.marker.set('icon', icon);
+    }
+
+    M.select = function(){
+        this.selected = true;
+        if(this.config.icon) {
+            return setIcon.call(this, this.config.selectedIcon);
+        }
+        setColor.call(this, this.config.selectedFill || this.config.fill);
+    };
+
+    M.deselect = function(){
+        this.selected = false;
+        if(this.config.icon) {
+            return setIcon.call(this, this.config.icon);
+        }
+        setColor.call(this, this.config.fill);
+    };
+
+    M.toggle = function(){
+        if(this.selected) {
+            return this.deselect();
+        }
+        this.select();
+    };
+
     /*
         Feautures:
-        - refence to marker
-        - markers on new container
-        - groupable markers (new container for group)
-        - remove marker
-        - select marker
-        - draggable marker
+        - drag, add, remove events
     */
 
     function init(){

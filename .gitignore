@@ -2,3 +2,4 @@ node_modules
 docs/*.html
 docs/*.css
 jhere.sublime*
+.DS_Store
