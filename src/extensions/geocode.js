@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         var deferred = $.Deferred();
         success = isFunction(success) ? success : $.noop;
         error = isFunction(error) ? error : $.noop;
-        P._JSLALoader.load().is.done(function(){
+        P.ready(function(){
             var searchCenter = {latitude: 0, longitude: 0},
                 searchManager = nokia.places.search.manager;
             function geocodeCallback(data, status) {

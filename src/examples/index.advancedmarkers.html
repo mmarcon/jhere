@@ -8,7 +8,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            bottom: 0;
+            bottom: 80px;
             right: 0;
             background: white;
         }
@@ -60,14 +60,18 @@
 <body>
 <div id="map"></div>
 <ul class="toolbar">
-    <li data-group="restaurants">
+    <li data-group="restaurants" class="active">
         Restaurants<br/>
         <a href="#zoom">View All</a>
     </li>
+    <li data-group="hotels">
+        Hotels<br/>
+        <a href="#zoom">View All</a>
+    </li>
 </ul>
-<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
-<script type="text/javascript" src="../zepto.adapter.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script> -->
+<!-- <script type="text/javascript" src="../zepto.adapter.js"></script> -->
 <script type="text/javascript" src="../jhere.js"></script>
 <script type= "text/javascript" src="../extensions/advancedmarkers.js"></script>
 <script type="text/javascript">
@@ -94,6 +98,10 @@
             center: [52.5, 13.3],
             zoom: 12
         })
+        .jHERE('marker', [52.46, 13.31], {group: 'hotels', fill: '#ff8c00', selectedFill: '#ff4500', draggable: true}, addClick)
+        .jHERE('marker', [52.51, 13.3], {group: 'hotels', fill: '#ff8c00', selectedFill: '#ff4500', draggable: true}, addClick)
+        .jHERE('marker', [52.512, 13.35], {group: 'hotels', fill: '#ff8c00', selectedFill: '#ff4500', draggable: true}, addClick)
+
         .jHERE('marker', [52.5, 13.3], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c', draggable: true}, addClick)
         .jHERE('marker', [52.5, 13.35], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c', draggable: true}, addClick)
         .jHERE('marker', [52.52, 13.3], {group: 'restaurants', fill: '#4169e1', selectedFill: '#dc143c', draggable: true}, addClick)
@@ -111,6 +119,9 @@
             }
             $(this).toggleClass('active');
             group.toggle();
+        });
+        $.jHERE.ready(function(){
+            $.jHERE.getMarkersGroup('hotels').hide();
         });
     });
 </script>

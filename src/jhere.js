@@ -519,7 +519,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       I don't really like this, but is serves the purpose very well,
       handles queuing of functions and all.
     */
-    P._JSLALoader = _JSLALoader;
+    P.ready = function(handler){
+        _JSLALoader.load().is.done(handler);
+    };
 
     //###Extend jHERE
     //jHERE can be easily extended with additional features. Some example of
@@ -575,7 +577,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                  jQuery's deferred object takes care of queuing
                  actions.
                 */
-                _JSLALoader.load().is.done(function(){
+                P.ready(function(){
                     pluginObj[method].apply(pluginObj, args);
                 });
             }
