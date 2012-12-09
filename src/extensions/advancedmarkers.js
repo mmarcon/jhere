@@ -103,11 +103,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         this.map = config.map;
         this.group = config.group;
         this.config = config;
-        this.selected = false;
     }
 
     M = jHEREMarker.prototype;
 
+
+    function normalizeDragEvent(evt) {
+        var mapDragType = evt.dataTransfer.getData("application/map-drag-type"),
+            marker = this.marker, offset;
+
+        if (mapDragType.match(/marker/i)) {
+            // Get the offset of the mouse relative to the top-left corner of the marker.
+            offset = evt.dataTransfer.getData("application/map-drag-object-offset");
+
+            /* Calculate the current coordinate of the marker, so substract the offset from the
+             * current displayX/Y position to get the top-left position of the marker and then
+             * add the anchor to get the pixel position of the anchor of the marker and then
+             * query for the coordinate of that pixel position
+             */
+            evt.drag = this.map.pixelToGeo(evt.displayX - offset.x + marker.anchor.x, evt.displayY - offset.y + marker.anchor.y);
+        }
+        return evt;
+    }
 
     /*click, dblclick, mousemove, mouseover, mouseout, mouseenter, mouseleave, longpress*/
     M.on = function(event, callback){
@@ -116,12 +133,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             this.listeners[event] = {};
         }
         _callback = function(event){
+            if(event.type && event.type.match(/drag/i)) {
+                event = normalizeDragEvent.call(this, event);
+            }
             var e = $.Event(event.type, {
                 originalEvent: event,
                 geo: {
-                    latitude: event.target.coordinate.latitude,
-                    longitude: event.target.coordinate.longitude
+                    latitude: this.marker.coordinate.latitude,
+                    longitude: this.marker.coordinate.longitude
                 },
+                drag: event.drag,
                 target: event.target
             });
             /*
@@ -147,12 +168,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         this.marker.removeListener(event, l[event]['' + hashCode(callback)]);
     };
 
+    function trigger(eventName) {
+        if(!this.listeners[eventName]) {
+            return;
+        }
+        var marker = this, e = $.Event(eventName, {
+            geo: this.marker.coordinate
+        });
+        $.each(this.listeners[eventName], function(k, f){
+            f.call(marker, e);
+        });
+    }
+
     M.remove = function(){
         groups[this.group.name].container.objects.remove(this.marker);
+        trigger.call(this, 'removed');
     };
 
     M.add = function(){
         groups[this.group.name].container.objects.add(this.marker);
+        trigger.call(this, 'added');
     };
 
     function setColor(color){
@@ -185,11 +220,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         this.select();
     };
 
-    /*
-        Feautures:
-        - drag, add, remove events
-    */
-
     function init(){
         if(_ns) {
             return;
@@ -219,6 +249,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             this.map.objects.add(groups[markerOptions.group].container);
         }
         markerOptions.group = groups[markerOptions.group];
+        markerOptions.map = this.map;
 
         if (markerOptions.icon) {
             marker = new jHEREMarker(new _ns.map.Marker(position, markerOptions), markerOptions);
