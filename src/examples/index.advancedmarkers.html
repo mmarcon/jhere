@@ -78,7 +78,7 @@
     $(window).on('load', function(){
         function addClick(marker){
             marker.on('click', function(){
-                this.toggle();
+                this.toggleSelection();
             });
             marker.on('dragend', function(e){
                 console.log(e.drag);
@@ -120,9 +120,7 @@
             $(this).toggleClass('active');
             group.toggle();
         });
-        $.jHERE.ready(function(){
-            $.jHERE.getMarkersGroup('hotels').hide();
-        });
+        $.jHERE.getMarkersGroup('hotels', function(group){group.hide()});
     });
 </script>
 </body>

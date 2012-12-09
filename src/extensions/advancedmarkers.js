@@ -90,9 +90,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         this.map.zoomTo(this.container.getBoundingBox());
     };
 
-    $.jHERE.getMarkersGroup = function(group){
-        group = group || UNGROUPED;
-        return groups[group];
+    $.jHERE.getMarkersGroup = function(group, callback){
+        var returnableGroup;
+        $.jHERE.ready(function(){
+            group = group || UNGROUPED;
+            returnableGroup = groups[group];
+            if(isFunction(callback)) {
+                callback.call(returnableGroup, returnableGroup);
+            }
+        });
+        return returnableGroup;
     };
 
     function jHEREMarker(jslaMarker, config){
@@ -193,6 +200,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function setColor(color){
         this.marker.set('brush', {color: color});
     }
+
     function setIcon(icon){
         this.marker.set('icon', icon);
     }
@@ -200,7 +208,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     M.select = function(){
         this.selected = true;
         if(this.config.icon) {
-            return setIcon.call(this, this.config.selectedIcon);
+            return setIcon.call(this, this.config.selectedIcon || this.config.icon);
         }
         setColor.call(this, this.config.selectedFill || this.config.fill);
     };
@@ -213,7 +221,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         setColor.call(this, this.config.fill);
     };
 
-    M.toggle = function(){
+    M.toggleSelection = function(){
         if(this.selected) {
             return this.deselect();
         }
@@ -227,6 +235,43 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         _ns = nokia.maps;
     }
 
+    //### Add markers to the map (Replaces default markers API)
+    //`$('.selector').jHERE('marker', positionObject, markerOptions, closure);`
+    //
+    //`positionObject` can be an object of type
+    //
+    //`{latitude: -43, longitude: 55}`
+    //
+    //or an array
+    //
+    //`[-43, 55]`
+    //
+    //`markerOptions` can be an object of type
+    //<pre><code>{
+    //  text: '!',
+    //  textColor: '#333333',
+    //  fill: '#ff6347',
+    //  stroke: '#333333',
+    //  icon: 'urlToIcon',
+    //  anchor: {x: 12, y: 18} //an icon 24x36 would result centered
+    //  click: function(event){/*this is the marker, event.geo contains the coordinates*/},
+    //  dblclick: function(event){/*this is the marker, event.geo contains the coordinates*/},
+    //  mousemove: function(event){/*this is the marker, event.geo contains the coordinates*/},
+    //  mouseover: function(event){/*this is the marker, event.geo contains the coordinates*/},
+    //  mouseout: function(event){/*this is the marker, event.geo contains the coordinates*/},
+    //  mouseenter: function(event){/*this is the marker, event.geo contains the coordinates*/},
+    //  mouseleave: function(event){/*this is the marker, event.geo contains the coordinates*/},
+    //  longpress: function(event){/*this is the marker, event.geo contains the coordinates*/},
+    //  drag: function(event){/*this is the marker, event.geo contains the original coordinates of the marker, event.drag contains the current coordinates*/},
+    //  dragend: function(event){/*this is the marker, event.geo contains the original coordinates of the marker, event.drag contains the current coordinates*/},
+    //  group: 'mygroup' //a group the marker is assigned to. By default markers are ungrouped.
+    //}</code></pre>
+    //`closure` should look like this:
+    //<pre><code>function(marker, group){
+    //    //this is the DOM element
+    //    //marker is a jHEREMarker object
+    //    //group is a jHEREMarkerGroup object
+    //}</code></pre>
     marker = function(position, markerOptions, closure) {
         var marker;
 
