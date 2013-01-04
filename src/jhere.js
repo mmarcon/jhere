@@ -47,6 +47,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //Make sure the DOM element that will contain the map has the appropriate
     //size via CSS, e.g. by setting width and height.
+    //
+    //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
     var plugin = 'jHERE',
         version = '0.2.0',
         defaults, H, _ns, _JSLALoader,
@@ -473,6 +475,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         return typeof fn === 'function';
     }
 
+    function isSupported(){
+        return !!$.zepto || $.fn.jquery && +$.fn.jquery.replace(/\./g,'') > 170;
+    }
+
     _JSLALoader = {};
     _JSLALoader.is = false;
     _JSLALoader.load = function(){
@@ -547,6 +553,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     $.fn[plugin] = function(options) {
         var args = arguments;
+        if(!isSupported()){
+            $.error(plugin + ' requires Zepto or jQuery >= 1.7');
+        }
         return this.each(function() {
             var pluginObj, method, key = 'plugin_' + plugin;
             pluginObj = $.data(this, key);

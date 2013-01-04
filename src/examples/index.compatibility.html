@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        #map {
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+            border: 6px solid #fff;
+            box-shadow: 0 0 6px #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <!--
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
+    <script type="text/javascript" src="../zepto.adapter.js"></script>
+    -->
+    <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script-->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../jhere.js"></script>
+    <script type="text/javascript">
+    $(window).bind('load',function(){
+        try {
+            $('#map').jHERE({
+                enable: ['zoombar', 'behavior']
+            });
+        }
+        catch (e) {
+            alert(e);
+        }
+    });
+</script>
+</body>
+</html>
