@@ -1,3 +1,26 @@
+/*
+Copyright (c) 2012 Massimiliano Marcon, http://marcon.me
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 (function($, w, doc){
     //### How to use jHERE
     //
@@ -24,10 +47,12 @@
     //
     //Make sure the DOM element that will contain the map has the appropriate
     //size via CSS, e.g. by setting width and height.
+    //
+    //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
     var plugin = 'jHERE',
         version = '0.2.0',
         defaults, H, _ns, _JSLALoader,
-        _credentials, bind = $.proxy;
+        _credentials, bind = $.proxy, P;
 
     defaults = {
         appId: '_peU-uCkp-j8ovkzFGNU',
@@ -57,6 +82,9 @@
             coarseness: 2
         }
     };
+
+    $[plugin] = P = {};
+
 
     //### Make a map
     //`$('.selector').jHERE(options);`
@@ -104,6 +132,24 @@
     }
 
     H = jHERE.prototype;
+
+    //### Set default credentials
+    //`$.jHERE.defaultCredentials(appId, authToken);`
+    //
+    //Set the default credentials. After this method has been called it is
+    //no longer necessary to include credentials in all the calls
+    //to `$('.selector').jHERE(options);`.
+    //
+    //For `appId` and `authToken` refer to the note above.
+    P.defaultCredentials = function(appId, authToken) {
+        _credentials = {
+            appId: appId,
+            authenticationToken: authToken
+        };
+        _JSLALoader.load().is.done(function(){
+            _ns.util.ApplicationContext.set(_credentials);
+        });
+    };
 
     H.init = function(){
         var options = this.options;
@@ -429,6 +475,10 @@
         return typeof fn === 'function';
     }
 
+    function isSupported(){
+        return !!$.zepto || $.fn.jquery && +$.fn.jquery.replace(/\./g,'') > 170;
+    }
+
     _JSLALoader = {};
     _JSLALoader.is = false;
     _JSLALoader.load = function(){
@@ -469,8 +519,13 @@
         return this;
     };
 
-    /*Open up prototype for extensions*/
-    $[plugin] = {};
+    /*
+      Need to expose this for extensions that need to do things
+      only after JSLA is completely loaded.
+      I don't really like this, but is serves the purpose very well,
+      handles queuing of functions and all.
+    */
+    P._JSLALoader = _JSLALoader;
 
     //###Extend jHERE
     //jHERE can be easily extended with additional features. Some example of
@@ -490,7 +545,7 @@
     //});</code></pre>
     //
     //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
-    $[plugin].extend = function(name, fn){
+    P.extend = function(name, fn){
         if (typeof name === 'string' && isFunction(fn)) {
             H[name] = fn;
         }
@@ -498,6 +553,9 @@
 
     $.fn[plugin] = function(options) {
         var args = arguments;
+        if(!isSupported()){
+            $.error(plugin + ' requires Zepto or jQuery >= 1.7');
+        }
         return this.each(function() {
             var pluginObj, method, key = 'plugin_' + plugin;
             pluginObj = $.data(this, key);
