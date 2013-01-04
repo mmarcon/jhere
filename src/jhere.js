@@ -476,7 +476,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     }
 
     function isSupported(){
-        return !!$.zepto || $.fn.jquery && +$.fn.jquery.replace(/\./g,'') > 170;
+        return !!$().on;
     }
 
     _JSLALoader = {};
