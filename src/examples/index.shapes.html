@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+<div id="map"></div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
+<script type="text/javascript" src="../zepto.adapter.js"></script>
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
+<script type="text/javascript" src="../jhere.js"></script>
+<script type="text/javascript" src="../extensions/shapes.js"></script>
+<script type="text/javascript">
+$(window).on('load', function(){
+    var map = $('#map');
+    //Set default credentials
+    $.jHERE.defaultCredentials('_peU-uCkp-j8ovkzFGNU', 'gBoUkAMoxoqIWfxWA5DuMQ');
+
+    map.jHERE({enable: ['behavior', 'zoombar'], type: 'smart', center: [52.5, 13.3], zoom: 10});
+    map.jHERE('circle', {center: [52.5, 13.3], radius: 3000});
+    map.jHERE('rectangle', {topLeft: [52.5, 13.3], bottomRight: [52.457, 13.38]});
+    map.jHERE('polyline', {points: [[52.481, 13.964], [52.484, 13.848], [52.499, 13.753], [52.543, 13.688], [52.529, 13.665],
+                                    [52.499, 13.616], [52.480, 13.554], [52.474, 13.474], [52.473, 13.388], [52.478, 13.345],
+                                    [52.481, 13.309], [52.498, 13.276]], properties: {
+                                        pen: {strokeColor: "#CC0000", lineWidth: 3}
+                                    }});
+    map.jHERE('polygon', {points: [[52.521, 13.372],
+                [52.516, 13.370], [52.506, 13.373], [52.501, 13.377], [52.498, 13.390], [52.499, 13.419], [52.501, 13.444],
+                [52.502, 13.447], [52.518, 13.454], [52.527, 13.448], [52.532, 13.442], [52.536, 13.433], [52.539, 13.423],
+                [52.541, 13.413], [52.538, 13.396], [52.534, 13.388], [52.532, 13.389], [52.529, 13.380], [52.526, 13.368]]});
+});
+</script>
+</body>
+</html>
