@@ -27,6 +27,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         return position instanceof Array ? {latitude: position[0], longitude: position[1]} : position;
     }
 
+    function mapProperties(style){
+        if(!style) {
+            return style;
+        }
+        style.pen = style.pen || {};
+        style.brush = style.brush || {};
+        style.pen.strokeColor = style.pen.strokeColor || style.stroke || '#111';
+        /*
+            I don't see why this should influence at all since it's not part of the pen
+            object, but whatever, this fixes it:
+        */
+        style.stroke = 'solid';
+        style.pen.lineWidth = style.pen.lineWidth || style.thickness || 1;
+        style.brush.color = style.brush.color || style.fill;
+        return style;
+    }
+
     /*
     Shapes:
         - nokia.maps.map.Circle => center (Coordinate object), radius in meters, properties
@@ -36,39 +53,49 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     */
 
     function makeCircle(container, options) {
-        container.objects.add(new _ns.map.Circle(normalize(options.center), options.radius || 1000, options.properties));
+        container.objects.add(new _ns.map.Circle(normalize(options.center), options.radius || 1000, options.style));
     }
 
     function makeRectangle(container, options) {
         var bb = new _ns.geo.BoundingBox(normalize(options.topLeft), normalize(options.bottomRight), false);
-        container.objects.add(new _ns.map.Rectangle(bb, options.properties));
+        container.objects.add(new _ns.map.Rectangle(bb, options.style));
     }
 
     function makePolyline(container, options) {
         options.points = $.map(options.points, function(p){
             return normalize(p);
         });
-        container.objects.add(new _ns.map.Polyline(options.points, options.properties));
+        container.objects.add(new _ns.map.Polyline(options.points, options.style));
     }
 
     function makePolygon(container, options) {
         options.points = $.map(options.points, function(p){
             return normalize(p);
         });
-        container.objects.add(new _ns.map.Polygon(options.points, options.properties));
+        container.objects.add(new _ns.map.Polygon(options.points, options.style));
     }
 
     //### Draw shapes on the map
-    //`$('.selector').jHERE('shape', 'circle', {center: position, radius: integer, properties: properties});`
-    //`$('.selector').jHERE('shape', 'rectangle' {topLeft: position, bottomRight: position, properties: properties});`
-    //`$('.selector').jHERE('shape', 'polyline', {points: array, properties: properties}));`
-    //`$('.selector').jHERE('shape', 'polygon', {points: array, properties: properties});`
+    //`$('.selector').jHERE('shape', 'circle', {center: position, radius: integer, style: object});`
+    //`$('.selector').jHERE('shape', 'rectangle' {topLeft: position, bottomRight: position, style: object});`
+    //`$('.selector').jHERE('shape', 'polyline', {points: array, style: object}));`
+    //`$('.selector').jHERE('shape', 'polygon', {points: array, style: object});`
+    //
+    //`style` is always an object that defines the way the shape looks. Can be specified as
+    //in the JSLA API (pen, brush, see [here](http://developer.here.net/apiexplorer/index.html#examples/js/shapes/map-with-shapes/))
+    //or in a simpler way as follows:
+    //<pre><code>{
+    //  stroke: "#CC0000FF", //RGBA
+    //  fill: "#000000AA", //RGBA
+    //  thickness: 1 //px
+    //}</code></pre>
     shape = function(shape, options){
         _ns = _ns || nokia.maps;
         if(!shapeContainer) {
             shapeContainer = new _ns.map.Container();
             this.map.objects.add(shapeContainer);
         }
+        options.style = mapProperties(options.style);
         switch(shape) {
             case 'circle':
                 makeCircle(shapeContainer, options);
