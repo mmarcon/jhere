@@ -376,3 +376,34 @@ body.overlay {
 body.overlay .lightbox-overlay {
     display: block;
 }
+
+.announcement {
+    display: block;
+    position: fixed;
+    background: #444;
+    background: rgba(0,0,0,.7);
+    top: -40px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    box-shadow: 0 0 6px #ccc;
+}
+
+.announcement p {
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.announcement a:link, .announcement a:visited {
+    color: #ff816a;
+    text-decoration: none;
+}
+
+.announcement a:hover, .announcement a:active {
+    color: #ff6347;
+}

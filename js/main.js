@@ -28,6 +28,14 @@ $(window).on('load', function(){
         type: 'pt'
     });
 
+    setTimeout(function(){
+        $('.announcement.enabled').animate({top: 0}, 300, function(){
+            setTimeout(function(){
+                $('.announcement.enabled').animate({top: -40}, 200);
+            }, 6000);
+        });
+    }, 500);
+
     //Wait for FB button to be in place before showing it
     setTimeout($.proxy($.fn.show, $('.facebook')), 600);
 });
