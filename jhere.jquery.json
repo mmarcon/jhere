@@ -1,0 +1,37 @@
+{
+  "name": "jhere",
+  "title": "jHERE - Maps Made easy",
+  "description": "Maps are cool, but map APIs are complicated. jHERE solves this problem by offering a simple but powerful map API in the form of a jQuery (or Zepto.JS) plugin.",
+  "keywords": [
+    "here",
+    "maps",
+    "location",
+    "heatmaps",
+    "kml"
+  ],
+  "version": "0.2.0",
+  "author": {
+    "name": "Massimiliano Marcon",
+    "url": "http://marcon.me"
+  },
+  "maintainers": [
+    {
+      "name": "Massimiliano Marcon",
+      "email": "max@jhere.net",
+      "url": "http://marcon.me"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mmarcon/jhere/blob/master/LICENSE.txt"
+    }
+  ],
+  "bugs": "https://github.com/mmarcon/jhere/issues",
+  "homepage": "http://jhere.net",
+  "docs": "http://jhere.net/docs.html",
+  "download": "https://github.com/mmarcon/jhere/archive/master.zip",
+  "dependencies": {
+    "jquery": ">=1.8"
+  }
+}
