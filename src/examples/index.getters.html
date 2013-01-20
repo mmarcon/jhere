@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        #map {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: white;
+        }
+
+        .controls {
+            list-style-type: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: #222;
+            margin: 0;
+            padding: 0;
+            font-family: 'American Typewriter';
+        }
+
+        .controls li {
+            margin: 0 10px;
+            padding: 0;
+            display: inline-block;
+            color: #0068b3;
+            line-height: 40px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .controls li:hover {
+            color: #d63c88;
+        }
+    </style>
+</head>
+
+<body>
+<ul class="controls">
+    <li class="center">Where is the map centered?</li>
+    <li class="zoom">What is the zoom level?</li>
+</ul>
+<div id="map"></div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
+<script type="text/javascript" src="../zepto.adapter.js"></script>
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
+<script type="text/javascript" src="../jhere.js"></script>
+<script type="text/javascript">
+$(window).on('load', function(){
+    var map = $('#map');
+    //Set default credentials
+    $.jHERE.defaultCredentials('_peU-uCkp-j8ovkzFGNU', 'gBoUkAMoxoqIWfxWA5DuMQ');
+    map.jHERE({center: {latitude: 52.49, longitude: 13.39}});
+    //At this point the map is not yet initialized, so this should console.log
+    //an object with the center property === undefined
+    console.log(map.jHERE());
+
+    $('.center').on('click', function(){
+        var properties = map.jHERE();
+        alert('LAT: ' + properties.center.latitude + ' LON: ' + properties.center.longitude);
+    });
+
+    $('.zoom').on('click', function(){
+        var properties = map.jHERE();
+        alert('ZOOM LEVEL: ' + properties.zoom);
+    });
+
+});
+</script>
+</body>
+</html>

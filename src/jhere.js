@@ -436,6 +436,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         $(this.element).empty();
     };
 
+    H.props = function(){
+        var map = this.map || {};
+        /*
+        I could just return this.map but creating
+        a new object is probably safer so no one can mess
+        with the map itself.
+        */
+        return {
+            center: map.center,
+            zoom: map.zoomLevel,
+            bbox: map.getViewBounds && map.getViewBounds()
+        };
+    };
+
     /*
      Note that this function is private
      and must be called with a jHERE object
@@ -552,12 +566,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     $.fn[plugin] = function(options) {
-        var args = arguments;
+        var args = arguments, target, key = 'plugin_' + plugin, pluginObj;
         if(!isSupported()){
             $.error(plugin + ' requires Zepto or jQuery >= 1.7');
         }
+        if(!options) {
+            /*
+             Looks like we are inspecting this object.
+             Let's just return its properties, but only
+             if the plugin was already initialized on the first
+             DOM element of the collection.
+            */
+            target = $(this).eq(0);
+            pluginObj = $.data(target[0], key);
+            if(pluginObj) {
+                return pluginObj.props.call(pluginObj);
+            }
+        }
         return this.each(function() {
-            var pluginObj, method, key = 'plugin_' + plugin;
+            var method;
             pluginObj = $.data(this, key);
             if (!pluginObj) {
                 pluginObj = new jHERE(this, options);
