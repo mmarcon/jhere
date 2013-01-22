@@ -6,7 +6,7 @@
     <style>
         #map {
             position: absolute;
-            top: 40px;
+            top: 0;
             left: 0;
             bottom: 0;
             right: 0;
@@ -19,11 +19,12 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 40px;
+            min-height: 40px;
             background: #222;
             margin: 0;
             padding: 0;
             font-family: 'American Typewriter';
+            z-index: 1000;
         }
 
         .controls li {
@@ -32,7 +33,7 @@
             display: inline-block;
             color: #0068b3;
             line-height: 40px;
-            font-size: 22px;
+            font-size: 18px;
             cursor: pointer;
         }
 
@@ -46,6 +47,8 @@
 <ul class="controls">
     <li class="center">Where is the map centered?</li>
     <li class="zoom">What is the zoom level?</li>
+    <li class="bbox">What is the bounding box?</li>
+    <li class="type">What is the map type?</li>
 </ul>
 <div id="map"></div>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
@@ -57,7 +60,7 @@ $(window).on('load', function(){
     var map = $('#map');
     //Set default credentials
     $.jHERE.defaultCredentials('_peU-uCkp-j8ovkzFGNU', 'gBoUkAMoxoqIWfxWA5DuMQ');
-    map.jHERE({center: {latitude: 52.49, longitude: 13.39}});
+    map.jHERE({center: {latitude: 52.49, longitude: 13.39}, enable: ['behavior', 'zoombar']});
     //At this point the map is not yet initialized, so this should console.log
     //an object with the center property === undefined
     console.log(map.jHERE());
@@ -72,6 +75,17 @@ $(window).on('load', function(){
         alert('ZOOM LEVEL: ' + properties.zoom);
     });
 
+    $('.bbox').on('click', function(){
+        var properties = map.jHERE(),
+            bbox = properties.bbox;
+        alert('BOUNDING BOX: (' + bbox.topLeft.latitude.toFixed(2) + ', ' + bbox.topLeft.longitude.toFixed(2) + ') - (' +
+                                  bbox.bottomRight.latitude.toFixed(2) + ', ' + bbox.bottomRight.longitude.toFixed(2) + ')');
+    });
+
+    $('.type').on('click', function(){
+        var properties = map.jHERE();
+        alert('MAP TYPE: ' + properties.type);
+    });
 });
 </script>
 </body>

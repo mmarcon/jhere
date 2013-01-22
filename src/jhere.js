@@ -228,6 +228,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     // 3. `'pt'`: a smart map where the tiles also contain the **public transport lines**.
     // 4. `'satellite'`: satellite view.
     // 5. `'terrain'`: terrain view.
+    // 6. `'community'`: HERE Maps community layer.
+    // 7. `'satcommunity'`: HERE Maps community layer with satellite imagery.
+    // 8. `'traffic'`: traffic layer.
     H.type = function(newType){
         var map = this.map,
             types = {
@@ -235,9 +238,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 satellite: map.SATELLITE,
                 smart: map.SMARTMAP,
                 terrain: map.TERRAIN,
-                pt: map.SMART_PT
+                pt: map.SMART_PT,
+                community: map.NORMAL_COMMUNITY,
+                satcommunity: map.SATELLITE_COMMUNITY,
+                traffic: map.TRAFFIC
             };
-        newType = types[newType] || types.map;
+
+        if(newType in types) {
+            this.mtype = newType;
+            newType = types[newType];
+        } else {
+            this.mtype = 'map';
+            newType = types.map;
+        }
         map.set('baseMapType', newType);
     };
 
@@ -430,31 +443,38 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         closure.call(this.element, this.map, _ns);
     };
 
+    /*
+     Undocumented, on purpose.
+    */
     H.destroy = function(){
         this.map.destroy();
         $.removeData(this.element);
         $(this.element).empty();
     };
 
-    H.props = function(){
+    /*
+     *********************************************
+     Note that the following functions are private
+     and must be called with a jHERE object
+     as the context.
+     *********************************************
+    */
+
+    /*
+     In the future this might be expose via
+     the prototype in case it is needed by extensions
+    */
+    function props() {
         var map = this.map || {};
-        /*
-        I could just return this.map but creating
-        a new object is probably safer so no one can mess
-        with the map itself.
-        */
+
         return {
             center: map.center,
             zoom: map.zoomLevel,
-            bbox: map.getViewBounds && map.getViewBounds()
+            bbox: map.getViewBounds && map.getViewBounds(),
+            type: this.mtype
         };
-    };
+    }
 
-    /*
-     Note that this function is private
-     and must be called with a jHERE object
-     as the context.
-    */
     function parseKML(KMLFile, callback) {
         var kmlManager = new _ns.kml.Manager();
         kmlManager.addObserver('state', bind(function(kmlManager){
@@ -465,6 +485,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }, this));
         kmlManager.parseKML(KMLFile);
     }
+
+    /*
+     *********************************************
+     *********************************************
+    */
 
     function triggerEvent(event) {
         var handler = event.target[event.type];
@@ -566,22 +591,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     $.fn[plugin] = function(options) {
-        var args = arguments, target, key = 'plugin_' + plugin, pluginObj;
+        var args = arguments, key = 'plugin_' + plugin, pluginObj;
         if(!isSupported()){
             $.error(plugin + ' requires Zepto or jQuery >= 1.7');
         }
-        if(!options) {
+        if(!options && (pluginObj = $.data(this[0], key))) {
             /*
              Looks like we are inspecting this object.
              Let's just return its properties, but only
              if the plugin was already initialized on the first
              DOM element of the collection.
             */
-            target = $(this).eq(0);
-            pluginObj = $.data(target[0], key);
-            if(pluginObj) {
-                return pluginObj.props.call(pluginObj);
-            }
+            return props.call(pluginObj);
         }
         return this.each(function() {
             var method;
