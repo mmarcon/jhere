@@ -330,23 +330,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`content` can be a String or a jQuery object.
     H.bubble = function(position, bubbleOptions) {
-        var bubbleComponent;
+        var bubbleComponent, map = this.map;
         bubbleOptions = $.extend({}, defaults.bubble, bubbleOptions);
         if(bubbleOptions.content.jquery) {
             /*This is a little hack to fix word-wrap which is set to nowrap by JSLA*/
             bubbleOptions.content.css('white-space', 'normal');
             bubbleOptions.content = $('<div/>').append(bubbleOptions.content.clone()).html();
         }
-        bubbleComponent = this.map.getComponentById('InfoBubbles') ||
-                  this.map.addComponent(new _ns.map.component.InfoBubbles());
+        bubbleComponent = map.getComponentById('InfoBubbles') ||
+            map.addComponent(new _ns.map.component.InfoBubbles());
         bubbleComponent.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
     };
 
     //### Remove all the bubbles from the map
     //`$('.selector').jHERE('nobubbles');`
     H.nobubbles = function() {
-        var bubbleComponent = this.map.getComponentById('InfoBubbles') ||
-                  this.map.addComponent(new _ns.map.component.InfoBubbles());
+        var map = this.map,
+            bubbleComponent = map.getComponentById('InfoBubbles') ||
+                map.addComponent(new _ns.map.component.InfoBubbles());
         bubbleComponent.closeAll();
     };
 
@@ -365,7 +366,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             zoomToKML = false;
         }
         parseKML.call(this, KMLFile, bind(function(kmlManager){
-            var resultSet = new _ns.kml.component.KMLResultSet(kmlManager.kmlDocument, this.map);
+            var map = this.map, resultSet = new _ns.kml.component.KMLResultSet(kmlManager.kmlDocument, map);
             resultSet.addObserver('state', bind(function(resultSet) {
                 var container, bbox;
                 if (resultSet.state === 'finished') {
@@ -377,7 +378,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         container = resultSet.container.objects.get(0);
                         bbox = container.getBoundingBox();
                         if (bbox) {
-                            this.map.zoomTo(bbox);
+                            map.zoomTo(bbox);
                         }
                     }
                     if(isFunction(ondone)) {
@@ -385,7 +386,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     }
                 }
             }, this));
-            this.map.objects.add(resultSet.create());
+            map.objects.add(resultSet.create());
         }, this));
     };
 
@@ -519,6 +520,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function isFunction(fn) {
         return typeof fn === 'function';
     }
+
+    /*
+     jHERE is compatible with jQuery > 1.7 and Zepto
+     which both have the on method in the prototype.
+     jQuery <= 1.7 does not have on.
+    */
 
     function isSupported(){
         return !!$().on;
