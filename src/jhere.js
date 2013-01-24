@@ -50,7 +50,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
     var plugin = 'jHERE',
-        version = '0.2.0',
         defaults, H, _ns, _JSLALoader,
         _credentials, bind = $.proxy, P;
 
@@ -152,7 +151,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     H.init = function(){
-        var options = this.options;
         _JSLALoader.load().is.done(bind(this.makemap, this));
     };
 

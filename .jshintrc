@@ -2,8 +2,11 @@
 {
     "globals": {
         "jQuery": true,
-        "nokia": true
+        "nokia": true,
+        "Zepto": true
     },
+
+    "browser": true,
 
     "curly": true,
     "eqeqeq": true,
@@ -13,7 +16,7 @@
     "noarg": true,
     "node": true,
     "noempty": true,
-    "strict": true,
+    "strict": false,
     "trailing": true,
     "undef": true,
     "unused": true,

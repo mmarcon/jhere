@@ -32,8 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         success = isFunction(success) ? success : $.noop;
         error = isFunction(error) ? error : $.noop;
         P._JSLALoader.load().is.done(function(){
-            var searchCenter = {latitude: 0, longitude: 0},
-                searchManager = nokia.places.search.manager;
+            var searchManager = nokia.places.search.manager;
             function geocodeCallback(data, status) {
                 var location = data.location;
                 location = reverse ? data.location.address : data.location.position;

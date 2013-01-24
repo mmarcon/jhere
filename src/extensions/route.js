@@ -78,7 +78,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         /*Call me with the correct context!*/
         done = function(router, key, status) {
             var routes, routeContainer, poly, r, leg, info = {}, evt;
-            if (status == 'finished') {
+            if (status === 'finished') {
                 routes = router.getRoutes();
                 r = routes[0];
                 /*We want to customize the way a routeContainer is shown*/
@@ -121,7 +121,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     target: this.element
                 });
                 $(this.element).trigger(evt);
-            } else if (status == 'failed') {
+            } else if (status === 'failed') {
                 $.error('Failed to calcolate route');
             }
         };
