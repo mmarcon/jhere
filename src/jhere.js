@@ -339,9 +339,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             bubbleOptions.content.css('white-space', 'normal');
             bubbleOptions.content = $('<div/>').append(bubbleOptions.content.clone()).html();
         }
-        bubbles = this.map.getComponentById('InfoBubbles') ||
+        bubbleComponent = this.map.getComponentById('InfoBubbles') ||
                   this.map.addComponent(new _ns.map.component.InfoBubbles());
-        bubbles.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
+        bubbleComponent.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
+    };
+
+    //### Remove all the bubbles from the map
+    //`$('.selector').jHERE('nobubbles');`
+    H.nobubbles = function() {
+        var bubbleComponent = this.map.getComponentById('InfoBubbles') ||
+                  this.map.addComponent(new _ns.map.component.InfoBubbles());
+        bubbleComponent.closeAll();
     };
 
     //### Display KMLs on the map
@@ -362,7 +370,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             var resultSet = new _ns.kml.component.KMLResultSet(kmlManager.kmlDocument, this.map);
             resultSet.addObserver('state', bind(function(resultSet) {
                 var container, bbox;
-                if (resultSet.state == 'finished') {
+                if (resultSet.state === 'finished') {
                     if(zoomToKML) {
                         /*
                          Then try to zoom the map to the area
@@ -492,9 +500,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     */
 
     function triggerEvent(event) {
-        var handler = event.target[event.type];
+        var handler = event.target[event.type], e;
         if ($.isFunction(handler)) {
-            var e = $.Event(event.type, {
+            e = $.Event(event.type, {
                 originalEvent: event,
                 geo: {
                     latitude: event.target.coordinate.latitude,
