@@ -450,6 +450,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         closure.call(this.element, this.map, _ns);
     };
 
+    //###Inspect map properties
+    //`var properties = $('.selector').jHERE();`
+    //
+    //Returns an object containing some properties of
+    //the map canvas.
+    //
+    //<pre><code>{
+    //  center: {latitude: float, longitude: float},
+    //  zoom: integer,
+    //  bbox: {
+    //    topLeft: {
+    //           latitude: float,
+    //           longitude: float
+    //         },
+    //         bottomRight:{
+    //           latitude: float,
+    //           longitude: float
+    //         }
+    //  }, //bbox is the bounding box, i.e. the geographical area currently displayed
+    //  type: string //can be: map, smart, pt, satellite, terrain, community, satcommunity, traffic
+    //};</code></pre>
+    //**Note that these properties will all be undefined if the map hasn't been yet initialized.**
+
     /*
      Undocumented, on purpose.
     */
