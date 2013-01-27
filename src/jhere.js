@@ -120,7 +120,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //**Note on `appId` and `authToken`:** the plugin includes by default the credentials
     //I used development, and it is ok for you to use the same credentials for development
     //and testing purpose. However you should really register on the Nokia developer website
-    //and get your own. I stringly encourage you to do it especially for production use as
+    //and get your own. I strongly encourage you to do it especially for production use as
     //my credentials may unexpectedtly stop working at any time.
     function jHERE(element, options){
         this.element = element;
