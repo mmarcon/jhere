@@ -50,7 +50,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
     var plugin = 'jHERE',
-        version = '0.2.0',
         defaults, H, _ns, _JSLALoader,
         _credentials, bind = $.proxy, P;
 
@@ -152,7 +151,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     H.init = function(){
-        var options = this.options;
         _JSLALoader.load().is.done(bind(this.makemap, this));
     };
 
@@ -228,6 +226,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     // 3. `'pt'`: a smart map where the tiles also contain the **public transport lines**.
     // 4. `'satellite'`: satellite view.
     // 5. `'terrain'`: terrain view.
+    // 6. `'community'`: HERE Maps community layer.
+    // 7. `'satcommunity'`: HERE Maps community layer with satellite imagery.
+    // 8. `'traffic'`: traffic layer.
     H.type = function(newType){
         var map = this.map,
             types = {
@@ -235,9 +236,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 satellite: map.SATELLITE,
                 smart: map.SMARTMAP,
                 terrain: map.TERRAIN,
-                pt: map.SMART_PT
+                pt: map.SMART_PT,
+                community: map.NORMAL_COMMUNITY,
+                satcommunity: map.SATELLITE_COMMUNITY,
+                traffic: map.TRAFFIC
             };
-        newType = types[newType] || types.map;
+
+        if(newType in types) {
+            this.mtype = newType;
+            newType = types[newType];
+        } else {
+            this.mtype = 'map';
+            newType = types.map;
+        }
         map.set('baseMapType', newType);
     };
 
@@ -319,16 +330,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`content` can be a String or a jQuery object.
     H.bubble = function(position, bubbleOptions) {
-        var bubbleComponent;
+        var bubbleComponent, map = this.map;
         bubbleOptions = $.extend({}, defaults.bubble, bubbleOptions);
         if(bubbleOptions.content.jquery) {
             /*This is a little hack to fix word-wrap which is set to nowrap by JSLA*/
             bubbleOptions.content.css('white-space', 'normal');
             bubbleOptions.content = $('<div/>').append(bubbleOptions.content.clone()).html();
         }
-        bubbles = this.map.getComponentById('InfoBubbles') ||
-                  this.map.addComponent(new _ns.map.component.InfoBubbles());
-        bubbles.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
+        bubbleComponent = map.getComponentById('InfoBubbles') ||
+            map.addComponent(new _ns.map.component.InfoBubbles());
+        bubbleComponent.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
+    };
+
+    //### Remove all the bubbles from the map
+    //`$('.selector').jHERE('nobubbles');`
+    H.nobubbles = function() {
+        var map = this.map,
+            bubbleComponent = map.getComponentById('InfoBubbles') ||
+                map.addComponent(new _ns.map.component.InfoBubbles());
+        bubbleComponent.closeAll();
     };
 
     //### Display KMLs on the map
@@ -346,10 +366,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             zoomToKML = false;
         }
         parseKML.call(this, KMLFile, bind(function(kmlManager){
-            var resultSet = new _ns.kml.component.KMLResultSet(kmlManager.kmlDocument, this.map);
+            var map = this.map, resultSet = new _ns.kml.component.KMLResultSet(kmlManager.kmlDocument, map);
             resultSet.addObserver('state', bind(function(resultSet) {
                 var container, bbox;
-                if (resultSet.state == 'finished') {
+                if (resultSet.state === 'finished') {
                     if(zoomToKML) {
                         /*
                          Then try to zoom the map to the area
@@ -358,7 +378,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         container = resultSet.container.objects.get(0);
                         bbox = container.getBoundingBox();
                         if (bbox) {
-                            this.map.zoomTo(bbox);
+                            map.zoomTo(bbox);
                         }
                     }
                     if(isFunction(ondone)) {
@@ -366,7 +386,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     }
                 }
             }, this));
-            this.map.objects.add(resultSet.create());
+            map.objects.add(resultSet.create());
         }, this));
     };
 
@@ -430,6 +450,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         closure.call(this.element, this.map, _ns);
     };
 
+    //###Inspect map properties
+    //`var properties = $('.selector').jHERE();`
+    //
+    //Returns an object containing some properties of
+    //the map canvas.
+    //
+    //<pre><code>{
+    //  center: {latitude: float, longitude: float},
+    //  zoom: integer,
+    //  bbox: {
+    //    topLeft: {
+    //           latitude: float,
+    //           longitude: float
+    //         },
+    //         bottomRight:{
+    //           latitude: float,
+    //           longitude: float
+    //         }
+    //  }, //bbox is the bounding box, i.e. the geographical area currently displayed
+    //  type: string //can be: map, smart, pt, satellite, terrain, community, satcommunity, traffic
+    //};</code></pre>
+    //**Note that these properties will all be undefined if the map hasn't been yet initialized.**
+
+    /*
+     Undocumented, on purpose.
+    */
     H.destroy = function(){
         this.map.destroy();
         $.removeData(this.element);
@@ -437,10 +483,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     /*
-     Note that this function is private
+     *********************************************
+     Note that the following functions are private
      and must be called with a jHERE object
      as the context.
+     *********************************************
     */
+
+    /*
+     In the future this might be expose via
+     the prototype in case it is needed by extensions
+    */
+    function props() {
+        var map = this.map || {};
+
+        return {
+            center: map.center,
+            zoom: map.zoomLevel,
+            bbox: map.getViewBounds && map.getViewBounds(),
+            type: this.mtype
+        };
+    }
+
     function parseKML(KMLFile, callback) {
         var kmlManager = new _ns.kml.Manager();
         kmlManager.addObserver('state', bind(function(kmlManager){
@@ -452,10 +516,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         kmlManager.parseKML(KMLFile);
     }
 
+    /*
+     *********************************************
+     *********************************************
+    */
+
     function triggerEvent(event) {
-        var handler = event.target[event.type];
+        var handler = event.target[event.type], e;
         if ($.isFunction(handler)) {
-            var e = $.Event(event.type, {
+            e = $.Event(event.type, {
                 originalEvent: event,
                 geo: {
                     latitude: event.target.coordinate.latitude,
@@ -475,8 +544,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         return typeof fn === 'function';
     }
 
+    /*
+     jHERE is compatible with jQuery > 1.7 and Zepto
+     which both have the on method in the prototype.
+     jQuery <= 1.7 does not have on.
+    */
+
     function isSupported(){
-        return !!$.zepto || $.fn.jquery && +$.fn.jquery.replace(/\./g,'') > 170;
+        return !!$().on;
     }
 
     _JSLALoader = {};
@@ -552,12 +627,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     $.fn[plugin] = function(options) {
-        var args = arguments;
+        var args = arguments, key = 'plugin_' + plugin, pluginObj;
         if(!isSupported()){
             $.error(plugin + ' requires Zepto or jQuery >= 1.7');
         }
+        if(!options && (pluginObj = $.data(this[0], key))) {
+            /*
+             Looks like we are inspecting this object.
+             Let's just return its properties, but only
+             if the plugin was already initialized on the first
+             DOM element of the collection.
+            */
+            return props.call(pluginObj);
+        }
         return this.each(function() {
-            var pluginObj, method, key = 'plugin_' + plugin;
+            var method;
             pluginObj = $.data(this, key);
             if (!pluginObj) {
                 pluginObj = new jHERE(this, options);
