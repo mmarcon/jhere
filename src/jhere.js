@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2012 Massimiliano Marcon, http://marcon.me
+Copyright (c) 2013 Massimiliano Marcon, http://marcon.me
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -180,8 +180,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         /*Setup the components*/
         $.each(component, bind(function(c, Constructor){
-            if($.inArray(c.toLowerCase(), this.options.enable) > -1) {
-                components.push(new Constructor());
+            /*~$.inArray(el, array) === $.inArray(el, array) > -1*/
+            c = c.toLowerCase();
+            if(~$.inArray(c, this.options.enable)) {
+                /*
+                 Here's what happens:
+                 - if Constructor is a function isFunction(Constructor) returns true
+                 - components.push(new Constructor())) pushes a new instance of the component
+                   into the array, and returns the new length (a number always > 0) which is truty
+                 - therefore the callback returns true, which in jQuery's look corresponds to continue.
+
+                 - if Constructor is not a function, the passed component is invalid, therefore
+                   we throw an exception with $.error
+
+                - returrn is mostly there beacause the linter says so.
+                 */
+                return (isFunction(Constructor) && components.push(new Constructor())) || $.error('invalid: ' + c);
             }
         }, this));
 
