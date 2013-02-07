@@ -130,7 +130,9 @@ to <code>$('.selector').jHERE(options);</code>.</p>
  mouseenter: function(event){/*this is the element, event.geo contains the coordinates*/},
  mouseleave: function(event){/*this is the element, event.geo contains the coordinates*/},
  longpress: function(event){/*this is the element, event.geo contains the coordinates*/}
-}</code></pre>                     </div>                                                           <div id="section-9">                         <h3>Add bubbles to the map</h3>
+}</code></pre>                     </div>                                                           <div id="section-9">                         <h3>Remove all the markers from the map</h3>
+
+<p><code>$('.selector').jHERE('nomarkers');</code></p>                     </div>                                                           <div id="section-10">                         <h3>Add bubbles to the map</h3>
 
 <p><code>$('.selector').jHERE('bubble', positionObject, bubbleOptions);</code></p>
 
@@ -150,9 +152,9 @@ to <code>$('.selector').jHERE(options);</code>.</p>
  onclose: function(){}
 }</code></pre>
 
-<p><code>content</code> can be a String or a jQuery object.</p>                     </div>                                                           <div id="section-10">                         <h3>Remove all the bubbles from the map</h3>
+<p><code>content</code> can be a String or a jQuery object.</p>                     </div>                                                           <div id="section-11">                         <h3>Remove all the bubbles from the map</h3>
 
-<p><code>$('.selector').jHERE('nobubbles');</code></p>                     </div>                                                           <div id="section-11">                         <h3>Display KMLs on the map</h3>
+<p><code>$('.selector').jHERE('nobubbles');</code></p>                     </div>                                                           <div id="section-12">                         <h3>Display KMLs on the map</h3>
 
 <p><code>$('.selector').jHERE('kml', KMLfile, zoomToKML, ondone);</code></p>
 
@@ -161,7 +163,7 @@ to <code>$('.selector').jHERE(options);</code>.</p>
 <p><code>zoomToKML</code> is a boolean. If set to true, once the KML has been parsed
 and displayed the map will be zoomed to the bounding box of the KML.</p>
 
-<p><code>ondone</code> is a function, called once the KML has been rendered.</p>                     </div>                                                           <div id="section-12">                         <h3>Add heatmap layers to the map</h3>
+<p><code>ondone</code> is a function, called once the KML has been rendered.</p>                     </div>                                                           <div id="section-13">                         <h3>Add heatmap layers to the map</h3>
 
 <p><code>$('.selector').jHERE('heatmap', data, type, options);</code></p>
 
@@ -184,7 +186,7 @@ customize the heatmap look.</p>
    "0.3": "rgba(0, 0, 64, 1)",
    ...
  }
-}</code></pre>                     </div>                                                           <div id="section-13">                         <h3>Access the underlying JSLA framework</h3>
+}</code></pre>                     </div>                                                           <div id="section-14">                         <h3>Access the underlying JSLA framework</h3>
 
 <p><code>$('.selector').jHERE('originalMap', closure);</code></p>
 
@@ -199,7 +201,7 @@ documentation.</p>
    //this is the DOM element
    //map is the JSLA map object
    //here is the whole JSLA API namespace
-}</code></pre>                     </div>                                                           <div id="section-14">                         <h3>Inspect map properties</h3>
+}</code></pre>                     </div>                                                           <div id="section-15">                         <h3>Inspect map properties</h3>
 
 <p><code>var properties = $('.selector').jHERE();</code></p>
 
@@ -222,7 +224,7 @@ the map canvas.</p>
  type: string //can be: map, smart, pt, satellite, terrain, community, satcommunity, traffic
 };</code></pre>
 
-<p><strong>Note that these properties will all be undefined if the map hasn't been yet initialized.</strong></p>                     </div>                                                           <div id="section-15">                         <h3>Extend jHERE</h3>
+<p><strong>Note that these properties will all be undefined if the map hasn't been yet initialized.</strong></p>                     </div>                                                           <div id="section-16">                         <h3>Extend jHERE</h3>
 
 <p>jHERE can be easily extended with additional features. Some example of
 extensions are located <a href="https://github.com/mmarcon/jhere/blob/master/EXTENSIONS.md">here</a>.

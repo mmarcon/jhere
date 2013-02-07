@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2012 Massimiliano Marcon, http://marcon.me
+Copyright (c) 2013 Massimiliano Marcon, http://marcon.me
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -50,7 +50,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
     var plugin = 'jHERE',
-        defaults, H, _ns, _JSLALoader,
+        defaults, H, _ns, _ns_map, _JSLALoader,
         _credentials, bind = $.proxy, P;
 
     defaults = {
@@ -120,7 +120,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //**Note on `appId` and `authToken`:** the plugin includes by default the credentials
     //I used development, and it is ok for you to use the same credentials for development
     //and testing purpose. However you should really register on the Nokia developer website
-    //and get your own. I stringly encourage you to do it especially for production use as
+    //and get your own. I strongly encourage you to do it especially for production use as
     //my credentials may unexpectedtly stop working at any time.
     function jHERE(element, options){
         this.element = element;
@@ -156,7 +156,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     H.makemap = function(){
         var options = this.options,
-            component = _ns.map.component,
+            component = _ns_map.component,
             components = [];
 
         /*
@@ -180,18 +180,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         /*Setup the components*/
         $.each(component, bind(function(c, Constructor){
-            if($.inArray(c.toLowerCase(), this.options.enable) > -1) {
-                components.push(new Constructor());
+            /*~$.inArray(el, array) === $.inArray(el, array) > -1*/
+            c = c.toLowerCase();
+            if(~$.inArray(c, this.options.enable)) {
+                /*
+                 Here's what happens:
+                 - if Constructor is a function isFunction(Constructor) returns true
+                 - components.push(new Constructor())) pushes a new instance of the component
+                   into the array, and returns the new length (a number always > 0) which is truty
+                 - therefore the callback returns true, which in jQuery's look corresponds to continue.
+
+                 - if Constructor is not a function, the passed component is invalid, therefore
+                   we throw an exception with $.error
+
+                - returrn is mostly there beacause the linter says so.
+                 */
+                return (isFunction(Constructor) && components.push(new Constructor())) || $.error('invalid: ' + c);
             }
         }, this));
 
-        this.map = new _ns.map.Display(this.element, {
+        this.map = new _ns_map.Display(this.element, {
             zoomLevel: options.zoom,
             center: options.center,
             components: components
         });
 
         this.type(options.type);
+        /*A container where all markers will be stored*/
+        this._mc = new _ns_map.Container();
+        this.map.objects.add(this._mc);
     };
 
     //### Center the map
@@ -291,7 +308,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                                mouse + 'enter',
                                mouse + 'leave',
                                'longpress'],
-            centralizedHandler = bind(triggerEvent, this);
+            centralizedHandler = bind(triggerEvent, this),
+            mc = this._mc,
+            MarkerConstructor = 'Marker';
         $.each(supportedEvents, function(i, v){
             markerListeners[v] = [centralizedHandler, false, null];
         });
@@ -303,11 +322,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         markerOptions.brush = markerOptions.brush || {color: markerOptions.fill};
         markerOptions.eventListener = markerListeners;
 
-        if (markerOptions.icon) {
-            this.map.objects.add(new _ns.map.Marker(position, markerOptions));
-        } else {
-            this.map.objects.add(new _ns.map.StandardMarker(position, markerOptions));
+        if (!markerOptions.icon) {
+            MarkerConstructor = 'Standard' + MarkerConstructor;
         }
+        /*
+         Little slower than it used to be, and a little less readable
+         but minifies very well.
+         */
+        mc.objects.add(new _ns_map[MarkerConstructor](position, markerOptions));
+    };
+
+    //### Remove all the markers from the map
+    //`$('.selector').jHERE('nomarkers');`
+    H.nomarkers = function(){
+        this._mc.objects.clear();
     };
 
     //### Add bubbles to the map
@@ -338,7 +366,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             bubbleOptions.content = $('<div/>').append(bubbleOptions.content.clone()).html();
         }
         bubbleComponent = map.getComponentById('InfoBubbles') ||
-            map.addComponent(new _ns.map.component.InfoBubbles());
+            map.addComponent(new _ns_map.component.InfoBubbles());
         bubbleComponent.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
     };
 
@@ -347,7 +375,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     H.nobubbles = function() {
         var map = this.map,
             bubbleComponent = map.getComponentById('InfoBubbles') ||
-                map.addComponent(new _ns.map.component.InfoBubbles());
+                map.addComponent(new _ns_map.component.InfoBubbles());
         bubbleComponent.closeAll();
     };
 
@@ -569,7 +597,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             /*TODO: make load cutomizable so we don't load unnecessary stuff.*/
             _ns.Features.load({map: 'auto', ui: 'auto', search: 'auto', routing: 'auto',
                                positioning: 'auto', behavior: 'auto', kml: 'auto', heatmap: 'auto'},
-                              function(){_JSLALoader.is.resolve();});
+                              function(){_ns_map = _ns.map; _JSLALoader.is.resolve();});
         };
         head = doc.getElementsByTagName('head')[0];
         jsla = doc.createElement('script');
