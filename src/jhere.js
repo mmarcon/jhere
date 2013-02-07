@@ -50,7 +50,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
     var plugin = 'jHERE',
-        defaults, H, _ns, _JSLALoader,
+        defaults, H, _ns, _ns_map, _JSLALoader,
         _credentials, bind = $.proxy, P;
 
     defaults = {
@@ -156,7 +156,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     H.makemap = function(){
         var options = this.options,
-            component = _ns.map.component,
+            component = _ns_map.component,
             components = [];
 
         /*
@@ -199,13 +199,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             }
         }, this));
 
-        this.map = new _ns.map.Display(this.element, {
+        this.map = new _ns_map.Display(this.element, {
             zoomLevel: options.zoom,
             center: options.center,
             components: components
         });
 
         this.type(options.type);
+        /*A container where all markers will be stored*/
+        this._mc = new _ns_map.Container();
+        this.map.objects.add(this._mc);
     };
 
     //### Center the map
@@ -305,7 +308,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                                mouse + 'enter',
                                mouse + 'leave',
                                'longpress'],
-            centralizedHandler = bind(triggerEvent, this);
+            centralizedHandler = bind(triggerEvent, this),
+            mc = this._mc,
+            MarkerConstructor = 'Marker';
         $.each(supportedEvents, function(i, v){
             markerListeners[v] = [centralizedHandler, false, null];
         });
@@ -317,11 +322,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         markerOptions.brush = markerOptions.brush || {color: markerOptions.fill};
         markerOptions.eventListener = markerListeners;
 
-        if (markerOptions.icon) {
-            this.map.objects.add(new _ns.map.Marker(position, markerOptions));
-        } else {
-            this.map.objects.add(new _ns.map.StandardMarker(position, markerOptions));
+        if (!markerOptions.icon) {
+            MarkerConstructor = 'Standard' + MarkerConstructor;
         }
+        /*
+         Little slower than it used to be, and a little less readable
+         but minifies very well.
+         */
+        mc.objects.add(new _ns_map[MarkerConstructor](position, markerOptions));
+    };
+
+    //### Remove all the markers from the map
+    //`$('.selector').jHERE('nomarkers');`
+    H.nomarkers = function(){
+        this._mc.objects.clear();
     };
 
     //### Add bubbles to the map
@@ -352,7 +366,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             bubbleOptions.content = $('<div/>').append(bubbleOptions.content.clone()).html();
         }
         bubbleComponent = map.getComponentById('InfoBubbles') ||
-            map.addComponent(new _ns.map.component.InfoBubbles());
+            map.addComponent(new _ns_map.component.InfoBubbles());
         bubbleComponent.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
     };
 
@@ -361,7 +375,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     H.nobubbles = function() {
         var map = this.map,
             bubbleComponent = map.getComponentById('InfoBubbles') ||
-                map.addComponent(new _ns.map.component.InfoBubbles());
+                map.addComponent(new _ns_map.component.InfoBubbles());
         bubbleComponent.closeAll();
     };
 
@@ -583,7 +597,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             /*TODO: make load cutomizable so we don't load unnecessary stuff.*/
             _ns.Features.load({map: 'auto', ui: 'auto', search: 'auto', routing: 'auto',
                                positioning: 'auto', behavior: 'auto', kml: 'auto', heatmap: 'auto'},
-                              function(){_JSLALoader.is.resolve();});
+                              function(){_ns_map = _ns.map; _JSLALoader.is.resolve();});
         };
         head = doc.getElementsByTagName('head')[0];
         jsla = doc.createElement('script');
