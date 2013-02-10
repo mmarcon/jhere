@@ -51,7 +51,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
     var plugin = 'jHERE',
         defaults, H, _ns, _ns_map, _JSLALoader,
-        _credentials, bind = $.proxy, P;
+        _credentials, bind = $.proxy, P,
+        /*Map and marker supported events*/
+        mouse = 'mouse', click = 'click', drag = 'drag', touch = 'touch', start = 'start', end = 'end', move = 'move',
+        supportedEvents = [
+            click,
+            'dbl' + click,
+            mouse + 'up',
+            mouse + 'down',
+            mouse + move,
+            mouse + 'over',
+            mouse + 'out',
+            mouse + 'enter',
+            mouse + 'leave',
+            'longpress',
+            drag + start,
+            drag,
+            drag + end,
+            'resize',
+            touch + start,
+            touch + end,
+            touch + move
+        ];
 
     defaults = {
         appId: '_peU-uCkp-j8ovkzFGNU',
@@ -122,6 +143,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //and testing purpose. However you should really register on the Nokia developer website
     //and get your own. I strongly encourage you to do it especially for production use as
     //my credentials may unexpectedtly stop working at any time.
+    //
+    //### Map events
+    //
+    //It is possible to listen for events on the map in the usual jQuery way (`on`, `off`). All the event
+    //names start with `map`. The event passed to the callback function always has a `geo` property that
+    //contains latitude and longitude of the point where the event originated.
+    //
+    //For example, to listen for clicks events:
+    //
+    //`$('.mymap').on('mapclick', function(e){ console.log (e.geo)});`
+    //
+    //Supported events are:
+    //
+    //`mapclick`, `mapmouseup`, `mapmousedown`, `mapmousemove`, `mapmouseover`, `mapmouseout`,
+    //`mapmouseenter`, `mapmouseleave`, `maplongpress`, `mapdragstart`, `mapdrag`, `mapdragend`,
+    //`mapresize`, `maptouchstart`, `maptouchend`, `maptouchmove`.
     function jHERE(element, options){
         this.element = element;
         this.options = $.extend({}, defaults, options);
@@ -155,10 +192,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     H.makemap = function(){
-        var options = this.options,
+        var self = this,
+            options = self.options,
             component = _ns_map.component,
-            components = [];
-
+            components = [],
+            defaultHandler = bind(triggerMapEvent, self), listeners = {};
         /*
          Positioning is incovieniently
          located in a namespace that is
@@ -176,13 +214,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         _ns.util.ApplicationContext.set(_credentials);
 
         /*and now make the map*/
-        $.data(this.element, plugin, true);
+        $.data(self.element, plugin, true);
 
         /*Setup the components*/
         $.each(component, bind(function(c, Constructor){
             /*~$.inArray(el, array) === $.inArray(el, array) > -1*/
             c = c.toLowerCase();
-            if(~$.inArray(c, this.options.enable)) {
+            if(~$.inArray(c, self.options.enable)) {
                 /*
                  Here's what happens:
                  - if Constructor is a function isFunction(Constructor) returns true
@@ -197,18 +235,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                  */
                 return (isFunction(Constructor) && components.push(new Constructor())) || $.error('invalid: ' + c);
             }
-        }, this));
+        }, self));
 
-        this.map = new _ns_map.Display(this.element, {
+        self.map = new _ns_map.Display(self.element, {
             zoomLevel: options.zoom,
             center: options.center,
             components: components
         });
 
-        this.type(options.type);
+        self.type(options.type);
         /*A container where all markers will be stored*/
-        this._mc = new _ns_map.Container();
-        this.map.objects.add(this._mc);
+        self._mc = new _ns_map.Container();
+        self.map.objects.add(self._mc);
+
+        /*Add listeners*/
+        $.each(supportedEvents, function(i, v){
+            listeners[v] = [defaultHandler, false, null];
+        });
+        self.map.addListeners(listeners);
     };
 
     //### Center the map
@@ -299,15 +343,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //}</code></pre>
     H.marker = function(position, markerOptions) {
         var markerListeners = {},
-            mouse = 'mouse', click = 'click',
-            supportedEvents = [click,
-                               'dbl' + click,
-                               mouse + 'move',
-                               mouse + 'over',
-                               mouse + 'out',
-                               mouse + 'enter',
-                               mouse + 'leave',
-                               'longpress'],
             centralizedHandler = bind(triggerEvent, this),
             mc = this._mc,
             MarkerConstructor = 'Marker';
@@ -373,10 +408,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //### Remove all the bubbles from the map
     //`$('.selector').jHERE('nobubbles');`
     H.nobubbles = function() {
-        var map = this.map,
-            bubbleComponent = map.getComponentById('InfoBubbles') ||
-                map.addComponent(new _ns_map.component.InfoBubbles());
-        bubbleComponent.closeAll();
+        var bubbleComponent;
+        return (bubbleComponent = this.map.getComponentById('InfoBubbles')) && bubbleComponent.closeAll();
     };
 
     //### Display KMLs on the map
@@ -544,29 +577,42 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         kmlManager.parseKML(KMLFile);
     }
 
+    function triggerMapEvent(event) {
+        var target = event.target, position = this.map.pixelToGeo(event.displayX, event.displayY);
+        if(target !== this.map) {
+            return;
+        }
+        event.type = 'map' + event.type;
+        $(this.element).trigger(makeGeoEvent(event, position));
+    }
+
+    function triggerEvent(event) {
+        var target = event.target, handler = target[event.type];
+        if (isFunction(handler)) {
+            /*
+             When the event listener is called then
+             the context is the DOM element containing the map.
+            */
+            handler.call(this.element, makeGeoEvent(event, target.coordinate));
+        }
+    }
+
     /*
      *********************************************
      *********************************************
     */
 
-    function triggerEvent(event) {
-        var handler = event.target[event.type], e;
-        if ($.isFunction(handler)) {
-            e = $.Event(event.type, {
-                originalEvent: event,
-                geo: {
-                    latitude: event.target.coordinate.latitude,
-                    longitude: event.target.coordinate.longitude
-                },
-                target: event.target
-            });
-            /*
-             When the event listener is called then
-             the context is the DOM element containing the map.
-            */
-            handler.call(this.element, e);
-        }
+    function makeGeoEvent(event, position) {
+        return $.Event(event.type, {
+            originalEvent: event,
+            geo: {
+                latitude: position.latitude,
+                longitude: position.longitude
+            },
+            target: event.target
+        });
     }
+
 
     function isFunction(fn) {
         return typeof fn === 'function';
@@ -655,7 +701,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     $.fn[plugin] = function(options) {
-        var args = arguments, key = 'plugin_' + plugin, pluginObj;
+        var args = arguments, key = 'plg_' + plugin, pluginObj;
         if(!isSupported()){
             $.error(plugin + ' requires Zepto or jQuery >= 1.7');
         }
@@ -681,13 +727,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                  options must be the method then, so it should be a string
                 */
                 if (typeof options !== 'string') {
-                    $.error(plugin + '::Plugin already initialized on this element, expected method.');
+                    $.error(plugin + ' already initialized, expected method.');
                 }
                 method = options;
                 /*Get the arguments*/
                 args = Array.prototype.slice.call(args, 1);
                 if (!isFunction(pluginObj[method])) {
-                    $.error(plugin + '::Method ' + method + ' does not exist');
+                    $.error(plugin + ': ' + method + ' does not exist');
                 }
                 /*
                  Only execute method when we are sure JSLA
