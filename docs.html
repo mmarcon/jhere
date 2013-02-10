@@ -64,7 +64,23 @@ Pass <code>false</code> for no components.</p>
 I used development, and it is ok for you to use the same credentials for development
 and testing purpose. However you should really register on the Nokia developer website
 and get your own. I strongly encourage you to do it especially for production use as
-my credentials may unexpectedtly stop working at any time.</p>                     </div>                                                           <div id="section-4">                         <h3>Set default credentials</h3>
+my credentials may unexpectedtly stop working at any time.</p>
+
+<h3>Map events</h3>
+
+<p>It is possible to listen for events on the map in the usual jQuery way (<code>on</code>, <code>off</code>). All the event
+names start with <code>map</code>. The event passed to the callback function always has a <code>geo</code> property that
+contains latitude and longitude of the point where the event originated.</p>
+
+<p>For example, to listen for clicks events:</p>
+
+<p><code>$('.mymap').on('mapclick', function(e){ console.log (e.geo)});</code></p>
+
+<p>Supported events are:</p>
+
+<p><code>mapclick</code>, <code>mapmouseup</code>, <code>mapmousedown</code>, <code>mapmousemove</code>, <code>mapmouseover</code>, <code>mapmouseout</code>,
+<code>mapmouseenter</code>, <code>mapmouseleave</code>, <code>maplongpress</code>, <code>mapdragstart</code>, <code>mapdrag</code>, <code>mapdragend</code>,
+<code>mapresize</code>, <code>maptouchstart</code>, <code>maptouchend</code>, <code>maptouchmove</code>.</p>                     </div>                                                           <div id="section-4">                         <h3>Set default credentials</h3>
 
 <p><code>$.jHERE.defaultCredentials(appId, authToken);</code></p>
 
