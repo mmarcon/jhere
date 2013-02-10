@@ -3,7 +3,8 @@
     "globals": {
         "jQuery": true,
         "nokia": true,
-        "Zepto": true
+        "Zepto": true,
+        "tire": true
     },
 
     "browser": true,

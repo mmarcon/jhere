@@ -5,13 +5,16 @@ PLUGIN = jhere
 deps:
 	npm install
 
-dist: hint plugin zepto extensions summary
+dist: hint plugin zepto tire extensions summary
 
 plugin:
 	@./node_modules/.bin/uglifyjs -nc -o dist/$(PLUGIN).min.js src/$(PLUGIN).js
 
 zepto:
 	@./node_modules/.bin/uglifyjs -nc -o dist/zepto.adapter.min.js src/zepto.adapter.js
+
+tire:
+	@./node_modules/.bin/uglifyjs -nc -o dist/tire.adapter.min.js src/tire.adapter.js
 
 extensions:
 	@./build-scripts/build-extensions.sh
