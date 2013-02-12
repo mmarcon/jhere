@@ -1,6 +1,7 @@
-.PHONY: dist
+.PHONY: dist test
 
 PLUGIN = jhere
+TESTED_CODE = test/lib/jhere.js
 
 deps:
 	npm install
@@ -26,3 +27,6 @@ hint:
 doc:
 	@docco -t docs/docco.jst -o docs src/$(PLUGIN).js;mv docs/$(PLUGIN).html docs/docs.html; \
 	[[ ${JHERE_GHPAGES} ]] && cp docs/docs.html ${JHERE_GHPAGES} && cp src/jhere.js ${JHERE_GHPAGES}/js
+
+test:
+	@sed '/\/\*\*\*\*/d' src/$(PLUGIN).js | sed '/\*\*\*\*\//d' > $(TESTED_CODE)

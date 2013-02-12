@@ -700,11 +700,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }
     };
 
-    /*only for test, never ever use it*/
+    /*only for test, disabled otherwise*/
+    /****
     P._injectNS = function(ns){
         _ns = ns;
         _ns_map = ns.map;
     };
+    ****/
 
     $.fn[plugin] = function(options) {
         var args = arguments, key = 'plg_' + plugin, pluginObj;

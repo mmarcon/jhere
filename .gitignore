@@ -3,3 +3,4 @@ node_modules
 docs/*.html
 docs/*.css
 jhere.sublime*
+test/lib/jhere.js
