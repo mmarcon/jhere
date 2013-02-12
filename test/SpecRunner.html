@@ -16,7 +16,13 @@
   <script type="text/javascript" src="lib/3rd-party/jasmine-jquery.js"></script>
 
   <!-- include source files here... -->
-  <script type="text/javascript" src="../src/jhere.js"></script>
+
+  <!--
+    This is the jHERE version prepared for tests,
+    i.e. the _injectNS method to inject the nokia namespace is exposed.
+    Normally that method is not exposed
+  -->
+  <script type="text/javascript" src="lib/jhere.js"></script>
 
   <!-- include spec files here... -->
   <script type="text/javascript" src="spec/jhere.js"></script>

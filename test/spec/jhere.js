@@ -27,7 +27,7 @@
   expect:true
   spyOn:true */
 
-var nokia = {}, SPIES = {};
+var nokia = {}, SPIES = {}, _JSLALoader;
 
 function spy(name) {
     return jasmine.createSpy(name);
@@ -36,9 +36,22 @@ function spy(name) {
 
 describe('jHERE', function(){
     beforeEach(function(){
-        //JSLA
         var map;
 
+        _JSLALoader = {};
+
+        //Mock the promised-based loaded
+        _JSLALoader.load = function(){
+            return {
+                is: {
+                    done: function(fn) {
+                        fn();
+                    }
+                }
+            };
+        };
+
+        //JSLA
         nokia.maps = {
             util: {
                 ApplicationContext: {
@@ -82,25 +95,18 @@ describe('jHERE', function(){
             this.destroy = function(){ SPIES.display_destroy.apply(this, arguments); };
         };
 
-
-        //Don't wanna test the load of JSLA.
-        //JSLA will instead be mocked, therefore hack it.
-        //*** Don't change this if you don't know what you are doing. ***//
-        $.jHERE.extend('init', function(){
-            this.makemap();
-        });
-
         $.jHERE._injectNS(nokia.maps);
+        $.jHERE._injectJSLALoader(_JSLALoader);
 
         jasmine.getFixtures().set('<div id="map"></div>');
     });
 
     describe('map', function(){
-
         it('initializes the map', function(){
             //Spies on the constructors
             spyOn(nokia.maps.map, 'Display').andCallThrough();
             spyOn(nokia.maps.map, 'Container').andCallThrough();
+            spyOn(_JSLALoader, 'load').andCallThrough();
 
             $('#map').jHERE({
                 enable: ['behavior'],
@@ -110,6 +116,8 @@ describe('jHERE', function(){
                 appId: 'monkey',
                 authToken: 'chimpanzee'
             });
+
+            expect(_JSLALoader.load).toHaveBeenCalled();
 
             expect($('#map').data('jHERE')).toBe(true);
             expect($('#map').data('plg_jHERE').mtype).toBe('map');
@@ -122,6 +130,8 @@ describe('jHERE', function(){
         });
 
         it('initializes the map, but throw an error when a wrong component is specified', function(){
+            spyOn(_JSLALoader, 'load').andCallThrough();
+
             var functionThatThrows = function(){
                 $('#map').jHERE({
                     enable: ['behavior', 'zoom'],
@@ -134,6 +144,7 @@ describe('jHERE', function(){
             };
 
             expect(functionThatThrows).toThrow('invalid: zoom');
+            expect(_JSLALoader.load).toHaveBeenCalled();
         });
     });
 });
