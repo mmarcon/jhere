@@ -9,6 +9,8 @@
   <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine-html.js"></script>
 
+   <script type="text/javascript" src="lib/3rd-party/console-runner.js"></script>
+
   <!-- 3rd-party -->
   <script type="text/javascript" src="lib/3rd-party/jquery-1.9.1.js"></script>
 
@@ -28,13 +30,16 @@
   <script type="text/javascript" src="spec/jhere.js"></script>
 
   <script type="text/javascript">
+    var console_reporter;
     (function() {
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;
 
       var htmlReporter = new jasmine.HtmlReporter();
+      console_reporter = new jasmine.ConsoleReporter()
 
       jasmineEnv.addReporter(htmlReporter);
+      jasmineEnv.addReporter(console_reporter);
 
       jasmineEnv.specFilter = function(spec) {
         return htmlReporter.specFilter(spec);

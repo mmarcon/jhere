@@ -23,6 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "uglify-js": "1.3.4",
-    "jshint": "0.9.1"
+    "jshint": "0.9.1",
+    "phantom-jasmine": "0.1.0"
   }
 }

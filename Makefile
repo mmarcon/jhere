@@ -2,6 +2,8 @@
 
 PLUGIN = jhere
 TESTED_CODE = test/lib/jhere.js
+INJECTORS = $(shell cat test/lib/injectors.js | tr -d ' ')
+RUNNER = test/SpecRunner.html
 
 deps:
 	npm install
@@ -29,4 +31,5 @@ doc:
 	[[ ${JHERE_GHPAGES} ]] && cp docs/docs.html ${JHERE_GHPAGES} && cp src/jhere.js ${JHERE_GHPAGES}/js
 
 test:
-	@sed '/\/\*\*\*\*/d' src/$(PLUGIN).js | sed '/\*\*\*\*\//d' > $(TESTED_CODE)
+	@sed 's/\/\*\*\*_\*\*\*\//$(INJECTORS)/g' src/$(PLUGIN).js > $(TESTED_CODE); \
+	./node_modules/.bin/phantom-jasmine $(RUNNER)
