@@ -403,7 +403,10 @@ describe('jHERE', function(){
                 expect(nokia.maps.map.component.InfoBubbles).toHaveBeenCalled();
                 expect(SPIES.display_addComponent).toHaveBeenCalled();
                 expect(SPIES.display_addComponent.mostRecentCall.args[0] instanceof nokia.maps.map.component.InfoBubbles).toBe(true);
-                expect(SPIES.component_infobubbles_openbubble).toHaveBeenCalledWith('<h4 style="white-space: normal;">Hello <span class="name">dude</span></h4>', jasmine.any(Object), jasmine.any(Function), true);
+                expect(SPIES.component_infobubbles_openbubble).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(Object), jasmine.any(Function), true);
+                //Due to different browser returning html from jQuery in a sligthly different way in terms of spaces
+                //we just remove all the spaces before comparing.
+                expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[0].replace(/\s/g, '')).toEqual('<h4 style="white-space: normal; ">Hello <span class="name">dude</span></h4>'.replace(/\s/g, ''));
                 expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[1].latitude).toBe(52.5);
                 expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[1].longitude).toBe(13.3);
             });
