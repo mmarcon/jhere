@@ -64,15 +64,25 @@ describe('jHERE', function(){
                 Positioning: spy('Positioning')
             }
         };
+        SPIES.component_infobubbles_openbubble = spy('[component] open info bubble');
+        SPIES.component_infobubbles_closeall = spy('[component] closeall info bubbles');
         map = nokia.maps.map = {
             component: {
                 Behavior: spy('[component] Behavior'),
-                zoom: {}
+                zoom: {},
+                InfoBubbles: function(){
+                    this.openBubble = function(){
+                        SPIES.component_infobubbles_openbubble.apply(this, arguments);
+                    };
+                    this.closeAll = function(){
+                        SPIES.component_infobubbles_closeall.apply(this, arguments);
+                    };
+                }
             }
         };
 
         SPIES.container_objects_add = spy('[container] add to objects');
-        SPIES.container_objects_clear = spy('[container] add to objects');
+        SPIES.container_objects_clear = spy('[container] clear to objects');
 
         map.Container = function(){
             this.objects = {
@@ -86,6 +96,8 @@ describe('jHERE', function(){
         SPIES.display_addListeners = spy('[map] add add listeners');
         SPIES.display_destroy = spy('[map] destroy');
         SPIES.display_setCenter = spy('[map] setCenter');
+        SPIES.display_getComponentById = spy('[map] getComponentById');
+        SPIES.display_addComponent = spy('[map] addComponent');
 
         SPIES.args = {
             map_normal: {t:1},
@@ -110,6 +122,10 @@ describe('jHERE', function(){
                 this.center = center;
                 SPIES.display_setCenter.apply(this, arguments);
             };
+            this.addComponent = function(component){
+                SPIES.display_addComponent.apply(this, arguments);
+                return component;
+            };
 
             this.NORMAL = SPIES.args.map_normal;
             this.SATELLITE = SPIES.args.map_satellite;
@@ -120,6 +136,8 @@ describe('jHERE', function(){
             this.SATELLITE_COMMUNITY = SPIES.args.map_satellitecommunity;
             this.TRAFFIC = SPIES.args.map_traffic;
         };
+
+        map.Display.prototype.getComponentById = function(){ SPIES.display_getComponentById.apply(this, arguments); };
 
         map.Marker = function(){};
         map.StandardMarker = function(){};
@@ -258,7 +276,12 @@ describe('jHERE', function(){
                 //Test defaults are applied
                 expect(nokia.maps.map.StandardMarker.mostRecentCall.args[1].textPen.strokeColor).toEqual('#333333');
                 expect(nokia.maps.map.StandardMarker.mostRecentCall.args[1].brush.color).toEqual('#ff6347');
+                expect(nokia.maps.map.StandardMarker.mostRecentCall.args[1].eventListener.click instanceof Array).toBe(true);
+
                 expect(nokia.maps.map.Marker).not.toHaveBeenCalled();
+
+                expect(SPIES.container_objects_add).toHaveBeenCalled();
+                expect(SPIES.container_objects_add.mostRecentCall.args[0] instanceof nokia.maps.map.StandardMarker).toBe(true);
             });
 
             it('adds a marker with icon', function(){
@@ -278,6 +301,142 @@ describe('jHERE', function(){
                 $('#map').jHERE('marker', markerPosition, {icon: 'marker.png'});
                 expect(nokia.maps.map.StandardMarker).not.toHaveBeenCalled();
                 expect(nokia.maps.map.Marker).toHaveBeenCalledWith(markerPosition, jasmine.any(Object));
+                expect(nokia.maps.map.Marker.mostRecentCall.args[1].icon).toEqual('marker.png');
+
+                expect(SPIES.container_objects_add).toHaveBeenCalled();
+                expect(SPIES.container_objects_add.mostRecentCall.args[0] instanceof nokia.maps.map.Marker).toBe(true);
+            });
+
+            it('removes all markers', function(){
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: [52.5, 13.3],
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                $('#map').jHERE('marker', [52.52, 13.34])
+                         .jHERE('marker', [52.5, 13.3], {icon: 'marker.png'});
+
+                $('#map').jHERE('nomarkers');
+
+                expect(SPIES.container_objects_clear).toHaveBeenCalled();
+            });
+        });
+
+        describe('bubbles', function(){
+            it('opens a simple infobubble (position passed as array)', function(){
+                spyOn(nokia.maps.map.component, 'InfoBubbles').andCallThrough();
+                var bubblePosition = [52.5, 13.3];
+
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: [52.5, 13.3],
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                $('#map').jHERE('bubble', bubblePosition, {
+                    content: 'HELLO!'
+                });
+
+                expect(nokia.maps.map.component.InfoBubbles).toHaveBeenCalled();
+                expect(SPIES.display_addComponent).toHaveBeenCalled();
+                expect(SPIES.display_addComponent.mostRecentCall.args[0] instanceof nokia.maps.map.component.InfoBubbles).toBe(true);
+                expect(SPIES.component_infobubbles_openbubble).toHaveBeenCalledWith('HELLO!', jasmine.any(Object), jasmine.any(Function), false);
+                expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[1].latitude).toBe(52.5);
+                expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[1].longitude).toBe(13.3);
+            });
+
+            it('opens a simple infobubble (position passed as object)', function(){
+                spyOn(nokia.maps.map.component, 'InfoBubbles').andCallThrough();
+                var bubblePosition = {latitude: 52.5, longitude: 13.3};
+
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: {latitude: 52.5, longitude: 13.3},
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                $('#map').jHERE('bubble', bubblePosition, {
+                    content: 'HELLO!'
+                });
+
+                expect(nokia.maps.map.component.InfoBubbles).toHaveBeenCalled();
+                expect(SPIES.display_addComponent).toHaveBeenCalled();
+                expect(SPIES.display_addComponent.mostRecentCall.args[0] instanceof nokia.maps.map.component.InfoBubbles).toBe(true);
+                expect(SPIES.component_infobubbles_openbubble).toHaveBeenCalledWith('HELLO!', jasmine.any(Object), jasmine.any(Function), false);
+                expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[1].latitude).toBe(52.5);
+                expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[1].longitude).toBe(13.3);
+            });
+
+            it('opens an infobubble with content passed as jQuery object', function(){
+                spyOn(nokia.maps.map.component, 'InfoBubbles').andCallThrough();
+
+                var bubblePosition = {latitude: 52.5, longitude: 13.3},
+                    bubbleContent = $('<h4>Hello <span class="name">dude</span></h4>');
+
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: {latitude: 52.5, longitude: 13.3},
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+
+
+                $('#map').jHERE('bubble', bubblePosition, {
+                    content: bubbleContent,
+                    closable: false
+                });
+
+                expect(SPIES.display_getComponentById).toHaveBeenCalledWith('InfoBubbles');
+                expect(nokia.maps.map.component.InfoBubbles).toHaveBeenCalled();
+                expect(SPIES.display_addComponent).toHaveBeenCalled();
+                expect(SPIES.display_addComponent.mostRecentCall.args[0] instanceof nokia.maps.map.component.InfoBubbles).toBe(true);
+                expect(SPIES.component_infobubbles_openbubble).toHaveBeenCalledWith('<h4 style="white-space: normal;">Hello <span class="name">dude</span></h4>', jasmine.any(Object), jasmine.any(Function), true);
+                expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[1].latitude).toBe(52.5);
+                expect(SPIES.component_infobubbles_openbubble.mostRecentCall.args[1].longitude).toBe(13.3);
+            });
+
+            it('closes all the bubbles', function(){
+                var bubblePosition = {latitude: 52.5, longitude: 13.3};
+
+                //For this particular test, I need getComponentById to return an instance
+                //of InfoBubbles, so I overwrite the prototype before the instance
+                //of Display gets created.
+                nokia.maps.map.Display.prototype.getComponentById = function(){
+                    SPIES.display_getComponentById.apply(this, arguments);
+                    return new nokia.maps.map.component.InfoBubbles();
+                };
+
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: {latitude: 52.5, longitude: 13.3},
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                $('#map').jHERE('bubble', bubblePosition, {
+                    content: 'HELLO!'
+                }).jHERE('bubble', bubblePosition, {
+                    content: 'WORLD!'
+                });
+
+                $('#map').jHERE('nobubbles');
+                expect(SPIES.display_getComponentById).toHaveBeenCalledWith('InfoBubbles');
+                expect(SPIES.component_infobubbles_closeall).toHaveBeenCalled();
             });
         });
     });
