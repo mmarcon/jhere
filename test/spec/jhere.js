@@ -85,6 +85,18 @@ describe('jHERE', function(){
         SPIES.display_set = spy('[map] set property');
         SPIES.display_addListeners = spy('[map] add add listeners');
         SPIES.display_destroy = spy('[map] destroy');
+        SPIES.display_setCenter = spy('[map] setCenter');
+
+        SPIES.args = {
+            map_normal: {t:1},
+            map_satellite: {t:2},
+            map_smart: {t:3},
+            map_terrain: {t:4},
+            map_smartpt: {t:5},
+            map_normalcommunity: {t:6},
+            map_satellitecommunity: {t:7},
+            map_traffic: {t:8}
+        };
 
         map.Display = function(){
             this.objects = {
@@ -93,7 +105,24 @@ describe('jHERE', function(){
             this.set = function(){ SPIES.display_set.apply(this, arguments); };
             this.addListeners = function(){ SPIES.display_addListeners.apply(this, arguments); };
             this.destroy = function(){ SPIES.display_destroy.apply(this, arguments); };
+            this.center = {};
+            this.setCenter = function(center){
+                this.center = center;
+                SPIES.display_setCenter.apply(this, arguments);
+            };
+
+            this.NORMAL = SPIES.args.map_normal;
+            this.SATELLITE = SPIES.args.map_satellite;
+            this.SMARTMAP = SPIES.args.map_smart;
+            this.TERRAIN = SPIES.args.map_terrain;
+            this.SMART_PT = SPIES.args.map_smartpt;
+            this.NORMAL_COMMUNITY = SPIES.args.map_normalcommunity;
+            this.SATELLITE_COMMUNITY = SPIES.args.map_satellitecommunity;
+            this.TRAFFIC = SPIES.args.map_traffic;
         };
+
+        map.Marker = function(){};
+        map.StandardMarker = function(){};
 
         $.jHERE._injectNS(nokia.maps);
         $.jHERE._injectJSLALoader(_JSLALoader);
@@ -145,6 +174,108 @@ describe('jHERE', function(){
 
             expect(functionThatThrows).toThrow('invalid: zoom');
             expect(_JSLALoader.load).toHaveBeenCalled();
+        });
+
+        it('sets a new center for the map', function(){
+            var newCenter = {latitude: 50.43, longitude: 12.23};
+            $('#map').jHERE({
+                enable: ['behavior'],
+                zoom: 12,
+                center: [52.5, 13.3],
+                type: 'map',
+                appId: 'monkey',
+                authToken: 'chimpanzee'
+            });
+
+            $('#map').jHERE('center', newCenter);
+            expect(SPIES.display_setCenter).toHaveBeenCalledWith(newCenter);
+        });
+
+        it('sets a new zoom level for the map', function(){
+            $('#map').jHERE({
+                enable: ['behavior'],
+                zoom: 12,
+                center: [52.5, 13.3],
+                type: 'map',
+                appId: 'monkey',
+                authToken: 'chimpanzee'
+            });
+
+            $('#map').jHERE('zoom', 16);
+            expect(SPIES.display_set).toHaveBeenCalledWith('zoomLevel', 16);
+        });
+
+        describe('map type', function(){
+            it('sets a new map type for the map', function(){
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: [52.5, 13.3],
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                SPIES.display_set.reset();
+
+                $('#map').jHERE('type', 'smart');
+                expect(SPIES.display_set).toHaveBeenCalledWith('baseMapType', SPIES.args.map_smart);
+            });
+            it('sets the default map type for the map when the type is not valid', function(){
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: [52.5, 13.3],
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                SPIES.display_set.reset();
+
+                $('#map').jHERE('type', 'banana');
+                expect(SPIES.display_set).toHaveBeenCalledWith('baseMapType', SPIES.args.map_normal);
+            });
+        });
+
+        describe('markers', function(){
+            it('adds a marker', function(){
+                spyOn(nokia.maps.map, 'Marker').andCallThrough();
+                spyOn(nokia.maps.map, 'StandardMarker').andCallThrough();
+
+                var markerPosition = [52.5, 13.3];
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: [52.5, 13.3],
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                $('#map').jHERE('marker', markerPosition);
+                expect(nokia.maps.map.StandardMarker).toHaveBeenCalledWith(markerPosition, jasmine.any(Object));
+                expect(nokia.maps.map.Marker).not.toHaveBeenCalled();
+            });
+
+            it('adds a marker with icon', function(){
+                spyOn(nokia.maps.map, 'Marker').andCallThrough();
+                spyOn(nokia.maps.map, 'StandardMarker').andCallThrough();
+
+                var markerPosition = [52.5, 13.3];
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: [52.5, 13.3],
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                $('#map').jHERE('marker', markerPosition, {icon: 'marker.png'});
+                expect(nokia.maps.map.StandardMarker).not.toHaveBeenCalled();
+                expect(nokia.maps.map.Marker).toHaveBeenCalledWith(markerPosition, jasmine.any(Object));
+            });
         });
     });
 });

@@ -6,7 +6,7 @@ INJECTORS = $(shell cat test/lib/injectors.js | tr -d ' ')
 RUNNER = test/SpecRunner.html
 
 deps:
-	npm install
+	@npm install
 
 dist: hint plugin zepto extensions summary
 
@@ -30,6 +30,7 @@ doc:
 	@docco -t docs/docco.jst -o docs src/$(PLUGIN).js;mv docs/$(PLUGIN).html docs/docs.html; \
 	[[ ${JHERE_GHPAGES} ]] && cp docs/docs.html ${JHERE_GHPAGES} && cp src/jhere.js ${JHERE_GHPAGES}/js
 
-test:
+test: deps
 	@sed 's/\/\*\*\*_\*\*\*\//$(INJECTORS)/g' src/$(PLUGIN).js > $(TESTED_CODE); \
+	command -v phantomjs >/dev/null 2>&1 || { echo >&2 "PhantomJS not installed.  Run the tests from the browser."; exit 0; }; \
 	./node_modules/.bin/phantom-jasmine $(RUNNER)
