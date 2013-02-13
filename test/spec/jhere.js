@@ -255,6 +255,9 @@ describe('jHERE', function(){
 
                 $('#map').jHERE('marker', markerPosition);
                 expect(nokia.maps.map.StandardMarker).toHaveBeenCalledWith(markerPosition, jasmine.any(Object));
+                //Test defaults are applied
+                expect(nokia.maps.map.StandardMarker.mostRecentCall.args[1].textPen.strokeColor).toEqual('#333333');
+                expect(nokia.maps.map.StandardMarker.mostRecentCall.args[1].brush.color).toEqual('#ff6347');
                 expect(nokia.maps.map.Marker).not.toHaveBeenCalled();
             });
 
