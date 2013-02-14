@@ -75,8 +75,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         ];
 
     defaults = {
-        appId: '_peU-uCkp-j8ovkzFGNU',
-        authToken: 'gBoUkAMoxoqIWfxWA5DuMQ',
+        appId: '69Dgg78qt4obQKxVbRA8',
+        authToken: 'Nz7ilIB_v1CRwPXxgPdvuA',
         zoom: 12,
         center: [52.49, 13.37],
         enable: ['behavior', 'zoombar', 'scalebar', 'typeselector'],
