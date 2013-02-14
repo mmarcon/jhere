@@ -333,5 +333,30 @@ describe('jHERE', function(){
                 expect(SPIES.component_infobubbles_closeall).toHaveBeenCalled();
             });
         });
+
+        describe('KML', function(){
+            it('renders a KML files on a map', function(){
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: {latitude: 52.5, longitude: 13.3},
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+            });
+        });
+        describe('heatmap', function(){
+            it('renders a heatmap on a map', function(){
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: {latitude: 52.5, longitude: 13.3},
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+            });
+        });
     });
 });
