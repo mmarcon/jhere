@@ -402,7 +402,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }
         bubbleComponent = map.getComponentById('InfoBubbles') ||
             map.addComponent(new _ns_map.component.InfoBubbles());
-        bubbleComponent.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
+        bubbleComponent.openBubble(bubbleOptions.content, {latitude: position.latitude || position[0], longitude: position.longitude || position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
     };
 
     //### Remove all the bubbles from the map
@@ -699,6 +699,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             H[name] = fn;
         }
     };
+
+    /***_***/
 
     $.fn[plugin] = function(options) {
         var args = arguments, key = 'plg_' + plugin, pluginObj;
