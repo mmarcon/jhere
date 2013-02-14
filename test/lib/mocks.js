@@ -76,21 +76,34 @@ var resetMocks, spy, nokia = {}, SPIES = {}, _JSLALoader;
 
         SPIES.container_objects_add = spy('[container] add to objects');
         SPIES.container_objects_clear = spy('[container] clear to objects');
+        SPIES.container_objects_get = spy('[container] get object');
+        SPIES.container_objects_getbbox = spy('[container] get bbox');
 
         map.Container = function(){
             this.objects = {
                 add: function(){ SPIES.container_objects_add.apply(this, arguments); },
-                clear: function(){ SPIES.container_objects_clear.apply(this, arguments); }
+                clear: function(){ SPIES.container_objects_clear.apply(this, arguments); },
+                get: function(){
+                    SPIES.container_objects_get.apply(this, arguments);
+                    return {
+                        getBoundingBox: function(){
+                            SPIES.container_objects_getbbox.apply(this, arguments);
+                            return 'bbox';
+                        }
+                    };
+                }
             };
         };
 
         SPIES.display_objects_add = spy('[map] add to objects');
+        SPIES.display_overlays_add = spy('[map] add to overlays');
         SPIES.display_set = spy('[map] set property');
         SPIES.display_addListeners = spy('[map] add add listeners');
         SPIES.display_destroy = spy('[map] destroy');
         SPIES.display_setCenter = spy('[map] setCenter');
         SPIES.display_getComponentById = spy('[map] getComponentById');
         SPIES.display_addComponent = spy('[map] addComponent');
+        SPIES.display_zoomTo = spy('[map] zoomTo');
 
         SPIES.args = {
             map_normal: {t:1},
@@ -119,6 +132,13 @@ var resetMocks, spy, nokia = {}, SPIES = {}, _JSLALoader;
                 SPIES.display_addComponent.apply(this, arguments);
                 return component;
             };
+            this.zoomTo = function(zoom){
+                this.zoomLevel = zoom;
+                SPIES.display_zoomTo.apply(this, arguments);
+            };
+            this.overlays = {
+                add: function(){ SPIES.display_overlays_add.apply(this, arguments); }
+            };
 
             this.NORMAL = SPIES.args.map_normal;
             this.SATELLITE = SPIES.args.map_satellite;
@@ -134,6 +154,58 @@ var resetMocks, spy, nokia = {}, SPIES = {}, _JSLALoader;
 
         map.Marker = function(){};
         map.StandardMarker = function(){};
+
+        nokia.maps.kml = {};
+        nokia.maps.kml.component = {};
+
+        SPIES.kmlmgr_addObserver = spy('[kml manager] addObserver');
+        SPIES.kmlmgr_parseKML = spy('[kml manager] parseKML');
+
+        nokia.maps.kml.Manager = function(){
+            this.observers = {};
+            this.addObserver = function(event, callback){
+                //Need to trigger the event somehow
+                this.observers[event] = callback;
+                SPIES.kmlmgr_addObserver.apply(this, arguments);
+            };
+            this.parseKML = function(){
+                //Trigger callback immediately
+                if(typeof this.observers.state === 'function') {
+                    this.observers.state(this);
+                }
+                SPIES.kmlmgr_parseKML.apply(this, arguments);
+            };
+            this.state = 'finished'; //No need to have other states for mocking purposes
+            this.kmlDocument = 'mockeddocument';
+        };
+
+        SPIES.kmlresultset_addObserver = spy('[kml resultset] addObserver');
+        SPIES.kmlresultset_create = spy('[kml resultset] create');
+
+        nokia.maps.kml.component.KMLResultSet = function(){
+            this.observers = {};
+            this.addObserver = function(event, callback){
+                //Need to trigger the event somehow
+                this.observers[event] = callback;
+                SPIES.kmlresultset_addObserver.apply(this, arguments);
+            };
+            this.create = function() {
+                if(typeof this.observers.state === 'function') {
+                    this.observers.state(this);
+                }
+                SPIES.kmlresultset_create.apply(this, arguments);
+            };
+            this.state = 'finished'; //No need to have other states for mocking purposes
+            this.container = new map.Container();
+        };
+
+        nokia.maps.heatmap = {};
+
+        SPIES.heatmap_addData = spy('[heatmap] addData');
+
+        nokia.maps.heatmap.Overlay = function(){
+            this.addData = function(){ SPIES.heatmap_addData.apply(this, arguments); };
+        };
 
         $.jHERE._injectNS(nokia.maps);
         $.jHERE._injectJSLALoader(_JSLALoader);

@@ -28,7 +28,8 @@
   spyOn:true,
   resetMocks,
   _JSLALoader: true,
-  SPIES: true */
+  SPIES: true,
+  spy */
 
 describe('jHERE', function(){
     beforeEach(function(){
@@ -283,8 +284,6 @@ describe('jHERE', function(){
                     authToken: 'chimpanzee'
                 });
 
-
-
                 $('#map').jHERE('bubble', bubblePosition, {
                     content: bubbleContent,
                     closable: false
@@ -335,7 +334,12 @@ describe('jHERE', function(){
         });
 
         describe('KML', function(){
-            it('renders a KML files on a map', function(){
+            it('renders a KML files on a map and NOT zoom to it', function(){
+                var callback = spy('KML callback');
+
+                spyOn(nokia.maps.kml, 'Manager').andCallThrough();
+                spyOn(nokia.maps.kml.component, 'KMLResultSet').andCallThrough();
+
                 $('#map').jHERE({
                     enable: ['behavior'],
                     zoom: 12,
@@ -344,10 +348,95 @@ describe('jHERE', function(){
                     appId: 'monkey',
                     authToken: 'chimpanzee'
                 });
+
+                $('#map').jHERE('kml', 'awesome-trail.kml', false, callback);
+
+                expect(nokia.maps.kml.Manager).toHaveBeenCalled();
+                expect(SPIES.kmlmgr_parseKML).toHaveBeenCalled();
+                expect(SPIES.kmlmgr_addObserver).toHaveBeenCalledWith('state', jasmine.any(Function));
+
+                expect(nokia.maps.kml.component.KMLResultSet).toHaveBeenCalledWith('mockeddocument', jasmine.any(Object));
+                expect(nokia.maps.kml.component.KMLResultSet.mostRecentCall.args[1] instanceof nokia.maps.map.Display).toBe(true);
+                expect(SPIES.kmlresultset_create).toHaveBeenCalled();
+                expect(SPIES.kmlresultset_addObserver).toHaveBeenCalledWith('state', jasmine.any(Function));
+
+                //check we are not zooming
+                expect(SPIES.container_objects_get).not.toHaveBeenCalled();
+                expect(SPIES.display_zoomTo).not.toHaveBeenCalled();
+
+                expect(callback).toHaveBeenCalled();
+            });
+
+            it('renders a KML files on a map and zoom to it', function(){
+                var callback = spy('KML callback');
+
+                spyOn(nokia.maps.kml, 'Manager').andCallThrough();
+                spyOn(nokia.maps.kml.component, 'KMLResultSet').andCallThrough();
+
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: {latitude: 52.5, longitude: 13.3},
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                $('#map').jHERE('kml', 'awesome-trail.kml', true, callback);
+
+                expect(nokia.maps.kml.Manager).toHaveBeenCalled();
+                expect(SPIES.kmlmgr_parseKML).toHaveBeenCalled();
+                expect(SPIES.kmlmgr_addObserver).toHaveBeenCalledWith('state', jasmine.any(Function));
+
+                expect(nokia.maps.kml.component.KMLResultSet).toHaveBeenCalledWith('mockeddocument', jasmine.any(Object));
+                expect(nokia.maps.kml.component.KMLResultSet.mostRecentCall.args[1] instanceof nokia.maps.map.Display).toBe(true);
+                expect(SPIES.kmlresultset_create).toHaveBeenCalled();
+                expect(SPIES.kmlresultset_addObserver).toHaveBeenCalledWith('state', jasmine.any(Function));
+
+                //check we are not zooming
+                expect(SPIES.container_objects_get).toHaveBeenCalled();
+                expect(SPIES.container_objects_getbbox).toHaveBeenCalled();
+                expect(SPIES.display_zoomTo).toHaveBeenCalledWith('bbox');
+
+                expect(callback).toHaveBeenCalled();
             });
         });
         describe('heatmap', function(){
             it('renders a heatmap on a map', function(){
+                var heatMapData = [
+                    {
+                        "value": 4899,
+                        "latitude": 52.53026126658807,
+                        "longitude": 13.385298362512387
+                    },
+                    {
+                        "value": 3299,
+                        "latitude": 52.530712612721196,
+                        "longitude": 13.385059833526611
+                    },
+                    {
+                        "value": 36,
+                        "latitude": 52.530215905734003,
+                        "longitude": 13.38543057664563
+                    },
+                    {
+                        "value": 680,
+                        "latitude": 52.530870437622099,
+                        "longitude": 13.3849096298218
+                    },
+                    {
+                        "value": 289,
+                        "latitude": 52.530234520737004,
+                        "longitude": 13.385648693847036
+                    }
+                ], options = {
+                    max : 10,
+                    opacity : 0.5,
+                    coarseness : 1
+                };
+
+                spyOn(nokia.maps.heatmap, 'Overlay').andCallThrough();
+
                 $('#map').jHERE({
                     enable: ['behavior'],
                     zoom: 12,
@@ -356,6 +445,44 @@ describe('jHERE', function(){
                     appId: 'monkey',
                     authToken: 'chimpanzee'
                 });
+
+                $('#map').jHERE('heatmap', heatMapData, 'density', options);
+                expect(nokia.maps.heatmap.Overlay).toHaveBeenCalledWith(options);
+                expect(SPIES.heatmap_addData).toHaveBeenCalledWith(heatMapData);
+                expect(SPIES.display_overlays_add).toHaveBeenCalled();
+                expect(SPIES.display_overlays_add.mostRecentCall.args[0] instanceof nokia.maps.heatmap.Overlay).toBe(true);
+            });
+        });
+
+        describe('other methods', function(){
+            it('returns the original map and namespace', function(){
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: {latitude: 52.5, longitude: 13.3},
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+
+                $('#map').jHERE('originalMap', function(map, here){
+                    expect(map instanceof nokia.maps.map.Display).toBe(true);
+                    expect(here === nokia.maps).toBe(true);
+                });
+            });
+
+            it('returns some properties of the map', function(){
+                $('#map').jHERE({
+                    enable: ['behavior'],
+                    zoom: 12,
+                    center: {latitude: 52.5, longitude: 13.3},
+                    type: 'map',
+                    appId: 'monkey',
+                    authToken: 'chimpanzee'
+                });
+                $('#map').jHERE('center', [52.5, 13.3]);
+                expect($('#map').jHERE().center[0]).toEqual(52.5);
+                expect($('#map').jHERE().center[1]).toEqual(13.3);
             });
         });
     });
