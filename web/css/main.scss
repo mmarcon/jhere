@@ -1,0 +1,238 @@
+@import "normalize";
+
+$background: #fff;
+$jherereddish: rgba(255, 99, 71, 0.8);
+$jherereddishold: #ff6347;
+
+$navbackground: #222;
+$lightgreen: #9fd067;
+$darkgreen: #86c440;
+
+
+//Utilities
+$default-prefixes: webkit moz ms o;
+
+@mixin breakpoint($point) {
+    @if $point == small-480 {
+       @media (max-device-width: 480px) { @content; }
+    }
+}
+
+@mixin prefix($property, $value, $prefixes: $default-prefixes) {
+    @each $prefix in $prefixes {
+        -#{$prefix}-#{$property}: #{$value};
+    }
+    #{$property}: #{$value};
+}
+
+@mixin transition($property: all, $delay: 1s, $timing: linear) {
+    $value: $property $delay $timing;
+    // use default prefixes
+    @include prefix('transition', $value);
+}
+
+// h2 {
+//     text-shadow: 1px 1px 0 transparentize(#111, .6);
+//     text-transform: capitalize;
+//     @include breakpoint(small-480) {
+//         text-align: center;
+//     }
+// }
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    background: $background;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 300;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: -3rem;
+    left: 0;
+    z-index: -1;
+}
+
+header {
+    position: relative;
+    height: 64rem;
+    background: rgba(0,0,0,0.65);
+    margin: 0;
+
+    nav {
+        background: $navbackground;
+        background: transparentize($navbackground, .1);
+        text-align: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+
+        ul {
+            margin: 0;
+            padding: 0;
+
+            li {
+                font-family: 'Oswald', sans-serif;
+                color: #fff;
+                display: inline-block;
+                font-size: 3rem;
+                width: 12rem;
+
+                a:link, a:visited {
+                    padding: .8rem;
+                    text-align: center;
+                    color: #fff;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    display: inline-block;
+                }
+
+                a:hover, a:active {
+                    color: $lightgreen;
+                }
+            }
+        }
+    }
+
+    .title {
+        position: absolute;
+        top: 20%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        // background: transparent url(../img/logo.png) no-repeat 50% 100%;
+        padding-bottom: 8rem;
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 11rem;
+            line-height: 1.2;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        h2 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .get {
+            text-align: center;
+
+            a:link, a:visited {
+                background-color: $lightgreen;
+                border-radius: 4px;
+                display: inline-block;
+                color: #fff;
+                padding: 1.5rem;
+                text-decoration: none;
+                text-transform: uppercase;
+                font-size: 1.6rem;
+                text-align: center;
+                width: 14rem;
+                margin: 2rem;
+                border-right: 4.8rem solid $darkgreen;
+                overflow: visible;
+                position: relative;
+                @include transition(background-color, .3s, linear);
+
+                span {
+                    position: absolute;
+                    right: -4.8rem;
+                    top: 0;
+                    bottom:0;
+                    width: 4.8rem;
+                }
+
+                &.download span {
+                    background: transparent url(../img/download.png) no-repeat 50%;
+                }
+
+                &.fork span {
+                    background: transparent url(../img/fork.png) no-repeat 50%;
+                }
+
+            }
+
+            a:hover, a:active {
+                background-color: $darkgreen;
+            }
+        }
+    }
+}
+
+.content {
+    font-size: 1.8rem;
+    padding: 4rem;
+    text-shadow: rgba(0, 0, 0, 0.3) 1px 0px 0px;
+    line-height: 1.4;
+
+    &#main {
+        background: $jherereddishold;
+        color: #fff;
+    }
+
+    &#extensions {
+        background: $jherereddishold;
+        color: #fff;
+    }
+
+    &#examples {
+        background: #fff;
+        color: #333;
+
+        a {
+            &:link, &:visited {
+                color: $jherereddishold;
+            }
+        }
+    }
+
+    strong {
+        font-weight: 400;
+        color: #fff;
+        background: #333;
+        display: inline-block;
+        padding: .2rem .5rem;
+        margin: .1rem 0;
+    }
+
+    section, header {
+        max-width: 76.8rem;
+        margin: 0 auto;
+    }
+
+    header {
+        width: auto;
+        height: auto;
+        background: transparent;
+
+        h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 6rem;
+            margin: 0;
+            text-transform: uppercase;
+        }
+    }
+
+    a {
+        &:link, &:visited {
+            color: #222;
+            text-decoration: none;
+        }
+
+        &:hover, &:active {
+            text-decoration: underline;
+        }
+    }
+}

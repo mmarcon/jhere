@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>jHERE - Maps Made Easy</title>
+    <link href='http://fonts.googleapis.com/css?family=Copse|Oswald' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <!--[if IE]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251953-1']);
+        _gaq.push(['_setDomainName', 'jhere.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+    </script>
+</head>
+
+<body>
+    <div class="ribbon"></div>
+    <div class="container">
+
+        <header>
+            <div class="logo"><img src="images/logo-white.png" alt="jHERE logo"/></div>
+            <h1>jHERE</h1>
+            <h2>Maps made easy.</h2>
+        </header>
+
+        <div class="about">
+            <section id="map"></section>
+            <nav>
+                <ul>
+                    <li><a href="/">jHERE</a></li>
+                    <li><a href="/docs.html">Docs</a></li>
+                    <li><a href="/about.html" class="active">About</a></li>
+                    <li class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jhere.net" data-text="jHERE - Maps made easy:" data-via="mmarcon" data-related="mmarcon" data-hashtags="jHERE">Tweet</a></li>
+                    <li class="twitter-follow"><a href="https://twitter.com/mmarcon" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @mmarcon</a></li>
+                    <li class="facebook"><div class="fb-like" data-href="http://jhere.net" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="lucida grande"></div></li>
+                </ul>
+            </nav>
+            <section>
+                <img src="http://gravatar.com/avatar/51298837eff1b7f3082bfb8108600573?s=200" alt="Massimiliano Marcon" class="gravatar" width="200" height="200"/>
+                <p>
+                    I am a software engineer, web dev and JavaScript geek. I work with many other
+                    clever people on <a href="http://here.net">HERE</a>, in Berlin. Coding is my job as well as my favourite hobby. You can find almost everything I work on by looking at my <a href="https://github.com/mmarcon" title="mmarcon on Github">Github profile</a> or <a href="http://blog.marcon.me">my blog</a>.
+                </p>
+                <p>
+                    If you want to leave some feedback about jHERE, feel free to just email me at
+                    <a class="email" href="">max at jhere dot net</a>. Any feedback is good, really. And if you want to contribute, just <a href="https://github.com/mmarcon/jhere">fork the project</a> and submit a pull request.
+                </p>
+                <p>
+                    Note that even though I work for Nokia on HERE, jHERE is a project that I developed in my personal time and it is <strong>not related to or supported by Nokia or HERE</strong> in any way.
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <footer>
+        <small>Massimiliano Marcon &copy; 2012</small>
+    </footer>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jhere.js"></script>
+    <script type="text/javascript" src="js/main.js?v2"></script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=185145734898525";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

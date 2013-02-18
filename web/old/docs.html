@@ -1,0 +1,261 @@
+<!DOCTYPE html> <html lang="en"> <head>     <meta charset="utf-8" />     <title>jHERE - Maps Made Easy</title>     <link href='http://fonts.googleapis.com/css?family=Copse|Oswald' rel='stylesheet' type='text/css'>     <link rel="stylesheet" type="text/css" href="css/normalize.css" />     <link rel="stylesheet" type="text/css" href="css/main.css" />     <!--[if IE]>         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>     <![endif]-->     <script type="text/javascript">         var _gaq = _gaq || [];         _gaq.push(['_setAccount', 'UA-36251953-1']);         _gaq.push(['_setDomainName', 'jhere.net']);         _gaq.push(['_trackPageview']);          (function() {             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);         })();     </script> </head>  <body>     <div class="ribbon"></div>     <div class="container">          <header>             <div class="logo"><img src="images/logo-white.png" alt="jHERE logo"/></div>             <h1>jHERE</h1>             <h2>Maps made easy.</h2>         </header>          <div class="documentation">             <section id="map"></section>             <nav>                 <ul>                     <li><a href="/">jHERE</a></li>                     <li><a href="/docs.html" class="active">Docs</a></li>                     <li><a href="/about.html">About</a></li>                     <li class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jhere.net" data-text="jHERE - Maps made easy:" data-via="mmarcon" data-related="mmarcon" data-hashtags="jHERE">Tweet</a></li>                     <li class="twitter-follow"><a href="https://twitter.com/mmarcon" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @mmarcon</a></li>                     <li class="facebook"><div class="fb-like" data-href="http://jhere.net" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="lucida grande"></div></li>                 </ul>             </nav>             <section class="docs">                                                           <div id="section-1">                                              </div>                                                           <div id="section-2">                         <h3>How to use jHERE</h3>
+
+<p>Using jHERE in your websites and applications is really easy.</p>
+
+<p>Include either jQuery or Zepto.JS at the end of your page</p>
+
+<p><code>&lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;</code></p>
+
+<p>or</p>
+
+<p><code>&lt;script type="text/javascript" src="js/zepto.min.js"&gt;&lt;/script&gt;</code></p>
+
+<p><a href="https://github.com/mmarcon/jhere/archive/master.zip">Download</a> the plugin code, copy it in your project folder and
+add the necessary script tags below jQuery or Zepto.JS. <strong>If you are using Zepto.JS</strong>
+the you will need to <strong>include the Zepto adapter</strong> before including the plugin.</p>
+
+<pre><code>&lt;script type="text/javascript" src="js/zepto.adapter.js"&gt;
+&lt;!--Only when using Zepto--&gt;
+&lt;/script&gt;</code></pre>
+
+<p><code>&lt;script type="text/javascript" src="js/jhere.js"&gt;&lt;/script&gt;</code>
+And you are done.</p>
+
+<p>Make sure the DOM element that will contain the map has the appropriate
+size via CSS, e.g. by setting width and height.</p>
+
+<p><strong>Note that jHERE requires Zepto.JS or jQuery > 1.7.</strong></p>                     </div>                                                           <div id="section-3">                         <h3>Make a map</h3>
+
+<p><code>$('.selector').jHERE(options);</code></p>
+
+<p><code>options</code> is an object that looks like this:</p>
+
+<pre><code>{
+ enable: [], //An array of components as strings.
+ zoom: 12, //a positive integer.
+ center: []|{}, //An object of type {latitude: Number, longitude: Number}
+                //or array [latitude, longitude],
+ type: 'map', //can be map (the default), satellite, terrain, smart, pt.
+              //see type documentation below for details.
+ appId: '_peU-uCkp-j8ovkzFGNU', //appId from the Nokia developer website,
+ authToken: 'gBoUkAMoxoqIWfxWA5DuMQ' //authenticationToken from the
+                                     //Nokia developer website
+}</code></pre>
+
+<p>Components for <code>enable</code> can be:</p>
+
+<ul>
+<li><code>'behavior'</code>: enables map interaction (drag to pan, scroll-wheel to zoom)</li>
+<li><code>'zoombar'</code>: shows a zoom control</li>
+<li><code>'scalebar'</code>: shows a scalebar on the map</li>
+<li><code>'typeselector'</code>: shows a dropdown where the user can select map, satellite, terrain</li>
+<li><code>'overview'</code>: shows a button to activate the overview panel</li>
+<li><code>'traffic'</code>: shows a button to enable the traffic layer</li>
+<li><code>'publictransport'</code>: shows a button to enable the public transport view</li>
+<li><code>'positioning'</code>: shows a button that triggers detection of the user's position</li>
+<li><code>'rightclick'</code>: shows a contextual menu on right click to zoom in and out</li>
+<li><code>'contextmenu'</code>: shows an enriched contextual menu with: current address, zoom in/out, directions</li>
+</ul>
+
+<p>Default for <code>enable</code> is <code>['behavior', 'zoombar', 'scalebar', 'typeselector']</code>.
+Pass <code>false</code> for no components.</p>
+
+<p><strong>Note on <code>appId</code> and <code>authToken</code>:</strong> the plugin includes by default the credentials
+I used development, and it is ok for you to use the same credentials for development
+and testing purpose. However you should really register on the Nokia developer website
+and get your own. I strongly encourage you to do it especially for production use as
+my credentials may unexpectedtly stop working at any time.</p>
+
+<h3>Map events</h3>
+
+<p>It is possible to listen for events on the map in the usual jQuery way (<code>on</code>, <code>off</code>). All the event
+names start with <code>map</code>. The event passed to the callback function always has a <code>geo</code> property that
+contains latitude and longitude of the point where the event originated.</p>
+
+<p>For example, to listen for clicks events:</p>
+
+<p><code>$('.mymap').on('mapclick', function(e){ console.log (e.geo)});</code></p>
+
+<p>Supported events are:</p>
+
+<p><code>mapclick</code>, <code>mapmouseup</code>, <code>mapmousedown</code>, <code>mapmousemove</code>, <code>mapmouseover</code>, <code>mapmouseout</code>,
+<code>mapmouseenter</code>, <code>mapmouseleave</code>, <code>maplongpress</code>, <code>mapdragstart</code>, <code>mapdrag</code>, <code>mapdragend</code>,
+<code>mapresize</code>, <code>maptouchstart</code>, <code>maptouchend</code>, <code>maptouchmove</code>.</p>                     </div>                                                           <div id="section-4">                         <h3>Set default credentials</h3>
+
+<p><code>$.jHERE.defaultCredentials(appId, authToken);</code></p>
+
+<p>Set the default credentials. After this method has been called it is
+no longer necessary to include credentials in all the calls
+to <code>$('.selector').jHERE(options);</code>.</p>
+
+<p>For <code>appId</code> and <code>authToken</code> refer to the note above.</p>                     </div>                                                           <div id="section-5">                         <h3>Center the map</h3>
+
+<p><code>$('.selector').jHERE('center', centerObject);</code></p>
+
+<p><code>centerObject</code> can be an object of type</p>
+
+<p><code>{latitude: -43, longitude: 55}</code></p>
+
+<p>or an array</p>
+
+<p><code>[-43, 55]</code></p>                     </div>                                                           <div id="section-6">                         <h3>Zoom the map</h3>
+
+<p><code>$('.selector').jHERE('zoom', zoomLevel);</code></p>
+
+<p><code>zoomLevel</code> is a positive integer</p>                     </div>                                                           <div id="section-7">                         <h3>Set the map type</h3>
+
+<p><code>$('.selector').jHERE('type', mapType);</code></p>
+
+<p><code>mapType</code> is a string:</p>
+
+<ol>
+<li><code>'map'</code>: the normal map type. This is the <em>default</em>.</li>
+<li><code>'smart'</code>: a map with most of the colors grayed out. Useful for data visualization.</li>
+<li><code>'pt'</code>: a smart map where the tiles also contain the <strong>public transport lines</strong>.</li>
+<li><code>'satellite'</code>: satellite view.</li>
+<li><code>'terrain'</code>: terrain view.</li>
+<li><code>'community'</code>: HERE Maps community layer.</li>
+<li><code>'satcommunity'</code>: HERE Maps community layer with satellite imagery.</li>
+<li><code>'traffic'</code>: traffic layer.</li>
+</ol>                     </div>                                                           <div id="section-8">                         <h3>Add markers to the map</h3>
+
+<p><code>$('.selector').jHERE('marker', positionObject, markerOptions);</code></p>
+
+<p><code>positionObject</code> can be an object of type</p>
+
+<p><code>{latitude: -43, longitude: 55}</code></p>
+
+<p>or an array</p>
+
+<p><code>[-43, 55]</code></p>
+
+<p><code>markerOptions</code> can be an object of type</p>
+
+<pre><code>{
+ text: '!',
+ textColor: '#333333',
+ fill: '#ff6347',
+ stroke: '#333333',
+ icon: 'urlToIcon',
+ anchor: {x: 12, y: 18} //an icon 24x36 would result centered
+ click: function(event){/*this is the element, event.geo contains the coordinates*/},
+ dblclick: function(event){/*this is the element, event.geo contains the coordinates*/},
+ mousemove: function(event){/*this is the element, event.geo contains the coordinates*/},
+ mouseover: function(event){/*this is the element, event.geo contains the coordinates*/},
+ mouseout: function(event){/*this is the element, event.geo contains the coordinates*/},
+ mouseenter: function(event){/*this is the element, event.geo contains the coordinates*/},
+ mouseleave: function(event){/*this is the element, event.geo contains the coordinates*/},
+ longpress: function(event){/*this is the element, event.geo contains the coordinates*/}
+}</code></pre>                     </div>                                                           <div id="section-9">                         <h3>Remove all the markers from the map</h3>
+
+<p><code>$('.selector').jHERE('nomarkers');</code></p>                     </div>                                                           <div id="section-10">                         <h3>Add bubbles to the map</h3>
+
+<p><code>$('.selector').jHERE('bubble', positionObject, bubbleOptions);</code></p>
+
+<p><code>positionObject</code> can be an object of type</p>
+
+<p><code>{latitude: -43, longitude: 55}</code></p>
+
+<p>or an array</p>
+
+<p><code>[-43, 55]</code></p>
+
+<p><code>bubbleOptions</code> can be an object of type</p>
+
+<pre><code>{
+ content: 'Hello World!',
+ closable: true,
+ onclose: function(){}
+}</code></pre>
+
+<p><code>content</code> can be a String or a jQuery object.</p>                     </div>                                                           <div id="section-11">                         <h3>Remove all the bubbles from the map</h3>
+
+<p><code>$('.selector').jHERE('nobubbles');</code></p>                     </div>                                                           <div id="section-12">                         <h3>Display KMLs on the map</h3>
+
+<p><code>$('.selector').jHERE('kml', KMLfile, zoomToKML, ondone);</code></p>
+
+<p><code>KMLfile</code> is the URL to a KML file</p>
+
+<p><code>zoomToKML</code> is a boolean. If set to true, once the KML has been parsed
+and displayed the map will be zoomed to the bounding box of the KML.</p>
+
+<p><code>ondone</code> is a function, called once the KML has been rendered.</p>                     </div>                                                           <div id="section-13">                         <h3>Add heatmap layers to the map</h3>
+
+<p><code>$('.selector').jHERE('heatmap', data, type, options);</code></p>
+
+<p><code>data</code> is an array of objects of type:</p>
+
+<p><code>{latitude: 43, longitude: 26, value: 35}</code></p>
+
+<p>Values will be automatically <strong>normalized between 0 and 1</strong>.</p>
+
+<p><code>type</code> defines the type of heatmap, can be <code>density</code> or <code>value</code>. <a href="http://en.wikipedia.org/wiki/Heat_map">Heatmaps on Wikipedia</a>.</p>
+
+<p><code>options</code> is an object that can have a <code>colors</code> property used to
+customize the heatmap look.</p>
+
+<p><code>colors</code> is an object of type:</p>
+
+<pre><code>{
+ stops: {
+   "0": "rgba(0, 0, 64, 1)",
+   "0.3": "rgba(0, 0, 64, 1)",
+   ...
+ }
+}</code></pre>                     </div>                                                           <div id="section-14">                         <h3>Access the underlying JSLA framework</h3>
+
+<p><code>$('.selector').jHERE('originalMap', closure);</code></p>
+
+<p>This is useful when advanced operations
+that are not exposed by this plugin need to be
+performed. Check <a href="http://developer.here.net">developer.here.net</a> for the
+documentation.</p>
+
+<p><code>closure</code> should look like this:</p>
+
+<pre><code>function(map, here){
+   //this is the DOM element
+   //map is the JSLA map object
+   //here is the whole JSLA API namespace
+}</code></pre>                     </div>                                                           <div id="section-15">                         <h3>Inspect map properties</h3>
+
+<p><code>var properties = $('.selector').jHERE();</code></p>
+
+<p>Returns an object containing some properties of
+the map canvas.</p>
+
+<pre><code>{
+ center: {latitude: float, longitude: float},
+ zoom: integer,
+ bbox: {
+   topLeft: {
+          latitude: float,
+          longitude: float
+        },
+        bottomRight:{
+          latitude: float,
+          longitude: float
+        }
+ }, //bbox is the bounding box, i.e. the geographical area currently displayed
+ type: string //can be: map, smart, pt, satellite, terrain, community, satcommunity, traffic
+};</code></pre>
+
+<p><strong>Note that these properties will all be undefined if the map hasn't been yet initialized.</strong></p>                     </div>                                                           <div id="section-16">                         <h3>Extend jHERE</h3>
+
+<p>jHERE can be easily extended with additional features. Some example of
+extensions are located <a href="https://github.com/mmarcon/jhere/blob/master/EXTENSIONS.md">here</a>.
+An extension should be implemented within a self-invoking function.
+Add the function(s)
+that will be called via</p>
+
+<p><code>$('.selector').jHERE('myextension', param1, param2);</code></p>
+
+<p>as follows:</p>
+
+<pre><code class="dark">$.jHERE.extend('myextension', function(param1, param2){
+ //this is the plugin object
+ //this.element is the DOM element
+ //this.map is the JSLA map
+});</code></pre>
+
+<p>A good example of extension is the <a href="https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js">routing extension</a>.</p>                     </div>                              </section>         </div>     </div>      <footer>         <small>Massimiliano Marcon &copy; 2012</small>     </footer>      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>     <script type="text/javascript" src="js/jhere.js"></script>     <script type="text/javascript" src="js/main.js?v2"></script>     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>     <div id="fb-root"></div>     <script>(function(d, s, id) {       var js, fjs = d.getElementsByTagName(s)[0];       if (d.getElementById(id)) return;       js = d.createElement(s); js.id = id;       js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=185145734898525";       fjs.parentNode.insertBefore(js, fjs);     }(document, 'script', 'facebook-jssdk'));</script> </body> </html>
