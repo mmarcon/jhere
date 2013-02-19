@@ -1,6 +1,6 @@
 @import "normalize";
 
-$background: #fff;
+$background: #333;
 $jherereddish: rgba(255, 99, 71, 0.8);
 $jherereddishold: #ff6347;
 
@@ -46,7 +46,7 @@ html {
 body {
     background: $background;
     font-family: 'Titillium Web', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 #map {
@@ -72,7 +72,7 @@ header {
         top: 0;
         left: 0;
         right: 0;
-        z-index: 10;
+        z-index: 100;
 
         ul {
             margin: 0;
@@ -117,6 +117,7 @@ header {
             margin: 0;
             padding: 0;
             color: #fff;
+            font-weight: normal;
         }
 
         h2 {
@@ -124,6 +125,7 @@ header {
             font-size: 2.2rem;
             text-transform: uppercase;
             color: #fff;
+            font-weight: normal;
         }
 
         .get {
@@ -222,6 +224,7 @@ header {
             font-size: 6rem;
             margin: 0;
             text-transform: uppercase;
+            font-weight: normal;
         }
     }
 
@@ -236,57 +239,84 @@ header {
         }
     }
 
-    .demos ul {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        text-align: center;
+    .demos {
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            text-align: center;
+        }
     }
 
     .demos li {
         position: relative;
         display: inline-block;
-        margin: 0 10px;
-        width: 100px;
-        height: 100px;
-        border: 3px solid #999;
-        border-radius: 4px;
+        margin: 1rem 1%;
+        width: 30%;
+        min-width: 20rem;
+        height: (76.8rem/3);
+        border: 2px solid #333;
         background: #eee;
-        cursor: pointer;
-    }
 
-    .demos li:hover {
-        border: 3px solid #444;
-    }
+        // &:hover {
+        //     border: 2px solid #444;
 
-    .demos li span, .caption {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 10;
-        display: block;
-        padding: 4px 0;
-        background: #999;
-        color: #fff;
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-size: 12px;
-        font-family: 'Oswald', sans-serif;
-    }
+        //     span {
+        //         background: #444;
+        //     }
+        // }
 
-    .caption a {
-        display: inline-block;
-        position: absolute;
-        right: 5px;
-    }
+        span, .caption {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+            display: block;
+            padding: .4rem 0;
+            background: #333;
+            color: #fff;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: .1rem;
+            font-size: 1.6rem;
+            font-family: 'Oswald', sans-serif;
+        }
 
-    .demos li:hover span {
-        background: #444;
-    }
+        a {
+            &.playground:link, &.playground:visited {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                background: transparent url(../img/console-g.png) no-repeat 50%;
+                width: 3rem;
+                height: 3rem;
+                z-index: 10;
+            }
 
-    .demos .nm_crnode, .demos .nm_crimg {
-        display: none !important;
+            &.playground:hover, &.playground:active {
+                background-image: url(../img/console-r.png)
+            }
+        }
+
+        .address, .location {
+            font-family: 'Oswald', sans-serif;
+            position: absolute;
+            color: #333;
+            top: 1rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .location {
+            top: 50%;
+        }
+
+        // .caption a {
+        //     display: inline-block;
+        //     position: absolute;
+        //     right: 5px;
+        // }
     }
 }
