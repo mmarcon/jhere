@@ -235,4 +235,58 @@ header {
             text-decoration: underline;
         }
     }
+
+    .demos ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        text-align: center;
+    }
+
+    .demos li {
+        position: relative;
+        display: inline-block;
+        margin: 0 10px;
+        width: 100px;
+        height: 100px;
+        border: 3px solid #999;
+        border-radius: 4px;
+        background: #eee;
+        cursor: pointer;
+    }
+
+    .demos li:hover {
+        border: 3px solid #444;
+    }
+
+    .demos li span, .caption {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 10;
+        display: block;
+        padding: 4px 0;
+        background: #999;
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 12px;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .caption a {
+        display: inline-block;
+        position: absolute;
+        right: 5px;
+    }
+
+    .demos li:hover span {
+        background: #444;
+    }
+
+    .demos .nm_crnode, .demos .nm_crimg {
+        display: none !important;
+    }
 }

@@ -472,3 +472,43 @@ header {
     text-decoration: none; }
   .content a:hover, .content a:active {
     text-decoration: underline; }
+  .content .demos ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center; }
+  .content .demos li {
+    position: relative;
+    display: inline-block;
+    margin: 0 10px;
+    width: 100px;
+    height: 100px;
+    border: 3px solid #999999;
+    border-radius: 4px;
+    background: #eee;
+    cursor: pointer; }
+  .content .demos li:hover {
+    border: 3px solid #444444; }
+  .content .demos li span, .content .caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    display: block;
+    padding: 4px 0;
+    background: #999;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    font-family: "Oswald", sans-serif; }
+  .content .caption a {
+    display: inline-block;
+    position: absolute;
+    right: 5px; }
+  .content .demos li:hover span {
+    background: #444; }
+  .content .demos .nm_crnode, .content .demos .nm_crimg {
+    display: none !important; }
