@@ -228,17 +228,6 @@ header {
         }
     }
 
-    a {
-        &:link, &:visited {
-            color: #222;
-            text-decoration: none;
-        }
-
-        &:hover, &:active {
-            text-decoration: underline;
-        }
-    }
-
     .demos {
         ul {
             margin: 0;
@@ -318,5 +307,40 @@ header {
         //     position: absolute;
         //     right: 5px;
         // }
+    }
+}
+
+.content, footer {
+    a {
+        &:link, &:visited {
+            color: #222;
+            text-decoration: none;
+        }
+
+        &:hover, &:active {
+            text-decoration: underline;
+        }
+    }
+}
+
+footer {
+    background: #fff;
+    padding: 4rem 4rem 1rem 4rem;
+
+    .links {
+        max-width: 76.8rem;
+        margin: 0 auto 1rem auto !important;
+        font-size: 1.8rem;
+        text-decoration: none;
+        list-style-type: none;
+        list-style-position: inside;
+        padding: 0;
+    }
+
+    small {
+        text-transform: uppercase;
+        font-size: 1rem;
+        text-align: center;
+        display: block;
     }
 }

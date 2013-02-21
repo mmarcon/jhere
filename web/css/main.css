@@ -470,11 +470,6 @@ header {
       margin: 0;
       text-transform: uppercase;
       font-weight: normal; }
-  .content a:link, .content a:visited {
-    color: #222;
-    text-decoration: none; }
-  .content a:hover, .content a:active {
-    text-decoration: underline; }
   .content .demos ul {
     margin: 0;
     padding: 0;
@@ -524,3 +519,26 @@ header {
       text-align: center; }
     .content .demos li .location {
       top: 50%; }
+
+.content a:link, .content a:visited, footer a:link, footer a:visited {
+  color: #222;
+  text-decoration: none; }
+.content a:hover, .content a:active, footer a:hover, footer a:active {
+  text-decoration: underline; }
+
+footer {
+  background: #fff;
+  padding: 4rem 4rem 1rem 4rem; }
+  footer .links {
+    max-width: 76.8rem;
+    margin: 0 auto 1rem auto !important;
+    font-size: 1.8rem;
+    text-decoration: none;
+    list-style-type: none;
+    list-style-position: inside;
+    padding: 0; }
+  footer small {
+    text-transform: uppercase;
+    font-size: 1rem;
+    text-align: center;
+    display: block; }
