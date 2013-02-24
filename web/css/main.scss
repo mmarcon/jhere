@@ -242,6 +242,49 @@ header {
         }
     }
 
+    &#docs {
+        background: #fff;
+        color: #333;
+
+        a {
+            &:link, &:visited {
+                color: $jherereddishold;
+            }
+        }
+
+        pre code {
+            display: block;
+        }
+
+        code {
+            display: inline-block;
+            padding: 3px;
+            border-radius: 3px;
+            background: #F5F2F0;
+            color: #222;
+            font-size: 15px;
+        }
+
+        div {
+            p:nth-child(2) code, code.dark {
+            background: #444;
+            color: #fff;
+            }
+
+            p {
+                margin: .5rem 0;
+            }
+
+            h3 {
+                text-transform: uppercase;
+                font-family: 'Oswald', sans-serif;
+                color: $jherereddishold;
+                text-shadow: none;
+            }
+        }
+    }
+
+
     strong {
         font-weight: 400;
         color: #fff;

@@ -480,6 +480,30 @@ header {
     color: #333; }
     .content#examples a:link, .content#examples a:visited {
       color: tomato; }
+  .content#docs {
+    background: #fff;
+    color: #333; }
+    .content#docs a:link, .content#docs a:visited {
+      color: tomato; }
+    .content#docs pre code {
+      display: block; }
+    .content#docs code {
+      display: inline-block;
+      padding: 3px;
+      border-radius: 3px;
+      background: #F5F2F0;
+      color: #222;
+      font-size: 15px; }
+    .content#docs div p:nth-child(2) code, .content#docs div code.dark {
+      background: #444;
+      color: #fff; }
+    .content#docs div p {
+      margin: 0.5rem 0; }
+    .content#docs div h3 {
+      text-transform: uppercase;
+      font-family: "Oswald", sans-serif;
+      color: tomato;
+      text-shadow: none; }
   .content strong {
     font-weight: 400;
     color: #fff;
