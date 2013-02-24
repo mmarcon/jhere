@@ -101,12 +101,22 @@ function makeShapes(selector) {
 }
 
 $(window).on('load', function(){
-    $('#map').jHERE({
+    var $map = $('#map').jHERE({
         enable: ['behavior'],
         zoom: 12,
         center: {latitude: 40.7324, longitude: -74.0132},
         type: 'pt'
     });
+
+    $(document).on('click', '.controls li', function(){
+        var zoom = $map.jHERE().zoom;
+        if($(this).hasClass('plus')) {
+            return $map.jHERE('zoom', zoom + 1);
+        }
+        $map.jHERE('zoom', zoom - 1);
+    });
+
+    $('header.home, header.page').append('<ul class="controls"><li class="plus"></li><li class="minus"></li></ul>');
 
     makeSimple('.simple');
     makeSatellite('.satellite');

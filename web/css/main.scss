@@ -64,6 +64,10 @@ header {
     background: rgba(0,0,0,0.65);
     margin: 0;
 
+    &.page {
+        height: 40rem;
+    }
+
     nav {
         background: $navbackground;
         background: transparentize($navbackground, .1);
@@ -168,6 +172,44 @@ header {
 
             a:hover, a:active {
                 background-color: $darkgreen;
+            }
+        }
+    }
+
+    .controls {
+        width: 3.2rem;
+        height: 7.4rem;
+        position: absolute;
+        top: 50%;
+        margin-top: -3.7rem;
+        right: 1.5rem;
+        margin: 0;
+        padding: 0;
+
+        li {
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            list-style-position: inside;
+            background: transparent url(../img/zoom.png) no-repeat 0;
+            height: 32px;
+            width: 32px;
+            position: absolute;
+            left: 0;
+            opacity: .8;
+
+            &.minus {
+                bottom: 0;
+            }
+
+            &.plus {
+                top: 0;
+                background-position: -32px 0;
+            }
+
+            &:hover {
+                opacity: 1;
             }
         }
     }
@@ -307,6 +349,12 @@ header {
         //     position: absolute;
         //     right: 5px;
         // }
+    }
+
+    .gravatar {
+        float: left;
+        margin: .5rem 1rem 1rem 0;
+        border: 8px solid #fff;
     }
 }
 

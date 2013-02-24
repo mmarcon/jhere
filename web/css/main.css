@@ -351,6 +351,8 @@ header {
   height: 64rem;
   background: rgba(0, 0, 0, 0.65);
   margin: 0; }
+  header.page {
+    height: 40rem; }
   header nav {
     background: #222222;
     background: rgba(34, 34, 34, 0.9);
@@ -433,6 +435,34 @@ header {
           background: transparent url(../img/fork.png) no-repeat 50%; }
       header .title .get a:hover, header .title .get a:active {
         background-color: #86c440; }
+  header .controls {
+    width: 3.2rem;
+    height: 7.4rem;
+    position: absolute;
+    top: 50%;
+    margin-top: -3.7rem;
+    right: 1.5rem;
+    margin: 0;
+    padding: 0; }
+    header .controls li {
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      list-style-position: inside;
+      background: transparent url(../img/zoom.png) no-repeat 0;
+      height: 32px;
+      width: 32px;
+      position: absolute;
+      left: 0;
+      opacity: .8; }
+      header .controls li.minus {
+        bottom: 0; }
+      header .controls li.plus {
+        top: 0;
+        background-position: -32px 0; }
+      header .controls li:hover {
+        opacity: 1; }
 
 .content {
   font-size: 1.8rem;
@@ -519,6 +549,10 @@ header {
       text-align: center; }
     .content .demos li .location {
       top: 50%; }
+  .content .gravatar {
+    float: left;
+    margin: 0.5rem 1rem 1rem 0;
+    border: 8px solid white; }
 
 .content a:link, .content a:visited, footer a:link, footer a:visited {
   color: #222;
