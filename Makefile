@@ -29,6 +29,9 @@ hint:
 doc:
 	@docco -t docs/docco.new.jst -o docs src/$(PLUGIN).js;mv docs/$(PLUGIN).html web/docs.html;
 
+website: doc
+	@./build-scripts/update-website.sh $(COMMENT)
+
 test: deps
 	@sed 's/\/\*\*\*_\*\*\*\//$(INJECTORS)/g' src/$(PLUGIN).js > $(TESTED_CODE); \
 	command -v phantomjs >/dev/null 2>&1 || { echo >&2 "PhantomJS not installed.  Run the tests from the browser."; exit 0; }; \
