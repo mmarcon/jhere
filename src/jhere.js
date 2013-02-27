@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //[Download](https://github.com/mmarcon/jhere/archive/master.zip) the plugin code, copy it in your project folder and
     //add the necessary script tags below jQuery or Zepto.JS. **If you are using Zepto.JS**
-    //the you will need to **include the Zepto adapter** before including the plugin.
+    //then you will need to **include the Zepto adapter** before including the plugin.
     //
     //<pre><code>&lt;script type="text/javascript" src="js/zepto.adapter.js"&gt;
     //&lt;!--Only when using Zepto--&gt;
@@ -138,7 +138,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     // Default for `enable` is `['behavior', 'zoombar', 'scalebar', 'typeselector']`.
     // Pass `false` for no components.
     //
-    //**Note on `appId` and `authToken`:** the plugin includes by default the credentials
+    //NOTE ON `appId` AND `authToken`: the plugin includes by default the credentials
     //I used development, and it is ok for you to use the same credentials for development
     //and testing purpose. However you should really register on the Nokia developer website
     //and get your own. I strongly encourage you to do it especially for production use as
@@ -492,7 +492,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //This is useful when advanced operations
     //that are not exposed by this plugin need to be
-    //performed. Check [developer.here.net](http://developer.here.net) for the
+    //performed. Check [developer.here.com](http://developer.here.com) for the
     //documentation.
     //
     //`closure` should look like this:

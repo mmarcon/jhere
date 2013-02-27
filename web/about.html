@@ -32,6 +32,7 @@
 <body>
 
     <header class="page">
+        <div class="overlay"></div>
         <div id="map"></div>
         <div class="title">
             <h1>jHERE</h1>
@@ -45,7 +46,6 @@
             <ul>
                 <li><a href="/" class="active">jHERE</a></li>
                 <li><a href="/docs.html">Docs</a></li>
-                <li><a href="/extensions.html">Extensions</a></li>
                 <li><a href="/about.html">About</a></li>
             </ul>
         </nav>
@@ -56,7 +56,7 @@
             <img src="http://gravatar.com/avatar/51298837eff1b7f3082bfb8108600573?s=200" alt="Massimiliano Marcon" class="gravatar" width="200" height="200"/>
             <p>
                 I am a software engineer, web dev and JavaScript geek. I work with many other
-                clever people on <a href="http://here.net">HERE</a>, in Berlin. Coding is my job as well as my favourite hobby. You can find almost everything I work on by looking at my <a href="https://github.com/mmarcon" title="mmarcon on Github">Github profile</a> or <a href="http://blog.marcon.me">my blog</a>.
+                clever people on <a href="http://here.com">HERE</a>, in Berlin. Coding is my job as well as my favourite hobby. You can find almost everything I work on by looking at my <a href="https://github.com/mmarcon" title="mmarcon on Github">Github profile</a> or <a href="http://blog.marcon.me">my blog</a>.
             </p>
             <p>
                 If you want to leave some feedback about jHERE, feel free to just email me at
@@ -69,12 +69,12 @@
     </section>
 
     <footer>
-        <ul class="links">
-            <li><a href="">Docs</a></li>
-            <li><a href="">Extensions</a></li>
-            <li><a href="">About Me</a></li>
-            <li><a href="">Feedback</a></li>
+        <ul class="social">
+            <li class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jhere.net" data-text="jHERE - Maps made easy:" data-via="mmarcon" data-related="mmarcon" data-hashtags="jHERE">Tweet</a></li>
+            <li class="twitter-follow"><a href="https://twitter.com/mmarcon" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @mmarcon</a></li>
+            <li class="facebook"><div class="fb-like" data-href="http://jhere.net" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="lucida grande"></div></li>
         </ul>
+
         <small>Massimiliano Marcon &copy; 2012-13</small>
     </footer>
 
@@ -87,5 +87,15 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jhere-custom.js"></script>
     <script src="js/main.js"></script>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=185145734898525";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 </body>
 </html>

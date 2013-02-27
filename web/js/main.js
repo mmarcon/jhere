@@ -1,4 +1,4 @@
-/*global $:true, alert:true*/
+/*global $:true, alert:true, _gaq*/
 var heatMapData=[{value:4899,latitude:52.53026126658807,longitude:13.385298362512387},{value:3299,latitude:52.530712612721196,longitude:13.385059833526611},{value:36,latitude:52.530215905734,longitude:13.38543057664563},{value:680,latitude:52.5308704376221,longitude:13.3849096298218},{value:289,latitude:52.530234520737004,longitude:13.385648693847036},{value:27,latitude:52.53048853756028,longitude:13.385252371995787},{value:38,latitude:52.53006362614138,longitude:13.385473500409793},{value:89,latitude:52.530244890211264,
 longitude:13.385788119172863},{value:6,latitude:52.53025398343701,longitude:13.38576000453459},{value:164,latitude:52.529855659002,longitude:13.38426841720272},{value:687,latitude:52.529975,longitude:13.383993},{value:1347,latitude:52.52956594243049,longitude:13.384504666194712},{value:34,latitude:52.530347321620944,longitude:13.385677040788089},{value:184,latitude:52.530878,longitude:13.384904},{value:172,latitude:52.52976864794835,longitude:13.384791244138654},{value:479,latitude:52.53080398695847,
 longitude:13.38707685470581},{value:128,latitude:52.5309,longitude:13.3847},{value:17,latitude:52.5299699698133,longitude:13.3851313311731},{value:18,latitude:52.5309,longitude:13.3849},{value:3,latitude:52.530006959735175,longitude:13.385183469129728},{value:169,latitude:52.52960574844206,longitude:13.384814799655908},{value:308,latitude:52.53043419709394,longitude:13.385883058015915},{value:71,latitude:52.530757,longitude:13.384383},{value:716,latitude:52.530305,longitude:13.38347432},{value:7,
@@ -76,7 +76,7 @@ function makeRoute(selector) {
         type: 'smart'
     })
     .jHERE('route', [52.711, 13.011], [52.514, 13.453], {color: '#333', marker: {
-        fill: '#9fd067',
+        fill: '#86c440',
         text: '#'
     }});
 }
@@ -100,9 +100,30 @@ function makeShapes(selector) {
     });
 }
 
+$(function(){
+    $('.email').attr('href', 'mailto:max@jhere.net').text('max@jhere.net');
+    $('a').on('click', function(e){
+        if(!_gaq) {
+            return true;
+        }
+        var url = $(this).attr("href");
+        if (e.currentTarget.host != window.location.host) {
+            e.preventDefault();
+            try {
+                _gaq.push(['_trackEvent', 'Outbound Links', e.currentTarget.host, url, 0]);
+                setTimeout('document.location = "' + url + '"', 100);
+            } catch(err){
+                document.location = url;
+            }
+        }
+    });
+});
+
 $(window).on('load', function(){
+    $.jHERE.defaultCredentials('69Dgg78qt4obQKxVbRA8', 'Nz7ilIB_v1CRwPXxgPdvuA');
+
     var $map = $('#map').jHERE({
-        enable: ['behavior'],
+        enable: [],
         zoom: 12,
         center: {latitude: 40.7324, longitude: -74.0132},
         type: 'pt'

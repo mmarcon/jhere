@@ -32,6 +32,7 @@
 <body>
 
     <header class="home">
+        <div class="overlay"></div>
         <div id="map"></div>
         <div class="title">
             <h1>jHERE</h1>
@@ -45,7 +46,6 @@
             <ul>
                 <li><a href="/" class="active">jHERE</a></li>
                 <li><a href="/docs.html">Docs</a></li>
-                <li><a href="/extensions.html">Extensions</a></li>
                 <li><a href="/about.html">About</a></li>
             </ul>
         </nav>
@@ -131,29 +131,34 @@
         </section>
         <section class="demos">
             <ul>
-                <li class="geocoding" title="Simple map, simple interaction, centered in New York">
+                <li class="geocoding" title="Geocode example">
                     <span>Geocoding</span>
-                    <a class="playground" href="http://bin.jhere.net/4066840" target="_blank"></a>
+                    <a class="playground" href="http://bin.jhere.net/5050078" target="_blank"></a>
                 </li>
-                <li class="routing" title="Simple map, simple interaction, satellite view, contextual menu on right click.">
+                <li class="routing" title="Map with a route between two points">
                     <span>Routing</span>
-                    <a class="playground" href="http://bin.jhere.net/4066844" target="_blank"></a>
+                    <a class="playground" href="http://bin.jhere.net/5049948" target="_blank"></a>
                 </li>
-                <li class="shapes" title="Map with a custom marker. Clicking on the marker fires an event.">
+                <li class="shapes" title="Map with a shape.">
                     <span>Shapes</span>
-                    <a class="playground" href="http://bin.jhere.net/4066852" target="_blank"></a>
+                    <a class="playground" href="http://bin.jhere.net/5049954" target="_blank"></a>
                 </li>
             </ul>
         </section>
     </section>
 
     <footer>
-        <ul class="links">
+        <ul class="social">
+            <li class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jhere.net" data-text="jHERE - Maps made easy:" data-via="mmarcon" data-related="mmarcon" data-hashtags="jHERE">Tweet</a></li>
+            <li class="twitter-follow"><a href="https://twitter.com/mmarcon" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @mmarcon</a></li>
+            <li class="facebook"><div class="fb-like" data-href="http://jhere.net" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="lucida grande"></div></li>
+        </ul>
+        <!-- <ul class="links">
             <li><a href="">Docs</a></li>
             <li><a href="">Extensions</a></li>
             <li><a href="">About Me</a></li>
             <li><a href="">Feedback</a></li>
-        </ul>
+        </ul> -->
         <small>Massimiliano Marcon &copy; 2012-13</small>
     </footer>
 
@@ -166,5 +171,15 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jhere-custom.js"></script>
     <script src="js/main.js"></script>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=185145734898525";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 </body>
 </html>

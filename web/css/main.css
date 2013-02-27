@@ -343,14 +343,22 @@ body {
   top: 0;
   right: 0;
   bottom: -3rem;
-  left: 0;
-  z-index: -1; }
+  left: 0; }
 
 header {
   position: relative;
   height: 64rem;
-  background: rgba(0, 0, 0, 0.65);
-  margin: 0; }
+  margin: 0;
+  overflow: hidden; }
+  header .overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    opacity: 0.65;
+    z-index: 10; }
   header.page {
     height: 40rem; }
   header nav {
@@ -386,6 +394,7 @@ header {
     left: 0;
     right: 0;
     text-align: center;
+    z-index: 11;
     padding-bottom: 8rem; }
     header .title h1 {
       font-family: "Oswald", sans-serif;
@@ -443,7 +452,8 @@ header {
     margin-top: -3.7rem;
     right: 1.5rem;
     margin: 0;
-    padding: 0; }
+    padding: 0;
+    z-index: 11; }
     header .controls li {
       cursor: pointer;
       margin: 0;
@@ -469,6 +479,11 @@ header {
   padding: 4rem;
   text-shadow: rgba(0, 0, 0, 0.3) 1px 0px 0px;
   line-height: 1.4; }
+  .content a:link, .content a:visited {
+    color: #8b2222;
+    text-decoration: none; }
+  .content a:hover, .content a:active {
+    text-decoration: underline; }
   .content#main {
     background: tomato;
     color: #fff; }
@@ -479,24 +494,25 @@ header {
     background: #fff;
     color: #333; }
     .content#examples a:link, .content#examples a:visited {
-      color: tomato; }
+      color: #4169e1; }
   .content#docs {
     background: #fff;
     color: #333; }
     .content#docs a:link, .content#docs a:visited {
-      color: tomato; }
+      color: #4169e1; }
     .content#docs pre code {
       display: block; }
     .content#docs code {
       display: inline-block;
-      padding: 3px;
+      padding: .3rem;
       border-radius: 3px;
       background: #F5F2F0;
-      color: #222;
-      font-size: 15px; }
+      color: #333;
+      font-size: 1.4rem; }
     .content#docs div p:nth-child(2) code, .content#docs div code.dark {
-      background: #444;
-      color: #fff; }
+      background: #333;
+      color: #fff;
+      font-size: 1.6rem; }
     .content#docs div p {
       margin: 0.5rem 0; }
     .content#docs div h3 {
@@ -506,11 +522,8 @@ header {
       text-shadow: none; }
   .content strong {
     font-weight: 400;
-    color: #fff;
-    background: #333;
-    display: inline-block;
-    padding: 0.2rem 0.5rem;
-    margin: 0.1rem 0; }
+    text-transform: uppercase;
+    font-size: 120%; }
   .content section, .content header {
     max-width: 76.8rem;
     margin: 0 auto; }
@@ -578,15 +591,10 @@ header {
     margin: 0.5rem 1rem 1rem 0;
     border: 8px solid white; }
 
-.content a:link, .content a:visited, footer a:link, footer a:visited {
-  color: #222;
-  text-decoration: none; }
-.content a:hover, .content a:active, footer a:hover, footer a:active {
-  text-decoration: underline; }
-
 footer {
   background: #fff;
-  padding: 4rem 4rem 1rem 4rem; }
+  padding: 4rem 4rem 1rem 4rem;
+  position: relative; }
   footer .links {
     max-width: 76.8rem;
     margin: 0 auto 1rem auto !important;
@@ -595,6 +603,23 @@ footer {
     list-style-type: none;
     list-style-position: inside;
     padding: 0; }
+  footer .social {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    z-index: 11;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: 27rem;
+    height: 2rem;
+    overflow: hidden; }
+    footer .social li {
+      display: inline-block; }
+      footer .social li.facebook {
+        position: relative;
+        top: -4px;
+        left: 15px; }
   footer small {
     text-transform: uppercase;
     font-size: 1rem;
