@@ -334,7 +334,7 @@ html {
   font-size: 62.5%; }
 
 body {
-  background: #333333;
+  background: #fff;
   font-family: "Titillium Web", sans-serif;
   font-weight: 400; }
 
@@ -477,7 +477,6 @@ header {
 .content {
   font-size: 1.8rem;
   padding: 4rem;
-  text-shadow: rgba(0, 0, 0, 0.3) 1px 0px 0px;
   line-height: 1.4; }
   .content a:link, .content a:visited {
     color: #8b2222;
@@ -485,10 +484,10 @@ header {
   .content a:hover, .content a:active {
     text-decoration: underline; }
   .content#main {
-    background: tomato;
+    background: coral;
     color: #fff; }
   .content#extensions {
-    background: tomato;
+    background: coral;
     color: #fff; }
   .content#examples {
     background: #fff;
@@ -518,12 +517,11 @@ header {
     .content#docs div h3 {
       text-transform: uppercase;
       font-family: "Oswald", sans-serif;
-      color: tomato;
-      text-shadow: none; }
+      color: coral;
+      text-shadow: none;
+      text-shadow: rgba(139, 34, 34, 0.4) 1px 0px 0px; }
   .content strong {
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: 120%; }
+    font-weight: bold; }
   .content section, .content header {
     max-width: 76.8rem;
     margin: 0 auto; }
@@ -536,7 +534,8 @@ header {
       font-size: 6rem;
       margin: 0;
       text-transform: uppercase;
-      font-weight: normal; }
+      font-weight: normal;
+      text-shadow: rgba(0, 0, 0, 0.3) 1px 0px 0px; }
   .content .demos ul {
     margin: 0;
     padding: 0;

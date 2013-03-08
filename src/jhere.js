@@ -112,7 +112,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`options` is an object that looks like this:
     //
     //<pre><code>{
-    //  enable: [], //An array of components as strings.
+    //  enable: ['behavior', 'zoombar'], //An array of components as strings.
     //  zoom: 12, //a positive integer.
     //  center: []|{}, //An object of type {latitude: Number, longitude: Number}
     //                 //or array [latitude, longitude],
@@ -138,10 +138,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     // Default for `enable` is `['behavior', 'zoombar', 'scalebar', 'typeselector']`.
     // Pass `false` for no components.
     //
-    //NOTE ON `appId` AND `authToken`: the plugin includes by default the credentials
-    //I used development, and it is ok for you to use the same credentials for development
-    //and testing purpose. However you should really register on the Nokia developer website
-    //and get your own. I strongly encourage you to do it especially for production use as
+    // ### HERE API Credentials
+    //
+    //jHERE uses by default the `appId` and `authToken` that
+    //I used for development, and it is ok for you to use the same credentials for development
+    //and testing purpose.
+    //
+    //However you should really register on the [HERE developer website](http://developer.here.com)
+    //and get your own. I strongly encourage you to do so especially for production use, as
     //my credentials may unexpectedtly stop working at any time.
     //
     //### Map events
@@ -173,10 +177,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`$.jHERE.defaultCredentials(appId, authToken);`
     //
     //Set the default credentials. After this method has been called it is
-    //no longer necessary to include credentials in all the calls
+    //no longer necessary to include credentials in any of the calls
     //to `$('.selector').jHERE(options);`.
-    //
-    //For `appId` and `authToken` refer to the note above.
     P.defaultCredentials = function(appId, authToken) {
         _credentials = {
             appId: appId,
@@ -341,6 +343,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //  mouseleave: function(event){/*this is the element, event.geo contains the coordinates*/},
     //  longpress: function(event){/*this is the element, event.geo contains the coordinates*/}
     //}</code></pre>
+    //All parameters are **optional**.
     H.marker = function(position, markerOptions) {
         var markerListeners = {},
             centralizedHandler = bind(triggerEvent, this),
@@ -421,6 +424,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //and displayed the map will be zoomed to the bounding box of the KML.
     //
     //`ondone` is a function, called once the KML has been rendered.
+    //
+    //It is required that the KML is hosted on the same domain
+    //where the application is hosted, or that the server that hosts
+    //the KML file has [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) enabled.
     H.kml = function(KMLFile, zoomToKML, ondone) {
         if(isFunction(zoomToKML)) {
             ondone = zoomToKML;

@@ -2,7 +2,7 @@
 
 $background: #333;
 $jherereddish: rgba(255, 99, 71, 0.8);
-$jherereddishold: #ff6347;
+$jherereddishold: #FF7F50; //#ff6347
 
 $navbackground: #222;
 $lightgreen: #9fd067;
@@ -44,7 +44,7 @@ html {
 }
 
 body {
-    background: $background;
+    background: #fff;
     font-family: 'Titillium Web', sans-serif;
     font-weight: 400;
 }
@@ -232,7 +232,7 @@ header {
 .content {
     font-size: 1.8rem;
     padding: 4rem;
-    text-shadow: rgba(0, 0, 0, 0.3) 1px 0px 0px;
+    // text-shadow: rgba(0, 0, 0, 0.3) 1px 0px 0px;
     line-height: 1.4;
 
     a {
@@ -306,15 +306,16 @@ header {
                 font-family: 'Oswald', sans-serif;
                 color: $jherereddishold;
                 text-shadow: none;
+                text-shadow: rgba(139, 34, 34, .4) 1px 0px 0px;
             }
         }
     }
 
 
     strong {
-        font-weight: 400;
-        text-transform: uppercase;
-        font-size: 120%;
+        font-weight: bold;
+        // text-transform: uppercase;
+        // font-size: 120%;
     }
 
     section, header {
@@ -333,6 +334,7 @@ header {
             margin: 0;
             text-transform: uppercase;
             font-weight: normal;
+            text-shadow: rgba(0, 0, 0, 0.3) 1px 0px 0px;
         }
     }
 

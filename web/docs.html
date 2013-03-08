@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="en"> <head>     <meta charset="utf-8" />     <title>jHERE - Maps Made Easy</title>     <meta name="viewport" content="width=device-width" id="viewport">     <link href='http://fonts.googleapis.com/css?family=Copse|Oswald|Syncopate|Titillium+Web:400,300' rel='stylesheet' type='text/css'>     <link rel="stylesheet" type="text/css" href="css/main.css" />     <link rel="apple-touch-icon-precomposed" sizes="57x57"href="icon.png" />      <meta property="og:title" content="jHERE - Maps Made Easy"/>     <meta property="og:url" content="http://jhere.net"/>     <meta property="og:site_name" content="jHERE"/>     <meta property="og:image" content="http://jhere.net/icon.png"/>     <!--[if IE]>         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>     <![endif]-->     <script type="text/javascript">/*         var _gaq = _gaq || [];         _gaq.push(['_setAccount', 'UA-36251953-1']);         _gaq.push(['_setDomainName', 'jhere.net']);         _gaq.push(['_trackPageview']);          (function() {             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);         })();*/     </script> </head>  <body>      <header class="page">         <div class="overlay"></div>         <div id="map"></div>         <div class="title">             <h1>jHERE</h1>             <h2>Maps made easy.</h2>             <div class="get">                 <a href="#" class="download"><span></span>Download jHERE</a>                 <a href="#" class="fork"><span></span>Fork on Github</a>             </div>         </div>         <nav>             <ul>                 <li><a href="/" class="active">jHERE</a></li>                 <li><a href="/docs.html">Docs</a></li>                 <li><a href="/about.html">About</a></li>             </ul>         </nav>     </header>      <section id="docs" class="content">         <header>             <h3>Documentation</h3>         </header>         <section>                                               <div id="section-1">                                      </div>                                               <div id="section-2">                     <h3>How to use jHERE</h3>
+<!DOCTYPE html> <html lang="en"> <head>     <meta charset="utf-8" />     <title>jHERE - Maps Made Easy</title>     <meta name="viewport" content="width=device-width" id="viewport">     <link href='http://fonts.googleapis.com/css?family=Copse|Oswald|Syncopate|Titillium+Web:400,300' rel='stylesheet' type='text/css'>     <link rel="stylesheet" type="text/css" href="css/main.css" />     <link rel="apple-touch-icon-precomposed" sizes="57x57"href="icon.png" />      <meta property="og:title" content="jHERE - Maps Made Easy"/>     <meta property="og:url" content="http://jhere.net"/>     <meta property="og:site_name" content="jHERE"/>     <meta property="og:image" content="http://jhere.net/icon.png"/>     <!--[if IE]>         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>     <![endif]-->     <script type="text/javascript">/*         var _gaq = _gaq || [];         _gaq.push(['_setAccount', 'UA-36251953-1']);         _gaq.push(['_setDomainName', 'jhere.net']);         _gaq.push(['_trackPageview']);          (function() {             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);         })();*/     </script> </head>  <body>      <header class="page">         <div class="overlay"></div>         <div id="map"></div>         <div class="title">             <h1>jHERE</h1>             <h2>Maps made easy.</h2>             <div class="get">                 <a href="https://github.com/mmarcon/jhere/archive/master.zip" class="download"><span></span>Download jHERE</a>                 <a href="https://github.com/mmarcon/jhere" class="fork"><span></span>Fork on Github</a>             </div>         </div>         <nav>             <ul>                 <li><a href="/" class="active">jHERE</a></li>                 <li><a href="/docs.html">Docs</a></li>                 <li><a href="/about.html">About</a></li>             </ul>         </nav>     </header>      <section id="docs" class="content">         <header>             <h3>Documentation</h3>         </header>         <section>                                               <div id="section-1">                                      </div>                                               <div id="section-2">                     <h3>How to use jHERE</h3>
 
 <p>Using jHERE in your websites and applications is really easy.</p>
 
@@ -31,7 +31,7 @@ size via CSS, e.g. by setting width and height.</p>
 <p><code>options</code> is an object that looks like this:</p>
 
 <pre><code>{
- enable: [], //An array of components as strings.
+ enable: ['behavior', 'zoombar'], //An array of components as strings.
  zoom: 12, //a positive integer.
  center: []|{}, //An object of type {latitude: Number, longitude: Number}
                 //or array [latitude, longitude],
@@ -60,10 +60,14 @@ size via CSS, e.g. by setting width and height.</p>
 <p>Default for <code>enable</code> is <code>['behavior', 'zoombar', 'scalebar', 'typeselector']</code>.
 Pass <code>false</code> for no components.</p>
 
-<p>NOTE ON <code>appId</code> AND <code>authToken</code>: the plugin includes by default the credentials
-I used development, and it is ok for you to use the same credentials for development
-and testing purpose. However you should really register on the Nokia developer website
-and get your own. I strongly encourage you to do it especially for production use as
+<h3>HERE API Credentials</h3>
+
+<p>jHERE uses by default the <code>appId</code> and <code>authToken</code> that
+I used for development, and it is ok for you to use the same credentials for development
+and testing purpose.</p>
+
+<p>However you should really register on the <a href="http://developer.here.com">HERE developer website</a>
+and get your own. I strongly encourage you to do so especially for production use, as
 my credentials may unexpectedtly stop working at any time.</p>
 
 <h3>Map events</h3>
@@ -85,10 +89,8 @@ contains latitude and longitude of the point where the event originated.</p>
 <p><code>$.jHERE.defaultCredentials(appId, authToken);</code></p>
 
 <p>Set the default credentials. After this method has been called it is
-no longer necessary to include credentials in all the calls
-to <code>$('.selector').jHERE(options);</code>.</p>
-
-<p>For <code>appId</code> and <code>authToken</code> refer to the note above.</p>                 </div>                                               <div id="section-5">                     <h3>Center the map</h3>
+no longer necessary to include credentials in any of the calls
+to <code>$('.selector').jHERE(options);</code>.</p>                 </div>                                               <div id="section-5">                     <h3>Center the map</h3>
 
 <p><code>$('.selector').jHERE('center', centerObject);</code></p>
 
@@ -146,7 +148,9 @@ to <code>$('.selector').jHERE(options);</code>.</p>
  mouseenter: function(event){/*this is the element, event.geo contains the coordinates*/},
  mouseleave: function(event){/*this is the element, event.geo contains the coordinates*/},
  longpress: function(event){/*this is the element, event.geo contains the coordinates*/}
-}</code></pre>                 </div>                                               <div id="section-9">                     <h3>Remove all the markers from the map</h3>
+}</code></pre>
+
+<p>All parameters are <strong>optional</strong>.</p>                 </div>                                               <div id="section-9">                     <h3>Remove all the markers from the map</h3>
 
 <p><code>$('.selector').jHERE('nomarkers');</code></p>                 </div>                                               <div id="section-10">                     <h3>Add bubbles to the map</h3>
 
@@ -179,7 +183,11 @@ to <code>$('.selector').jHERE(options);</code>.</p>
 <p><code>zoomToKML</code> is a boolean. If set to true, once the KML has been parsed
 and displayed the map will be zoomed to the bounding box of the KML.</p>
 
-<p><code>ondone</code> is a function, called once the KML has been rendered.</p>                 </div>                                               <div id="section-13">                     <h3>Add heatmap layers to the map</h3>
+<p><code>ondone</code> is a function, called once the KML has been rendered.</p>
+
+<p>It is required that the KML is hosted on the same domain
+where the application is hosted, or that the server that hosts
+the KML file has <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> enabled.</p>                 </div>                                               <div id="section-13">                     <h3>Add heatmap layers to the map</h3>
 
 <p><code>$('.selector').jHERE('heatmap', data, type, options);</code></p>
 
