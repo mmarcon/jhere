@@ -11,7 +11,7 @@
 <color>FFFFFFFF</color>
 <scale>1.1</scale>
 <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/><Icon>
-<href>images/pin-black-small.png</href>
+<href>img/pin-black-small.png</href>
 </Icon>
 </IconStyle>
 <LineStyle>

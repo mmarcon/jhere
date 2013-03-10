@@ -75,8 +75,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         ];
 
     defaults = {
-        appId: '_peU-uCkp-j8ovkzFGNU',
-        authToken: 'gBoUkAMoxoqIWfxWA5DuMQ',
+        appId: '69Dgg78qt4obQKxVbRA8',
+        authToken: 'Nz7ilIB_v1CRwPXxgPdvuA',
         zoom: 12,
         center: [52.49, 13.37],
         enable: ['behavior', 'zoombar', 'scalebar', 'typeselector'],
@@ -402,7 +402,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }
         bubbleComponent = map.getComponentById('InfoBubbles') ||
             map.addComponent(new _ns_map.component.InfoBubbles());
-        bubbleComponent.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
+        bubbleComponent.openBubble(bubbleOptions.content, {latitude: position.latitude || position[0], longitude: position.longitude || position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
     };
 
     //### Remove all the bubbles from the map
@@ -699,6 +699,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             H[name] = fn;
         }
     };
+
+    /***_***/
 
     $.fn[plugin] = function(options) {
         var args = arguments, key = 'plg_' + plugin, pluginObj;
