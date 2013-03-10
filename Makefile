@@ -30,7 +30,7 @@ doc:
 	@docco -t docs/docco.new.jst -o docs src/$(PLUGIN).js;mv docs/$(PLUGIN).html web/docs.html;
 
 website: doc
-	@./build-scripts/update-website.sh $(COMMENT)
+	@./build-scripts/update-website.sh "$(COMMENT)"
 
 test: deps
 	@sed 's/\/\*\*\*_\*\*\*\//$(INJECTORS)/g' src/$(PLUGIN).js > $(TESTED_CODE); \
