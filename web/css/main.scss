@@ -71,13 +71,13 @@ header {
     }
 
     position: relative;
-    height: 64rem;
+    height: 40rem;
     margin: 0;
     overflow: hidden;
 
-    &.page {
-        height: 40rem;
-    }
+    // &.page {
+    //     height: 40rem;
+    // }
 
     nav {
         background: $navbackground;

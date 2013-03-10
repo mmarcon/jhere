@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //Using jHERE in your websites and applications is really easy.
     //
-    //Include either jQuery or Zepto.JS at the end of your page
+    //Include either jQuery, Zepto.JS or Tire.js at the end of your page
     //
     //`<script type="text/javascript" src="js/jquery.min.js"></script>`
     //
@@ -34,12 +34,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`<script type="text/javascript" src="js/zepto.min.js"></script>`
     //
+    // or
+    //
+    //`<script type="text/javascript" src="js/tire.min.js"></script>`
+    //
     //[Download](https://github.com/mmarcon/jhere/archive/master.zip) the plugin code, copy it in your project folder and
-    //add the necessary script tags below jQuery or Zepto.JS. **If you are using Zepto.JS**
+    //add the necessary script tags after jQuery, Zepto.JS or Tire.js. **If you are using Zepto.JS**
     //then you will need to **include the Zepto adapter** before including the plugin.
     //
     //<pre><code>&lt;script type="text/javascript" src="js/zepto.adapter.js"&gt;
     //&lt;!--Only when using Zepto--&gt;
+    //&lt;/script&gt;</code></pre>
+    //
+    //**If you are using Tire.js**
+    //then you will need to **include the Tire adapter** before including the plugin.
+    //
+    //<pre><code>&lt;script type="text/javascript" src="js/tire.adapter.js"&gt;
+    //&lt;!--Only when using Tire--&gt;
     //&lt;/script&gt;</code></pre>
     //
     //`<script type="text/javascript" src="js/jhere.js"></script>`
@@ -48,7 +59,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //Make sure the DOM element that will contain the map has the appropriate
     //size via CSS, e.g. by setting width and height.
     //
-    //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
+    //**Note that jHERE requires Zepto.JS, jQuery > 1.7 or Tire.js >= 1.1.1**
     var plugin = 'jHERE',
         defaults, H, _ns, _ns_map, _JSLALoader,
         _credentials, bind = $.proxy, P,
@@ -626,8 +637,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     }
 
     /*
-     jHERE is compatible with jQuery > 1.7 and Zepto
-     which both have the on method in the prototype.
+     jHERE is compatible with jQuery > 1.7, Zepto and Tire
+     which all have the on method in the prototype.
      jQuery <= 1.7 does not have on.
     */
 

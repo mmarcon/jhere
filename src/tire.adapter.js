@@ -91,9 +91,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         return d.removeData.apply(d, arguments);
     };
 
-    //Export Zepto as jQuery so there is no need
-    //to check for it in the plugin.
-
     //$.proxy implementation from Zepto source code
     var _zid = 1;
     function zid(element) {
@@ -129,5 +126,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }
         return event;
     };
+    //Export Tire as jQuery so there is no need
+    //to check for it in the plugin.
     window.jQuery = $;
 }(tire));
