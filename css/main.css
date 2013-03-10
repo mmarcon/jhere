@@ -347,7 +347,7 @@ body {
 
 header {
   position: relative;
-  height: 64rem;
+  height: 40rem;
   margin: 0;
   overflow: hidden; }
   header .overlay {
@@ -359,8 +359,6 @@ header {
     background: #000;
     opacity: 0.65;
     z-index: 10; }
-  header.page {
-    height: 40rem; }
   header nav {
     background: #222222;
     background: rgba(34, 34, 34, 0.9);
