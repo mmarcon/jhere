@@ -16,10 +16,16 @@ or
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
 	
-In case you are using Zepto, you will need to include the Zepto adapter, that includes a couple of little things that are not implemented in Zepto and I used in my plugin (`$.Deferred` and `$.data`).
+In case you are using [Zepto](http://zeptojs.com/), you will need to include the Zepto adapter, that includes a couple of little things that are not implemented in Zepto and I used in my plugin (`$.Deferred` and `$.data`).
 
 	<script type="text/javascript" src="js/zepto.adapter.js">
 	<!--Only when using Zepto-->
+	</script>
+	
+**New**: In case you are using [Tire](http://tirejs.com/), then include the Tire adapter (adds `$.Deferred`, `$.data`, `$.proxy`, `$.inArray` and `$.Event` to Tire):
+
+	<script type="text/javascript" src="js/tire.adapter.js">
+	<!--Only when using Tire-->
 	</script>
 	
 Finally include the plugin.
