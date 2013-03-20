@@ -519,7 +519,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //    //map is the JSLA map object
     //    //here is the whole JSLA API namespace
     //}</code></pre>
-    H.originalMap = function(closure){
+    H.originalMap = function(closure) {
         /*
          Be a good citizen:
          closure context will be the DOM element
@@ -555,7 +555,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     /*
      Undocumented, on purpose.
     */
-    H.destroy = function(){
+    H.destroy = function() {
         this.map.destroy();
         $.removeData(this.element);
         $(this.element).empty();
@@ -642,7 +642,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      jQuery <= 1.7 does not have on.
     */
 
-    function isSupported(){
+    function isSupported() {
         return !!$().on;
     }
 
@@ -712,7 +712,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //});</code></pre>
     //
     //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
-    P.extend = function(name, fn){
+    P.extend = function(name, fn) {
         if (typeof name === 'string' && isFunction(fn)) {
             H[name] = fn;
         }

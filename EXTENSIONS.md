@@ -95,3 +95,44 @@ and supports a `success` and a `error` callback.
 When jHERE is used with jQuery a $.Deferred object is also returned
 and can be used instead of callbacks. For Zepto.JS a Deferred is also returned,
 however note that it is a custom implementation that only supports the `done` method.
+
+### shapes extension
+
+With the shapes extension it is possible to draw circles, rectangles, polylines and polygons on the map canvas.
+
+The syntax is the following:
+
+	$('.selector').jHERE('shape', 'circle', {center: position, radius: integer, style: object});
+	/*or*/ $('.selector').jHERE('circle', {center: position, radius: integer, style: object});
+	
+	$('.selector').jHERE('shape', 'rectangle' {topLeft: position, bottomRight: position, style: object});
+	/*or*/ $('.selector').jHERE('rectangle' {topLeft: position, bottomRight: position, style: object});
+    
+	$('.selector').jHERE('shape', 'polyline', {points: array, style: object}));
+	/*or*/ $('.selector').jHERE('polyline', {points: array, style: object}));
+
+	$('.selector').jHERE('shape', 'polygon', {points: array, style: object});
+	/*or*/ $('.selector').jHERE('polygon', {points: array, style: object});
+	
+`style` is always an object that defines the way the shape looks. Can be specified as in the JSLA API (pen, brush, see [here](http://developer.here.net/apiexplorer/index.html#examples/js/shapes/map-with-shapes/)) or in a simpler way as follows:
+
+	{
+		stroke: "#CC0000FF", //RGBA
+		fill: "#000000AA", //RGBA
+		thickness: 1 //px
+	}
+	
+### markers extension
+
+Extends the marker-related functionalities of the jHERE core by adding support for group of markers.
+
+It adds support for the `group` option for a marker. Groups can be then hidden or shown with a call to
+
+	$('.selector').jHERE(['group0', 'group1'], true);
+
+First parameter is a group name (`String`) or an `Array` of group names. Second parameter is a `boolean`, for visible (`true`) or not visible (`false`).
+
+This extansion is useful when it is necessary to categorize (i.e. group) markers and enable the capability of showing/hiding certain categories of markers.
+
+	//Stupid example: show all Burger Kings and hide all the Mc Donalds
+	$('.map').jHERE('b-king', true).jHERE('mc-donald', false);

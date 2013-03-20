@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 80px;
+            right: 0;
+            background: white;
+        }
+
+        ul {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            background: #222;
+            height: 80px;
+        }
+
+        li {
+            display: inline-block;
+            font-family: 'American Typewriter', sans-serif;
+            font-weight: 100;
+            font-size: 24px;
+            padding: 24px 10px;
+            line-height: 1;
+            cursor: pointer;
+            color: #fff;
+            border-right: 1px dotted #666;
+        }
+
+        li.active.restaurants,
+        li.restaurants:hover {
+            color: #9fd067;
+        }
+
+        li.active.hotels,
+        li.hotels:hover {
+            color: #ff7f50;
+        }
+    </style>
+</head>
+
+<body>
+<div id="map"></div>
+<ul class="toolbar">
+    <li data-group="restaurants" class="restaurants active">
+        Restaurants
+    </li>
+    <li data-group="hotels" class="hotels active">
+        Hotels
+    </li>
+</ul>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script> -->
+<!-- <script type="text/javascript" src="../zepto.adapter.js"></script> -->
+<script type="text/javascript" src="../jhere.js"></script>
+<script type= "text/javascript" src="../extensions/markers.js"></script>
+<script type="text/javascript">
+    $(window).on('load', function(){
+        $('#map').jHERE({
+            center: [52.5, 13.3],
+            zoom: 12
+        })
+        .jHERE('marker', [52.46, 13.31], {group: 'hotels', fill: '#ff7f50'})
+        .jHERE('marker', [52.51, 13.3], {group: 'hotels', fill: '#ff7f50'})
+        .jHERE('marker', [52.512, 13.35], {group: 'hotels', fill: '#ff7f50'})
+
+        .jHERE('marker', [52.5, 13.3], {group: 'restaurants', fill: '#9fd067'})
+        .jHERE('marker', [52.5, 13.35], {group: 'restaurants', fill: '#9fd067'})
+        .jHERE('marker', [52.52, 13.3], {group: 'restaurants', fill: '#9fd067'})
+        .jHERE('marker', [52.51, 13.27], {group: 'restaurants', fill: '#9fd067'})
+        .jHERE('marker', [52.52, 13.34], {group: 'restaurants', fill: '#9fd067'})
+        .jHERE('marker', [52.48, 13.4], {group: 'restaurants', fill: '#9fd000', click: function(e){
+            alert('Click!');
+        }});
+
+        $('li').on('click', function(e){
+            $('#map').jHERE('markergroups', $(this).data('group'), !$(this).hasClass('active'));
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+</body>
+</html>
