@@ -135,4 +135,4 @@ First parameter is a group name (`String`) or an `Array` of group names. Second 
 This extansion is useful when it is necessary to categorize (i.e. group) markers and enable the capability of showing/hiding certain categories of markers.
 
 	//Stupid example: show all Burger Kings and hide all the Mc Donalds
-	$('.map').jHERE('b-king', true).jHERE('mc-donald', false);
+	$('.map').jHERE('markergroups', 'b-king', true).jHERE('markergroups', 'mc-donald', false);
