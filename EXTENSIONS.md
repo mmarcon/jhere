@@ -68,7 +68,7 @@ By including this extension it is possible to do very easily geocoding and rever
 
 #### Geocode
 
-	$.JHERE.geocode('Berlin, Germany',
+	$.jHERE.geocode('Berlin, Germany',
 	                function(position){
 	                    //Do stuff with position
 	                },
@@ -83,11 +83,11 @@ however note that it is a custom implementation that only supports the `done` me
 
 #### Reverse Geocode
 
-	$.JHERE.reverseGeocode({latitude: 52.5, longitude: 13.3},
+	$.jHERE.reverseGeocode({latitude: 52.5, longitude: 13.3},
 	                       function(address){
 	                           //Do stuff with address
 	                       },
-	                       function(){/*error*/});`
+	                       function(){/*error*/});
 
 jHERE exposes the possibility of reverse geocoding a position
 into an address. This call is asynchronous
