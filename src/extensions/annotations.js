@@ -20,26 +20,35 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-;(function($, document){
+;(function($, doc){
     var _ns,
         _defaults = {},
         annotations = {},
         annotate, dom, css;
 
-    dom = '<form class="jhere-anntt"><label>{LABEL}</label><input type="text" name="antt" data-uid={UID}></form>';
+    dom = '<div class="jhere-anntt"><label>{LABEL}</label><input type="text" name="antt" data-uid={UID} data-loc="{LOC}" value="{VAL}"></div>';
+    css = '';
 
-    $(doc).on('change', '.jhere-anntt input', function(e){});
+    $(doc).on('change', '.jhere-anntt input', function(){
+        var input = $(this),
+            annotation = input.val(),
+            uid = input.attr('data-uid'),
+            location = input.attr('data-loc').split(',');
+        annotations[uid] = {position: {
+            latitude: location[0],
+            longitude: location[1]
+        }, annotation: annotation};
+    });
 
-    //### Add annotations
-    annotate = function(position, options){
-        var id = uid();
-    };
-
-    function isFunction(fn) {
-        return typeof fn === 'function';
+    function normalize(position){
+        return position instanceof Array ? {latitude: position[0], longitude: position[1]} : position;
     }
 
-    function uid(){
+    // function isFunction(fn) {
+    //     return typeof fn === 'function';
+    // }
+
+    function randomUid(){
         var s4 = function(){
             return Math.floor(Math.random() * 0x10000).toString(16);
         };
@@ -47,13 +56,56 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     }
 
     function injectCss(css){
+        var tag;
+        if($('.jhere-anntt-css').length > 0){
+            return;
+        }
         if ('\v'=='v') /* ie only */ {
             document.createStyleSheet().cssText = css;
         } else {
-            var tag = document.createElement('style');
+            tag = document.createElement('style');
             tag.type = 'text/css';
+            tag.className = 'jhere-anntt-css';
             document.getElementsByTagName('head')[0].appendChild(tag);
             tag[ (typeof document.body.style.WebkitAppearance === 'string') /* webkit only */ ? 'innerText' : 'innerHTML'] = css;
         }
     }
-}(jQuery, doc));
+
+    //### Add annotations
+    annotate = function(position, options){
+        var uid = randomUid(), self = this;
+        injectCss(css);
+        position = normalize(position);
+        options = options || {};
+        _ns = _ns || nokia.maps;
+        options.click = function(){
+            showAnnotation.call(self, position, uid);
+        };
+        self.marker(position, options);
+        self.bubble(position, {
+            content: $(dom.replace('{LABEL}', 'Annotation')
+                          .replace('{UID}', uid)
+                          .replace('{LOC}', position.latitude + ',' + position.longitude)
+                          .replace('{VAL}', '')),
+            uid: uid
+        });
+    };
+
+    function showAnnotation(position, uid){
+        var annotation = annotations[uid];
+        if(!annotation) {
+            return;
+        }
+        this.bubble(position, {
+            content: $(dom.replace('{LABEL}', 'Annotation')
+                          .replace('{UID}', uid)
+                          .replace('{LOC}', annotation.position.latitude + ',' + annotation.position.longitude)
+                          .replace('{VAL}', annotation.annotation))
+        });
+    }
+
+    //TODO: remove before release
+    window.annotations = annotations;
+
+    $.jHERE.extend('annotate', annotate);
+}(jQuery, document));

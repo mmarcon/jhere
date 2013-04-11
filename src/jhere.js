@@ -409,7 +409,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     H.bubble = function(position, bubbleOptions) {
         var bubbleComponent, map = this.map;
         bubbleOptions = $.extend({}, defaults.bubble, bubbleOptions);
-        if(bubbleOptions.content.jquery) {
+        if(isFunction(bubbleOptions.content.on)) {
             /*This is a little hack to fix word-wrap which is set to nowrap by JSLA*/
             bubbleOptions.content.css('white-space', 'normal');
             bubbleOptions.content = $('<div/>').append(bubbleOptions.content.clone()).html();
