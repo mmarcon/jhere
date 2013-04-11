@@ -24,12 +24,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     var _ns,
         _defaults = {},
         annotations = {},
-        annotate, dom, css;
+        annotate, exportAnnotations, importAnnotations,
+        dom, css;
 
-    dom = '<div class="jhere-anntt"><label>{LABEL}</label><input type="text" name="antt" data-uid={UID} data-loc="{LOC}" value="{VAL}"></div>';
-    css = '';
+    dom = '<div class="jh-ant"><label>{LABEL}</label><input type="text" name="antt" data-uid={UID} data-loc="{LOC}" value="{VAL}"></div>';
+    css = '.jh-ant label,.jh-ant input{display:block;width:200px;margin:5px auto;}.jh-ant label{font-size:16px;}.jh-ant input{border:none;padding:3px;font-size:14px}';
 
-    $(doc).on('change', '.jhere-anntt input', function(){
+    $(doc).on('change', '.jh-ant input', function(){
         var input = $(this),
             annotation = input.val(),
             uid = input.attr('data-uid'),
@@ -71,6 +72,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }
     }
 
+    function isFunction(fn) {
+        return typeof fn === 'function';
+    }
+
     //### Add annotations
     annotate = function(position, options){
         var uid = randomUid(), self = this;
@@ -83,7 +88,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         };
         self.marker(position, options);
         self.bubble(position, {
-            content: $(dom.replace('{LABEL}', 'Annotation')
+            content: $(dom.replace('{LABEL}', 'Note')
                           .replace('{UID}', uid)
                           .replace('{LOC}', position.latitude + ',' + position.longitude)
                           .replace('{VAL}', '')),
@@ -91,13 +96,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         });
     };
 
+    exportAnnotations = function(callback /*, options*/){
+        var returnableAnnotations = [];
+        $.each(annotations, function(k, a){
+            returnableAnnotations.push(a);
+        });
+        if(isFunction(callback)) {
+            callback.call(this, returnableAnnotations);
+        }
+    };
+
+    importAnnotations = function(annotations /, *options*/){
+        // $.each(annotations, function(i, a){
+        //     if(a.annotation && a.position) {
+        //         this.annotate(a.annotation, a.)
+        //     }
+        // });
+    };
+
+
     function showAnnotation(position, uid){
         var annotation = annotations[uid];
         if(!annotation) {
             return;
         }
         this.bubble(position, {
-            content: $(dom.replace('{LABEL}', 'Annotation')
+            content: $(dom.replace('{LABEL}', 'Note')
                           .replace('{UID}', uid)
                           .replace('{LOC}', annotation.position.latitude + ',' + annotation.position.longitude)
                           .replace('{VAL}', annotation.annotation))
@@ -108,4 +132,5 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     window.annotations = annotations;
 
     $.jHERE.extend('annotate', annotate);
+    $.jHERE.extend('exportannotations', exportAnnotations);
 }(jQuery, document));
