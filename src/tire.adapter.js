@@ -121,10 +121,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             $.each(props, function(name, value, a, x){
                 x = (name === 'bubbles') ? (bubbles = !!value) : (event[name] = value);
             });
+            event.xdata = props;
             event.initEvent(type, bubbles, true, null, null, null, null, null, null, null, null, null, null, null, null);
             event.isDefaultPrevented = function(){ return this.defaultPrevented; };
         }
         return event;
+    };
+    //Tire only supports text + data for trigger
+    //The following adds support for $.Event
+    $.fn._trigger = $.fn.trigger;
+    $.fn.trigger = function(){
+        if(!arguments[0].xdata) {
+            return $.fn._trigger.apply(this, arguments);
+        }
+        $.fn._trigger.call(this, arguments[0].type, arguments[0].xdata);
     };
     //Export Tire as jQuery so there is no need
     //to check for it in the plugin.

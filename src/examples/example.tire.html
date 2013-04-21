@@ -288,6 +288,9 @@ $(window).on('load', function(){
             $(this).jHERE('bubble', [52.49, 13.39], {content: JSON.stringify(e.geo), closable: false});
         }}).jHERE('heatmap', heatMapData, 'value');
      $('#map').jHERE('kml', 'resources/berlin.kml', true).jHERE('marker', {latitude: 52.5113748680947, longitude: 13.401589126700173}, {icon: 'resources/balloon.png', anchor: {x: 24, y: 48}});
+     $('#map').on('maplongpress', function(){
+        alert('Why you keep pressing that button?!');
+     });
     });
 </script>
 </body>

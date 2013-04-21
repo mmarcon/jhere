@@ -163,7 +163,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //### Map events
     //
     //It is possible to listen for events on the map in the usual jQuery way (`on`, `off`). All the event
-    //names start with `map`. The event passed to the callback function always has a `geo` property that
+    //names start with `map`. The event passed to the callback function always has a `geo` (`data.geo` for Tire users) property that
     //contains latitude and longitude of the point where the event originated.
     //
     //For example, to listen for clicks events:
