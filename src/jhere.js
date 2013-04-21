@@ -61,10 +61,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //**Note that jHERE requires Zepto.JS, jQuery > 1.7 or Tire.js >= 1.1.1**
     var plugin = 'jHERE',
-        defaults, H, _ns, _ns_map, _JSLALoader,
+        defaults, H, _nokia, _ns, _ns_map, _JSLALoader,
         _credentials, bind = $.proxy, P,
         /*Map and marker supported events*/
         mouse = 'mouse', click = 'click', drag = 'drag', touch = 'touch', start = 'start', end = 'end', move = 'move',
+        appIdKey = 'appId', authTokenKey = 'authenticationToken',
         supportedEvents = [
             click,
             'dbl' + click,
@@ -177,8 +178,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function jHERE(element, options){
         this.element = element;
         this.options = $.extend({}, defaults, options);
-        this._defaults = defaults;
-        this._plugin = plugin;
         this.init();
     }
 
@@ -192,11 +191,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //to `$('.selector').jHERE(options);`.
     P.defaultCredentials = function(appId, authToken) {
         _credentials = {
-            appId: appId,
-            authenticationToken: authToken
+            id: appId,
+            token: authToken
         };
         _JSLALoader.load().is.done(function(){
-            _ns.util.ApplicationContext.set(_credentials);
+            _nokia.Settings.set(appIdKey, appId);
+            _nokia.Settings.set(authTokenKey, authToken);
         });
     };
 
@@ -221,10 +221,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         /*First of all sort out the credential thingy*/
         _credentials = _credentials || {
-            appId: options.appId,
-            authenticationToken: options.authToken
+            id: options.appId,
+            token: options.authToken
         };
-        _ns.util.ApplicationContext.set(_credentials);
+        _nokia.Settings.set(appIdKey, _credentials.id);
+        _nokia.Settings.set(authTokenKey, _credentials.token);
 
         /*and now make the map*/
         $.data(self.element, plugin, true);
@@ -657,15 +658,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         _JSLALoader.is = $.Deferred();
         /*And load stuff*/
         load = function(){
-            _ns = nokia.maps;
+            _nokia = nokia;
+            _ns = _nokia.maps;
             /*TODO: make load cutomizable so we don't load unnecessary stuff.*/
-            _ns.Features.load({map: 'auto', ui: 'auto', search: 'auto', routing: 'auto',
+            _nokia.Features.load({map: 'auto', ui: 'auto', search: 'auto', routing: 'auto',
                                positioning: 'auto', behavior: 'auto', kml: 'auto', heatmap: 'auto'},
                               function(){_ns_map = _ns.map; _JSLALoader.is.resolve();});
         };
         head = doc.getElementsByTagName('head')[0];
         jsla = doc.createElement('script');
-        jsla.src = 'http://api.maps.nokia.com/2.2.3/jsl.js';
+        jsla.src = 'http://api.maps.nokia.com/2.2.4/jsl.js';
         jsla.type = 'text/javascript';
         jsla.charset = 'utf-8';
         jsla.onreadystatechange = function(){

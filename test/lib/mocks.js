@@ -45,10 +45,17 @@ var resetMocks, spy, nokia = {}, SPIES = {}, _JSLALoader;
         };
 
         //JSLA
+        nokia.Settings = {
+            set: spy('nokia.Settings.set')
+        };
+
         nokia.maps = {
             util: {
                 ApplicationContext: {
-                    set: spy('ApplicationContext.set')
+                    set: function(){
+                        console.log('ApplicationContext.set is deprecated');
+                        spy('ApplicationContext.set')();
+                    }
                 }
             }
         };
@@ -207,7 +214,7 @@ var resetMocks, spy, nokia = {}, SPIES = {}, _JSLALoader;
             this.addData = function(){ SPIES.heatmap_addData.apply(this, arguments); };
         };
 
-        $.jHERE._injectNS(nokia.maps);
+        $.jHERE._injectNS(nokia);
         $.jHERE._injectJSLALoader(_JSLALoader);
     };
 

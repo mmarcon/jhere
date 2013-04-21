@@ -61,6 +61,12 @@ describe('jHERE', function(){
             expect($('#map').data('jHERE')).toBe(true);
             expect($('#map').data('plg_jHERE').mtype).toBe('map');
 
+            expect(nokia.Settings.set.callCount).toBe(2);
+            expect(nokia.Settings.set.argsForCall[0][0]).toBe('appId');
+            expect(nokia.Settings.set.argsForCall[0][1]).toBe('monkey');
+            expect(nokia.Settings.set.argsForCall[1][0]).toBe('authenticationToken');
+            expect(nokia.Settings.set.argsForCall[1][1]).toBe('chimpanzee');
+
             expect(nokia.maps.map.component.Behavior).toHaveBeenCalled();
             expect(nokia.maps.map.Display).toHaveBeenCalledWith($('#map')[0], jasmine.any(Object));
             expect(nokia.maps.map.Container).toHaveBeenCalled();
