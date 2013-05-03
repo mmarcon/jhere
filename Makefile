@@ -11,7 +11,8 @@ deps:
 dist: hint plugin zepto tire extensions summary
 
 plugin:
-	@./node_modules/.bin/uglifyjs -nc -o dist/$(PLUGIN).min.js src/$(PLUGIN).js
+	@./node_modules/.bin/uglifyjs -nc -o dist/$(PLUGIN).min.js src/$(PLUGIN).js; \
+	cat src/nolib.adapter.js > /tmp/standalone-$(PLUGIN).js; cat src/$(PLUGIN).js >> /tmp/standalone-$(PLUGIN).js; ./node_modules/.bin/uglifyjs -nc -o dist/$(PLUGIN).standalone.min.js /tmp/standalone-$(PLUGIN).js;
 
 zepto:
 	@./node_modules/.bin/uglifyjs -nc -o dist/zepto.adapter.min.js src/zepto.adapter.js
