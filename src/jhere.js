@@ -54,6 +54,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //&lt;/script&gt;</code></pre>
     //
     //`<script type="text/javascript" src="js/jhere.js"></script>`
+    //
     //And you are done.
     //
     //Make sure the DOM element that will contain the map has the appropriate
