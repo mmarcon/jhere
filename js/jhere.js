@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //Using jHERE in your websites and applications is really easy.
     //
-    //Include either jQuery or Zepto.JS at the end of your page
+    //Include either jQuery, Zepto.JS or Tire.js at the end of your page
     //
     //`<script type="text/javascript" src="js/jquery.min.js"></script>`
     //
@@ -34,12 +34,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`<script type="text/javascript" src="js/zepto.min.js"></script>`
     //
+    // or
+    //
+    //`<script type="text/javascript" src="js/tire.min.js"></script>`
+    //
     //[Download](https://github.com/mmarcon/jhere/archive/master.zip) the plugin code, copy it in your project folder and
-    //add the necessary script tags below jQuery or Zepto.JS. **If you are using Zepto.JS**
-    //the you will need to **include the Zepto adapter** before including the plugin.
+    //add the necessary script tags after jQuery, Zepto.JS or Tire.js. **If you are using Zepto.JS**
+    //then you will need to **include the Zepto adapter** before including the plugin.
     //
     //<pre><code>&lt;script type="text/javascript" src="js/zepto.adapter.js"&gt;
     //&lt;!--Only when using Zepto--&gt;
+    //&lt;/script&gt;</code></pre>
+    //
+    //**If you are using Tire.js**
+    //then you will need to **include the Tire adapter** before including the plugin.
+    //
+    //<pre><code>&lt;script type="text/javascript" src="js/tire.adapter.js"&gt;
+    //&lt;!--Only when using Tire--&gt;
     //&lt;/script&gt;</code></pre>
     //
     //`<script type="text/javascript" src="js/jhere.js"></script>`
@@ -48,12 +59,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //Make sure the DOM element that will contain the map has the appropriate
     //size via CSS, e.g. by setting width and height.
     //
-    //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
+    //**Note that jHERE requires Zepto.JS, jQuery > 1.7 or Tire.js >= 1.1.1**
     var plugin = 'jHERE',
-        defaults, H, _ns, _ns_map, _JSLALoader,
+        defaults, H, _nokia, _ns, _ns_map, _JSLALoader,
         _credentials, bind = $.proxy, P,
         /*Map and marker supported events*/
         mouse = 'mouse', click = 'click', drag = 'drag', touch = 'touch', start = 'start', end = 'end', move = 'move',
+        appIdKey = 'appId', authTokenKey = 'authenticationToken',
         supportedEvents = [
             click,
             'dbl' + click,
@@ -112,7 +124,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`options` is an object that looks like this:
     //
     //<pre><code>{
-    //  enable: [], //An array of components as strings.
+    //  enable: ['behavior', 'zoombar'], //An array of components as strings.
     //  zoom: 12, //a positive integer.
     //  center: []|{}, //An object of type {latitude: Number, longitude: Number}
     //                 //or array [latitude, longitude],
@@ -138,16 +150,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     // Default for `enable` is `['behavior', 'zoombar', 'scalebar', 'typeselector']`.
     // Pass `false` for no components.
     //
-    //**Note on `appId` and `authToken`:** the plugin includes by default the credentials
-    //I used development, and it is ok for you to use the same credentials for development
-    //and testing purpose. However you should really register on the Nokia developer website
-    //and get your own. I strongly encourage you to do it especially for production use as
+    // ### HERE API Credentials
+    //
+    //jHERE uses by default the `appId` and `authToken` that
+    //I used for development, and it is ok for you to use the same credentials for development
+    //and testing purpose.
+    //
+    //However you should really register on the [HERE developer website](http://developer.here.com)
+    //and get your own. I strongly encourage you to do so especially for production use, as
     //my credentials may unexpectedtly stop working at any time.
     //
     //### Map events
     //
     //It is possible to listen for events on the map in the usual jQuery way (`on`, `off`). All the event
-    //names start with `map`. The event passed to the callback function always has a `geo` property that
+    //names start with `map`. The event passed to the callback function always has a `geo` (`data.geo` for Tire users) property that
     //contains latitude and longitude of the point where the event originated.
     //
     //For example, to listen for clicks events:
@@ -162,8 +178,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function jHERE(element, options){
         this.element = element;
         this.options = $.extend({}, defaults, options);
-        this._defaults = defaults;
-        this._plugin = plugin;
         this.init();
     }
 
@@ -173,17 +187,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`$.jHERE.defaultCredentials(appId, authToken);`
     //
     //Set the default credentials. After this method has been called it is
-    //no longer necessary to include credentials in all the calls
+    //no longer necessary to include credentials in any of the calls
     //to `$('.selector').jHERE(options);`.
-    //
-    //For `appId` and `authToken` refer to the note above.
     P.defaultCredentials = function(appId, authToken) {
         _credentials = {
-            appId: appId,
-            authenticationToken: authToken
+            id: appId,
+            token: authToken
         };
         _JSLALoader.load().is.done(function(){
-            _ns.util.ApplicationContext.set(_credentials);
+            _nokia.Settings.set(appIdKey, appId);
+            _nokia.Settings.set(authTokenKey, authToken);
         });
     };
 
@@ -208,10 +221,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         /*First of all sort out the credential thingy*/
         _credentials = _credentials || {
-            appId: options.appId,
-            authenticationToken: options.authToken
+            id: options.appId,
+            token: options.authToken
         };
-        _ns.util.ApplicationContext.set(_credentials);
+        _nokia.Settings.set(appIdKey, _credentials.id);
+        _nokia.Settings.set(authTokenKey, _credentials.token);
 
         /*and now make the map*/
         $.data(self.element, plugin, true);
@@ -341,6 +355,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //  mouseleave: function(event){/*this is the element, event.geo contains the coordinates*/},
     //  longpress: function(event){/*this is the element, event.geo contains the coordinates*/}
     //}</code></pre>
+    //All parameters are **optional**.
     H.marker = function(position, markerOptions) {
         var markerListeners = {},
             centralizedHandler = bind(triggerEvent, this),
@@ -421,6 +436,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //and displayed the map will be zoomed to the bounding box of the KML.
     //
     //`ondone` is a function, called once the KML has been rendered.
+    //
+    //It is required that the KML is hosted on the same domain
+    //where the application is hosted, or that the server that hosts
+    //the KML file has [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) enabled.
     H.kml = function(KMLFile, zoomToKML, ondone) {
         if(isFunction(zoomToKML)) {
             ondone = zoomToKML;
@@ -492,7 +511,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //This is useful when advanced operations
     //that are not exposed by this plugin need to be
-    //performed. Check [developer.here.net](http://developer.here.net) for the
+    //performed. Check [developer.here.com](http://developer.here.com) for the
     //documentation.
     //
     //`closure` should look like this:
@@ -501,7 +520,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //    //map is the JSLA map object
     //    //here is the whole JSLA API namespace
     //}</code></pre>
-    H.originalMap = function(closure){
+    H.originalMap = function(closure) {
         /*
          Be a good citizen:
          closure context will be the DOM element
@@ -537,7 +556,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     /*
      Undocumented, on purpose.
     */
-    H.destroy = function(){
+    H.destroy = function() {
         this.map.destroy();
         $.removeData(this.element);
         $(this.element).empty();
@@ -619,12 +638,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     }
 
     /*
-     jHERE is compatible with jQuery > 1.7 and Zepto
-     which both have the on method in the prototype.
+     jHERE is compatible with jQuery > 1.7, Zepto and Tire
+     which all have the on method in the prototype.
      jQuery <= 1.7 does not have on.
     */
 
-    function isSupported(){
+    function isSupported() {
         return !!$().on;
     }
 
@@ -639,15 +658,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         _JSLALoader.is = $.Deferred();
         /*And load stuff*/
         load = function(){
-            _ns = nokia.maps;
+            _nokia = nokia;
+            _ns = _nokia.maps;
             /*TODO: make load cutomizable so we don't load unnecessary stuff.*/
-            _ns.Features.load({map: 'auto', ui: 'auto', search: 'auto', routing: 'auto',
+            _nokia.Features.load({map: 'auto', ui: 'auto', search: 'auto', routing: 'auto',
                                positioning: 'auto', behavior: 'auto', kml: 'auto', heatmap: 'auto'},
                               function(){_ns_map = _ns.map; _JSLALoader.is.resolve();});
         };
         head = doc.getElementsByTagName('head')[0];
         jsla = doc.createElement('script');
-        jsla.src = 'http://api.maps.nokia.com/2.2.3/jsl.js';
+        jsla.src = 'http://api.maps.nokia.com/2.2.4/jsl.js';
         jsla.type = 'text/javascript';
         jsla.charset = 'utf-8';
         jsla.onreadystatechange = function(){
@@ -694,7 +714,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //});</code></pre>
     //
     //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
-    P.extend = function(name, fn){
+    P.extend = function(name, fn) {
         if (typeof name === 'string' && isFunction(fn)) {
             H[name] = fn;
         }
