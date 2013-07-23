@@ -69,7 +69,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`marker` is an object containing the same options used for
     //`$('.selector').jHERE('marker')`. Options apply to both start and destionation markers.
     route = function(from, to, options){
-        var router, wp, done;
+        var router, wp, done, cleanOptions;
         _ns = _ns || nokia.maps;
         from = normalize(from);
         to = normalize(to);
@@ -133,8 +133,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         wp.addCoordinate(from);
         wp.addCoordinate(to);
 
-        options.transportModes = [options.transportMode];
-        router.calculateRoute(wp, [options]);
+        /*Fix for insanity*/
+        cleanOptions = {
+            transportModes: [options.transportMode],
+            type: options.type,
+            options: options.options,
+            trafficMode: options.trafficMode
+        };
+
+        router.calculateRoute(wp, [cleanOptions]);
     };
 
     $.jHERE.extend('route', route);

@@ -1,6 +1,7 @@
-P._injectNS = function(ns){
-        _ns = ns;
-        _ns_map = ns.map;
+P._injectNS = function(nokia){
+        _nokia = nokia;
+        _ns = nokia.maps;
+        _ns_map = _ns.map;
 };
 P._injectJSLALoader = function(loader){
     _JSLALoader = loader;
