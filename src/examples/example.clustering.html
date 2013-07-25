@@ -1,0 +1,4201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+<div id="map"></div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
+<script type="text/javascript" src="../zepto.adapter.js"></script>
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
+<script type="text/javascript" src="../jhere.js"></script>
+<script type="text/javascript" src="../extensions/clustering.js"></script>
+<script>
+var data = [
+  {
+    "name":"Lemland, Herröskatan",
+    "address":"Lemland, Herröskatan",
+    "longitude":20.17920,
+    "latitude":59.96930
+  },
+  {
+    "name":"Föglö, Hastersboda",
+    "address":"Föglö, Hastersboda",
+    "longitude":20.60189,
+    "latitude":60.02766
+  },
+  {
+    "name":"Föglö, Jyddö",
+    "address":"Föglö, Jyddö",
+    "longitude":20.53805,
+    "latitude":60.08624
+  },
+  {
+    "name":"Jomala, Kungsöbergen",
+    "address":"Jomala, Kungsöbergen",
+    "longitude":19.81340,
+    "latitude":60.10550
+  },
+  {
+    "name":"Jomala, Torpfjärden",
+    "address":"Jomala, Torpfjärden",
+    "longitude":19.89958,
+    "latitude":60.10842
+  },
+  {
+    "name":"Maarianhamina, Strandnäs",
+    "address":"Maarianhamina, Strandnäs",
+    "longitude":19.94690,
+    "latitude":60.11303
+  },
+  {
+    "name":"Parainen, Houtskari Jungfruskär Österfladan",
+    "address":"Parainen, Houtskari Jungfruskär Österfladan",
+    "longitude":21.08133,
+    "latitude":60.13993
+  },
+  {
+    "name":"Jomala, Ingbyberget",
+    "address":"Jomala, Ingbyberget",
+    "longitude":19.94446,
+    "latitude":60.17116
+  },
+  {
+    "name":"Parainen, Houtskari Borgberget",
+    "address":"Parainen, Houtskari Borgberget",
+    "longitude":21.30457,
+    "latitude":60.21683
+  },
+  {
+    "name":"Sund, Kastelholm Kvarnberget",
+    "address":"Sund, Kastelholm Kvarnberget",
+    "longitude":20.06619,
+    "latitude":60.23047
+  },
+  {
+    "name":"Finström, Pålsböle Storberget",
+    "address":"Finström, Pålsböle Storberget",
+    "longitude":19.91835,
+    "latitude":60.26957
+  },
+  {
+    "name":"Hammarland, Sålis Vårdberg",
+    "address":"Hammarland, Sålis Vårdberg",
+    "longitude":19.75751,
+    "latitude":60.27408
+  },
+  {
+    "name":"Finström, Bergö",
+    "address":"Finström, Bergö",
+    "longitude":19.82475,
+    "latitude":60.30602
+  },
+  {
+    "name":"Saltvik, Orrdals klint",
+    "address":"Saltvik, Orrdals klint",
+    "longitude":20.12117,
+    "latitude":60.32814
+  },
+  {
+    "name":"Parainen, Iniö Kasberget",
+    "address":"Parainen, Iniö Kasberget",
+    "longitude":21.35699,
+    "latitude":60.39974
+  },
+  {
+    "name":"Brändö, Jurmo Strömsbötet",
+    "address":"Brändö, Jurmo Strömsbötet",
+    "longitude":21.08385,
+    "latitude":60.51927
+  },
+  {
+    "name":"Kustavi, Katanpää",
+    "address":"Kustavi, Katanpää",
+    "longitude":21.16371,
+    "latitude":60.61408
+  },
+  {
+    "name":"Kustavi, Isokari",
+    "address":"Kustavi, Isokari",
+    "longitude":21.02057,
+    "latitude":60.71847
+  },
+  {
+    "name":"Uusikaupunki, Hiunjärvi",
+    "address":"Uusikaupunki, Hiunjärvi",
+    "longitude":21.41468,
+    "latitude":60.82669
+  },
+  {
+    "name":"Uusikaupunki, Lamminjärvi",
+    "address":"Uusikaupunki, Lamminjärvi",
+    "longitude":21.28086,
+    "latitude":60.90918
+  },
+  {
+    "name":"Pyhäranta, Rihtniemi",
+    "address":"Pyhäranta, Rihtniemi",
+    "longitude":21.29927,
+    "latitude":61.08652
+  },
+  {
+    "name":"Parainen, Nauvo Mattnäs Vargberget",
+    "address":"Parainen, Nauvo Mattnäs Vargberget",
+    "longitude":21.78637,
+    "latitude":60.13535
+  },
+  {
+    "name":"Naantali, Askainen Livonsaari Samppaanvuori",
+    "address":"Naantali, Askainen Livonsaari Samppaanvuori",
+    "longitude":21.75577,
+    "latitude":60.52621
+  },
+  {
+    "name":"Taivassalo, Rantalanlahti",
+    "address":"Taivassalo, Rantalanlahti",
+    "longitude":21.57190,
+    "latitude":60.56741
+  },
+  {
+    "name":"Mynämäki, Mietoinen Kuustonlahti",
+    "address":"Mynämäki, Mietoinen Kuustonlahti",
+    "longitude":21.84141,
+    "latitude":60.60860
+  },
+  {
+    "name":"Mynämäki, Mietoinen Mietoistenlahti Vasikkahaka 1",
+    "address":"Mynämäki, Mietoinen Mietoistenlahti Vasikkahaka 1",
+    "longitude":21.84962,
+    "latitude":60.63346
+  },
+  {
+    "name":"Mynämäki, Mietoinen Mietoistenlahti Vasikkahaka 2",
+    "address":"Mynämäki, Mietoinen Mietoistenlahti Vasikkahaka 2",
+    "longitude":21.84895,
+    "latitude":60.63551
+  },
+  {
+    "name":"Pyhäranta, Nuuski",
+    "address":"Pyhäranta, Nuuski",
+    "longitude":21.65460,
+    "latitude":60.99961
+  },
+  {
+    "name":"Rauma, Kodisjoki Otajärvi",
+    "address":"Rauma, Kodisjoki Otajärvi",
+    "longitude":21.66610,
+    "latitude":61.00367
+  },
+  {
+    "name":"Rauma, Unajanlahti",
+    "address":"Rauma, Unajanlahti",
+    "longitude":21.49227,
+    "latitude":61.07693
+  },
+  {
+    "name":"Rauma, Lappi Kauklainen",
+    "address":"Rauma, Lappi Kauklainen",
+    "longitude":21.77704,
+    "latitude":61.08042
+  },
+  {
+    "name":"Pori, Ooviiki",
+    "address":"Pori, Ooviiki",
+    "longitude":21.58727,
+    "latitude":61.49693
+  },
+  {
+    "name":"Pori, Kaarluoto",
+    "address":"Pori, Kaarluoto",
+    "longitude":21.63373,
+    "latitude":61.50779
+  },
+  {
+    "name":"Pori, Eteläranta",
+    "address":"Pori, Eteläranta",
+    "longitude":21.62463,
+    "latitude":61.51590
+  },
+  {
+    "name":"Pori, Toukari",
+    "address":"Pori, Toukari",
+    "longitude":21.75787,
+    "latitude":61.52720
+  },
+  {
+    "name":"Pori, Yyteri",
+    "address":"Pori, Yyteri",
+    "longitude":21.55675,
+    "latitude":61.53157
+  },
+  {
+    "name":"Pori, Leveäkari",
+    "address":"Pori, Leveäkari",
+    "longitude":21.59867,
+    "latitude":61.53477
+  },
+  {
+    "name":"Pori, Huhtala",
+    "address":"Pori, Huhtala",
+    "longitude":21.56780,
+    "latitude":61.53725
+  },
+  {
+    "name":"Pori, Enäjärvi lava",
+    "address":"Pori, Enäjärvi lava",
+    "longitude":21.62243,
+    "latitude":61.54543
+  },
+  {
+    "name":"Pori, Enäjärvi",
+    "address":"Pori, Enäjärvi",
+    "longitude":21.60256,
+    "latitude":61.54653
+  },
+  {
+    "name":"Pori, Kahaluoto Krootila",
+    "address":"Pori, Kahaluoto Krootila",
+    "longitude":21.71028,
+    "latitude":61.55184
+  },
+  {
+    "name":"Pori, Teemuluoto",
+    "address":"Pori, Teemuluoto",
+    "longitude":21.65068,
+    "latitude":61.55705
+  },
+  {
+    "name":"Pori, Levon lammet",
+    "address":"Pori, Levon lammet",
+    "longitude":21.50535,
+    "latitude":61.58899
+  },
+  {
+    "name":"Naantali, Rymättylä Aasla Karhuvuori",
+    "address":"Naantali, Rymättylä Aasla Karhuvuori",
+    "longitude":21.94497,
+    "latitude":60.28914
+  },
+  {
+    "name":"Parainen, Nauvo Kirjais",
+    "address":"Parainen, Nauvo Kirjais",
+    "longitude":21.95233,
+    "latitude":60.11849
+  },
+  {
+    "name":"Raisio, Kattelus",
+    "address":"Raisio, Kattelus",
+    "longitude":22.10457,
+    "latitude":60.46693
+  },
+  {
+    "name":"Turku, Ruissalo Krottilanlahti",
+    "address":"Turku, Ruissalo Krottilanlahti",
+    "longitude":22.13001,
+    "latitude":60.42277
+  },
+  {
+    "name":"Parainen, Petterby",
+    "address":"Parainen, Petterby",
+    "longitude":22.19004,
+    "latitude":60.28854
+  },
+  {
+    "name":"Turku, Ruissalo Marjaniemi",
+    "address":"Turku, Ruissalo Marjaniemi",
+    "longitude":22.19478,
+    "latitude":60.43904
+  },
+  {
+    "name":"Turku, Ruissalo Tammenterho",
+    "address":"Turku, Ruissalo Tammenterho",
+    "longitude":22.20233,
+    "latitude":60.43702
+  },
+  {
+    "name":"Parainen, Lenholm Mattholmsfladan",
+    "address":"Parainen, Lenholm Mattholmsfladan",
+    "longitude":22.20711,
+    "latitude":60.24180
+  },
+  {
+    "name":"Turku, Hirvensalo Friskalanlahti",
+    "address":"Turku, Hirvensalo Friskalanlahti",
+    "longitude":22.24640,
+    "latitude":60.39391
+  },
+  {
+    "name":"Kaarina, Rauvolanlahti",
+    "address":"Kaarina, Rauvolanlahti",
+    "longitude":22.28498,
+    "latitude":60.40581
+  },
+  {
+    "name":"Kaarina, Rauvolanlahti lintulava 1",
+    "address":"Kaarina, Rauvolanlahti lintulava 1",
+    "longitude":22.28632,
+    "latitude":60.40660
+  },
+  {
+    "name":"Kaarina, Rauvolanlahti lintulava 2",
+    "address":"Kaarina, Rauvolanlahti lintulava 2",
+    "longitude":22.28682,
+    "latitude":60.40780
+  },
+  {
+    "name":"Kaarina, Vaarniemenkallio",
+    "address":"Kaarina, Vaarniemenkallio",
+    "longitude":22.28862,
+    "latitude":60.39910
+  },
+  {
+    "name":"Kemiönsaari, Dragsfjärd Höglandet",
+    "address":"Kemiönsaari, Dragsfjärd Höglandet",
+    "longitude":22.31402,
+    "latitude":60.10581
+  },
+  {
+    "name":"Kaarina, Littoistenjärvi",
+    "address":"Kaarina, Littoistenjärvi",
+    "longitude":22.38442,
+    "latitude":60.46031
+  },
+  {
+    "name":"Kaarina, Kuusistonlahti S",
+    "address":"Kaarina, Kuusistonlahti S",
+    "longitude":22.46083,
+    "latitude":60.39395
+  },
+  {
+    "name":"Kaarina, Kuusistonlahti Kartano",
+    "address":"Kaarina, Kuusistonlahti Kartano",
+    "longitude":22.46620,
+    "latitude":60.40082
+  },
+  {
+    "name":"Kaarina, Piikkiö Piikkiönlahti",
+    "address":"Kaarina, Piikkiö Piikkiönlahti",
+    "longitude":22.49835,
+    "latitude":60.41863
+  },
+  {
+    "name":"Sauvo, Maalu",
+    "address":"Sauvo, Maalu",
+    "longitude":22.60759,
+    "latitude":60.25620
+  },
+  {
+    "name":"Kemiönsaari, Västanfjärd Galtarbyviken",
+    "address":"Kemiönsaari, Västanfjärd Galtarbyviken",
+    "longitude":22.61519,
+    "latitude":60.06018
+  },
+  {
+    "name":"Paimio, Paimionlahti Meltola",
+    "address":"Paimio, Paimionlahti Meltola",
+    "longitude":22.64288,
+    "latitude":60.39969
+  },
+  {
+    "name":"Naantali, Luolalanjärvi W",
+    "address":"Naantali, Luolalanjärvi W",
+    "longitude":22.04335,
+    "latitude":60.46719
+  },
+  {
+    "name":"Raisio, Raisionlahti",
+    "address":"Raisio, Raisionlahti",
+    "longitude":22.12429,
+    "latitude":60.46898
+  },
+  {
+    "name":"Naantali, Luolalanjärvi NE",
+    "address":"Naantali, Luolalanjärvi NE",
+    "longitude":22.05013,
+    "latitude":60.46956
+  },
+  {
+    "name":"Rusko, Kullaanvuori",
+    "address":"Rusko, Kullaanvuori",
+    "longitude":22.17106,
+    "latitude":60.52523
+  },
+  {
+    "name":"Masku, Lemu Halkkoaukko Kaidanpää",
+    "address":"Masku, Lemu Halkkoaukko Kaidanpää",
+    "longitude":21.93599,
+    "latitude":60.53174
+  },
+  {
+    "name":"Lieto, Nautelankoski",
+    "address":"Lieto, Nautelankoski",
+    "longitude":22.45980,
+    "latitude":60.55617
+  },
+  {
+    "name":"Lieto, Mahlio Tornivuori",
+    "address":"Lieto, Mahlio Tornivuori",
+    "longitude":22.59751,
+    "latitude":60.56846
+  },
+  {
+    "name":"Rusko, Vahto Vajosuo E",
+    "address":"Rusko, Vahto Vajosuo E",
+    "longitude":22.35665,
+    "latitude":60.68905
+  },
+  {
+    "name":"Aura, Kurjenrahka Koivusaari",
+    "address":"Aura, Kurjenrahka Koivusaari",
+    "longitude":22.42634,
+    "latitude":60.72436
+  },
+  {
+    "name":"Pöytyä, Haveri Kärilänmäki",
+    "address":"Pöytyä, Haveri Kärilänmäki",
+    "longitude":22.69028,
+    "latitude":60.82289
+  },
+  {
+    "name":"Eura, Koskeljärvi Latosaari",
+    "address":"Eura, Koskeljärvi Latosaari",
+    "longitude":22.09481,
+    "latitude":60.91601
+  },
+  {
+    "name":"Eura, Vaaljärvi",
+    "address":"Eura, Vaaljärvi",
+    "longitude":22.06311,
+    "latitude":60.92290
+  },
+  {
+    "name":"Säkylä, Löytäneenlampi",
+    "address":"Säkylä, Löytäneenlampi",
+    "longitude":22.49412,
+    "latitude":60.98565
+  },
+  {
+    "name":"Säkylä, Pyhäjärvi Sarvonlahti",
+    "address":"Säkylä, Pyhäjärvi Sarvonlahti",
+    "longitude":22.37271,
+    "latitude":61.03103
+  },
+  {
+    "name":"Köyliö, Vinnari",
+    "address":"Köyliö, Vinnari",
+    "longitude":22.31027,
+    "latitude":61.14393
+  },
+  {
+    "name":"Huittinen, Raijalanjärvi (vankilan pelto)",
+    "address":"Huittinen, Raijalanjärvi (vankilan pelto)",
+    "longitude":22.55397,
+    "latitude":61.21064
+  },
+  {
+    "name":"Huittinen, Isosuo",
+    "address":"Huittinen, Isosuo",
+    "longitude":22.58639,
+    "latitude":61.25035
+  },
+  {
+    "name":"Huittinen, Mutilahti",
+    "address":"Huittinen, Mutilahti",
+    "longitude":22.58317,
+    "latitude":61.25490
+  },
+  {
+    "name":"Kokemäki, Puurijärvi",
+    "address":"Kokemäki, Puurijärvi",
+    "longitude":22.55684,
+    "latitude":61.27572
+  },
+  {
+    "name":"Kokemäki, Ahvenus",
+    "address":"Kokemäki, Ahvenus",
+    "longitude":22.53007,
+    "latitude":61.29678
+  },
+  {
+    "name":"Harjavalta, Pitkäjärvi",
+    "address":"Harjavalta, Pitkäjärvi",
+    "longitude":22.20986,
+    "latitude":61.38879
+  },
+  {
+    "name":"Kiikoinen, Kuorsumaanjärvi",
+    "address":"Kiikoinen, Kuorsumaanjärvi",
+    "longitude":22.59441,
+    "latitude":61.52184
+  },
+  {
+    "name":"Paimio, Iso-Heikoinen Kuhankuono",
+    "address":"Paimio, Iso-Heikoinen Kuhankuono",
+    "longitude":22.78801,
+    "latitude":60.45329
+  },
+  {
+    "name":"Hanko, Halias",
+    "address":"Hanko, Halias",
+    "longitude":22.89438,
+    "latitude":59.81150
+  },
+  {
+    "name":"Hanko, Kuningattarenvuori",
+    "address":"Hanko, Kuningattarenvuori",
+    "longitude":22.95717,
+    "latitude":59.82070
+  },
+  {
+    "name":"Koski Tl, Hevonlinnanharju",
+    "address":"Koski Tl, Hevonlinnanharju",
+    "longitude":23.03321,
+    "latitude":60.69891
+  },
+  {
+    "name":"Hanko, Täktom",
+    "address":"Hanko, Täktom",
+    "longitude":23.07648,
+    "latitude":59.84343
+  },
+  {
+    "name":"Salo, Halikonlahti Timalitorni",
+    "address":"Salo, Halikonlahti Timalitorni",
+    "longitude":23.08673,
+    "latitude":60.36995
+  },
+  {
+    "name":"Salo, Halikonlahti",
+    "address":"Salo, Halikonlahti",
+    "longitude":23.09001,
+    "latitude":60.37310
+  },
+  {
+    "name":"Hanko, Svanvik",
+    "address":"Hanko, Svanvik",
+    "longitude":23.16018,
+    "latitude":59.83657
+  },
+  {
+    "name":"Raasepori, Tammisaari Harpar Storträsket",
+    "address":"Raasepori, Tammisaari Harpar Storträsket",
+    "longitude":23.32742,
+    "latitude":59.94500
+  },
+  {
+    "name":"Raasepori, Älgö Rodjan",
+    "address":"Raasepori, Älgö Rodjan",
+    "longitude":23.39654,
+    "latitude":59.86569
+  },
+  {
+    "name":"Raasepori, Tammisaari Stadsfjärden",
+    "address":"Raasepori, Tammisaari Stadsfjärden",
+    "longitude":23.40909,
+    "latitude":59.98015
+  },
+  {
+    "name":"Raasepori, Gullö Botesberget",
+    "address":"Raasepori, Gullö Botesberget",
+    "longitude":23.42284,
+    "latitude":59.92285
+  },
+  {
+    "name":"Salo, Suomusjärvi Omenajärvi",
+    "address":"Salo, Suomusjärvi Omenajärvi",
+    "longitude":23.54872,
+    "latitude":60.41503
+  },
+  {
+    "name":"Raasepori, Pohja Tukkisatama",
+    "address":"Raasepori, Pohja Tukkisatama",
+    "longitude":23.54971,
+    "latitude":60.09487
+  },
+  {
+    "name":"Salo, Suomusjärvi Aneriojärvi",
+    "address":"Salo, Suomusjärvi Aneriojärvi",
+    "longitude":23.57519,
+    "latitude":60.37857
+  },
+  {
+    "name":"Tammela, Torronsuo Idänpääkallio",
+    "address":"Tammela, Torronsuo Idänpääkallio",
+    "longitude":23.60393,
+    "latitude":60.71852
+  },
+  {
+    "name":"Raasepori, Karjaa Läppträsket Pelikaanitorni",
+    "address":"Raasepori, Karjaa Läppträsket Pelikaanitorni",
+    "longitude":23.64585,
+    "latitude":60.04699
+  },
+  {
+    "name":"Raasepori, Karjaa Läppträsket N",
+    "address":"Raasepori, Karjaa Läppträsket N",
+    "longitude":23.65444,
+    "latitude":60.05017
+  },
+  {
+    "name":"Karjalohja, Kotojärvi",
+    "address":"Karjalohja, Kotojärvi",
+    "longitude":23.71985,
+    "latitude":60.18788
+  },
+  {
+    "name":"Raasepori, Mustio Päsarträsket Ruffe",
+    "address":"Raasepori, Mustio Päsarträsket Ruffe",
+    "longitude":23.75676,
+    "latitude":60.15311
+  },
+  {
+    "name":"Raasepori, Grundsjö Lövdal",
+    "address":"Raasepori, Grundsjö Lövdal",
+    "longitude":23.81709,
+    "latitude":60.04909
+  },
+  {
+    "name":"Loimaa, Mälläinen",
+    "address":"Loimaa, Mälläinen",
+    "longitude":22.83496,
+    "latitude":60.98816
+  },
+  {
+    "name":"Sastamala, Vammala Keskistenjärvi",
+    "address":"Sastamala, Vammala Keskistenjärvi",
+    "longitude":22.94670,
+    "latitude":61.26382
+  },
+  {
+    "name":"Sastamala, Vammala Ekojärvi",
+    "address":"Sastamala, Vammala Ekojärvi",
+    "longitude":23.21731,
+    "latitude":61.29838
+  },
+  {
+    "name":"Ypäjä, Lavansuo",
+    "address":"Ypäjä, Lavansuo",
+    "longitude":23.32475,
+    "latitude":60.79373
+  },
+  {
+    "name":"Hämeenkyrö, Sarkkilanjärvi S",
+    "address":"Hämeenkyrö, Sarkkilanjärvi S",
+    "longitude":23.34531,
+    "latitude":61.59674
+  },
+  {
+    "name":"Hämeenkyrö, Sarkkilanjärvi N",
+    "address":"Hämeenkyrö, Sarkkilanjärvi N",
+    "longitude":23.34877,
+    "latitude":61.60665
+  },
+  {
+    "name":"Nokia, Siuro Knuutila",
+    "address":"Nokia, Siuro Knuutila",
+    "longitude":23.36335,
+    "latitude":61.46640
+  },
+  {
+    "name":"Jokioinen, Lintupaju",
+    "address":"Jokioinen, Lintupaju",
+    "longitude":23.44098,
+    "latitude":60.79863
+  },
+  {
+    "name":"Urjala, Kortejärvi",
+    "address":"Urjala, Kortejärvi",
+    "longitude":23.46728,
+    "latitude":61.09986
+  },
+  {
+    "name":"Jokioinen, Pellilänsuo",
+    "address":"Jokioinen, Pellilänsuo",
+    "longitude":23.53746,
+    "latitude":60.80053
+  },
+  {
+    "name":"Ylöjärvi, Hirvijärvi",
+    "address":"Ylöjärvi, Hirvijärvi",
+    "longitude":23.55047,
+    "latitude":61.60208
+  },
+  {
+    "name":"Pirkkala, Pappila",
+    "address":"Pirkkala, Pappila",
+    "longitude":23.55682,
+    "latitude":61.46464
+  },
+  {
+    "name":"Tammela, Torronsuo Kiljamo",
+    "address":"Tammela, Torronsuo Kiljamo",
+    "longitude":23.58198,
+    "latitude":60.73597
+  },
+  {
+    "name":"Vesilahti, Vähäjärvi",
+    "address":"Vesilahti, Vähäjärvi",
+    "longitude":23.61838,
+    "latitude":61.28693
+  },
+  {
+    "name":"Ylöjärvi, Ilmarinjärvi",
+    "address":"Ylöjärvi, Ilmarinjärvi",
+    "longitude":23.65173,
+    "latitude":61.54595
+  },
+  {
+    "name":"Forssa, Salmistonmäki Loimalammi",
+    "address":"Forssa, Salmistonmäki Loimalammi",
+    "longitude":23.66861,
+    "latitude":60.80339
+  },
+  {
+    "name":"Forssa, Koijärvi",
+    "address":"Forssa, Koijärvi",
+    "longitude":23.73330,
+    "latitude":60.97665
+  },
+  {
+    "name":"Lempäälä, Mattila Pyhällönvuori",
+    "address":"Lempäälä, Mattila Pyhällönvuori",
+    "longitude":23.76881,
+    "latitude":61.26095
+  },
+  {
+    "name":"Lempäälä, Ahtialanjärvi",
+    "address":"Lempäälä, Ahtialanjärvi",
+    "longitude":23.79024,
+    "latitude":61.31169
+  },
+  {
+    "name":"Tampere, Kauppi",
+    "address":"Tampere, Kauppi",
+    "longitude":23.79290,
+    "latitude":61.51197
+  },
+  {
+    "name":"Tampere, Iidesjärvi",
+    "address":"Tampere, Iidesjärvi",
+    "longitude":23.82275,
+    "latitude":61.48091
+  },
+  {
+    "name":"Tammela, Pehkijärvi",
+    "address":"Tammela, Pehkijärvi",
+    "longitude":23.87857,
+    "latitude":60.84503
+  },
+  {
+    "name":"Nummi-Pusula, Pusulanjärvi",
+    "address":"Nummi-Pusula, Pusulanjärvi",
+    "longitude":23.96882,
+    "latitude":60.44878
+  },
+  {
+    "name":"Nummi-Pusula, Savijärvi",
+    "address":"Nummi-Pusula, Savijärvi",
+    "longitude":24.02348,
+    "latitude":60.35401
+  },
+  {
+    "name":"Karkkila, Pyhäjärvi",
+    "address":"Karkkila, Pyhäjärvi",
+    "longitude":24.20353,
+    "latitude":60.53871
+  },
+  {
+    "name":"Siuntio, Tjusträsk",
+    "address":"Siuntio, Tjusträsk",
+    "longitude":24.21031,
+    "latitude":60.16358
+  },
+  {
+    "name":"Vihti, Vanjärvi",
+    "address":"Vihti, Vanjärvi",
+    "longitude":24.22102,
+    "latitude":60.44698
+  },
+  {
+    "name":"Inkoo, Kopparnäs Långvassfjärden",
+    "address":"Inkoo, Kopparnäs Långvassfjärden",
+    "longitude":24.23402,
+    "latitude":60.05652
+  },
+  {
+    "name":"Kirkkonummi, Rönnskär",
+    "address":"Kirkkonummi, Rönnskär",
+    "longitude":24.39129,
+    "latitude":59.93553
+  },
+  {
+    "name":"Kirkkonummi, Porkkala Sunds",
+    "address":"Kirkkonummi, Porkkala Sunds",
+    "longitude":24.44417,
+    "latitude":59.98886
+  },
+  {
+    "name":"Kirkkonummi, Saltfjärden",
+    "address":"Kirkkonummi, Saltfjärden",
+    "longitude":24.48608,
+    "latitude":60.08746
+  },
+  {
+    "name":"Espoo, Espoonlahti Fiskarsinmäki",
+    "address":"Espoo, Espoonlahti Fiskarsinmäki",
+    "longitude":24.57123,
+    "latitude":60.17688
+  },
+  {
+    "name":"Kirkkonummi, Stora Brändö",
+    "address":"Kirkkonummi, Stora Brändö",
+    "longitude":24.59435,
+    "latitude":60.03820
+  },
+  {
+    "name":"Kirkkonummi, Medvast Morsfjärden",
+    "address":"Kirkkonummi, Medvast Morsfjärden",
+    "longitude":24.62826,
+    "latitude":60.10500
+  },
+  {
+    "name":"Espoo, Stora Herrö",
+    "address":"Espoo, Stora Herrö",
+    "longitude":24.66903,
+    "latitude":60.08916
+  },
+  {
+    "name":"Riihimäki, Paalijärvi",
+    "address":"Riihimäki, Paalijärvi",
+    "longitude":24.67253,
+    "latitude":60.68034
+  },
+  {
+    "name":"Espoo, Kaitalahti",
+    "address":"Espoo, Kaitalahti",
+    "longitude":24.69246,
+    "latitude":60.13743
+  },
+  {
+    "name":"Espoo, Matalajärvi",
+    "address":"Espoo, Matalajärvi",
+    "longitude":24.69826,
+    "latitude":60.24972
+  },
+  {
+    "name":"Espoo, Suomenoja S",
+    "address":"Espoo, Suomenoja S",
+    "longitude":24.71846,
+    "latitude":60.15122
+  },
+  {
+    "name":"Espoo, Suomenoja E",
+    "address":"Espoo, Suomenoja E",
+    "longitude":24.72232,
+    "latitude":60.15288
+  },
+  {
+    "name":"Espoo, Iso Vasikkasaari",
+    "address":"Espoo, Iso Vasikkasaari",
+    "longitude":24.76373,
+    "latitude":60.13966
+  },
+  {
+    "name":"Vantaa, Pitkäjärvi",
+    "address":"Vantaa, Pitkäjärvi",
+    "longitude":24.77499,
+    "latitude":60.27112
+  },
+  {
+    "name":"Espoo, Laajalahti Maari",
+    "address":"Espoo, Laajalahti Maari",
+    "longitude":24.81899,
+    "latitude":60.18951
+  },
+  {
+    "name":"Espoo, Laajalahti Villa Elfvik",
+    "address":"Espoo, Laajalahti Villa Elfvik",
+    "longitude":24.82406,
+    "latitude":60.19984
+  },
+  {
+    "name":"Akaa, Toijala Terisjärvi",
+    "address":"Akaa, Toijala Terisjärvi",
+    "longitude":23.90495,
+    "latitude":61.18884
+  },
+  {
+    "name":"Hämeenlinna, Kalvola Muulijärvi Pirttikoski",
+    "address":"Hämeenlinna, Kalvola Muulijärvi Pirttikoski",
+    "longitude":23.92429,
+    "latitude":61.00603
+  },
+  {
+    "name":"Valkeakoski, Vallonjärvi",
+    "address":"Valkeakoski, Vallonjärvi",
+    "longitude":24.02752,
+    "latitude":61.24782
+  },
+  {
+    "name":"Valkeakoski, Saarioisjärvi Kantalanlahti",
+    "address":"Valkeakoski, Saarioisjärvi Kantalanlahti",
+    "longitude":24.03394,
+    "latitude":61.16605
+  },
+  {
+    "name":"Valkeakoski, Saarioisjärvi Lapinnokka",
+    "address":"Valkeakoski, Saarioisjärvi Lapinnokka",
+    "longitude":24.03793,
+    "latitude":61.15336
+  },
+  {
+    "name":"Kangasala, Kirkkojärvi",
+    "address":"Kangasala, Kirkkojärvi",
+    "longitude":24.04933,
+    "latitude":61.46104
+  },
+  {
+    "name":"Valkeakoski, Kärsä",
+    "address":"Valkeakoski, Kärsä",
+    "longitude":24.08331,
+    "latitude":61.26310
+  },
+  {
+    "name":"Kangasala, Keisarinharju",
+    "address":"Kangasala, Keisarinharju",
+    "longitude":24.12772,
+    "latitude":61.43657
+  },
+  {
+    "name":"Kangasala, Pohtiolammi",
+    "address":"Kangasala, Pohtiolammi",
+    "longitude":24.12976,
+    "latitude":61.44923
+  },
+  {
+    "name":"Valkeakoski, Vähäjärvi",
+    "address":"Valkeakoski, Vähäjärvi",
+    "longitude":24.14213,
+    "latitude":61.18903
+  },
+  {
+    "name":"Valkeakoski, Tykölänjärvi",
+    "address":"Valkeakoski, Tykölänjärvi",
+    "longitude":24.21495,
+    "latitude":61.25193
+  },
+  {
+    "name":"Hämeenlinna, Kalvola Jalavaniemi",
+    "address":"Hämeenlinna, Kalvola Jalavaniemi",
+    "longitude":24.23795,
+    "latitude":61.08845
+  },
+  {
+    "name":"Pälkäne, Syrjänharju",
+    "address":"Pälkäne, Syrjänharju",
+    "longitude":24.25410,
+    "latitude":61.34645
+  },
+  {
+    "name":"Pälkäne, Kukkola Vähäjärvi",
+    "address":"Pälkäne, Kukkola Vähäjärvi",
+    "longitude":24.41435,
+    "latitude":61.34330
+  },
+  {
+    "name":"Loppi, Kyyniönlahti",
+    "address":"Loppi, Kyyniönlahti",
+    "longitude":24.44681,
+    "latitude":60.70637
+  },
+  {
+    "name":"Hämeenlinna, Hattelmalanjärvi",
+    "address":"Hämeenlinna, Hattelmalanjärvi",
+    "longitude":24.44816,
+    "latitude":60.96852
+  },
+  {
+    "name":"Hämeenlinna, Hauho Vuorenharju",
+    "address":"Hämeenlinna, Hauho Vuorenharju",
+    "longitude":24.56713,
+    "latitude":61.16852
+  },
+  {
+    "name":"Janakkala, Toivajoki",
+    "address":"Janakkala, Toivajoki",
+    "longitude":24.57608,
+    "latitude":60.78253
+  },
+  {
+    "name":"Pälkäne, Luopioinen Karvialahti",
+    "address":"Pälkäne, Luopioinen Karvialahti",
+    "longitude":24.65821,
+    "latitude":61.36785
+  },
+  {
+    "name":"Hämeenlinna, Hauho Vähäniemi",
+    "address":"Hämeenlinna, Hauho Vähäniemi",
+    "longitude":24.65885,
+    "latitude":61.25997
+  },
+  {
+    "name":"Janakkala, Suurisuo",
+    "address":"Janakkala, Suurisuo",
+    "longitude":24.80156,
+    "latitude":60.98383
+  },
+  {
+    "name":"Hausjärvi, Piirivuori",
+    "address":"Hausjärvi, Piirivuori",
+    "longitude":24.82700,
+    "latitude":60.80596
+  },
+  {
+    "name":"Korsnäs, Harrström Hamnträsket",
+    "address":"Korsnäs, Harrström Hamnträsket",
+    "longitude":21.06918,
+    "latitude":62.71360
+  },
+  {
+    "name":"Kristiinankaupunki, Siipyy",
+    "address":"Kristiinankaupunki, Siipyy",
+    "longitude":21.29276,
+    "latitude":62.01397
+  },
+  {
+    "name":"Kristiinankaupunki, Hamnfjärden",
+    "address":"Kristiinankaupunki, Hamnfjärden",
+    "longitude":21.33161,
+    "latitude":62.13213
+  },
+  {
+    "name":"Maalahti, Gålören",
+    "address":"Maalahti, Gålören",
+    "longitude":21.36750,
+    "latitude":62.87513
+  },
+  {
+    "name":"Närpiö, Piolahti",
+    "address":"Närpiö, Piolahti",
+    "longitude":21.36786,
+    "latitude":62.37214
+  },
+  {
+    "name":"Kristiinankaupunki, Pohjoislahti",
+    "address":"Kristiinankaupunki, Pohjoislahti",
+    "longitude":21.37917,
+    "latitude":62.28134
+  },
+  {
+    "name":"Maalahti, Nojärvträsket",
+    "address":"Maalahti, Nojärvträsket",
+    "longitude":21.38995,
+    "latitude":62.77873
+  },
+  {
+    "name":"Maalahti, Åminne",
+    "address":"Maalahti, Åminne",
+    "longitude":21.48858,
+    "latitude":62.97218
+  },
+  {
+    "name":"Merikarvia, Kalfjellin havaintolava",
+    "address":"Merikarvia, Kalfjellin havaintolava",
+    "longitude":21.49256,
+    "latitude":61.83361
+  },
+  {
+    "name":"Pori, Hilska",
+    "address":"Pori, Hilska",
+    "longitude":21.51373,
+    "latitude":61.60755
+  },
+  {
+    "name":"Kristiinankaupunki, Blomträsket",
+    "address":"Kristiinankaupunki, Blomträsket",
+    "longitude":21.51865,
+    "latitude":62.20784
+  },
+  {
+    "name":"Vaasa, Söderfjärden",
+    "address":"Vaasa, Söderfjärden",
+    "longitude":21.56748,
+    "latitude":63.00799
+  },
+  {
+    "name":"Vaasa, Öjberget",
+    "address":"Vaasa, Öjberget",
+    "longitude":21.57174,
+    "latitude":63.03750
+  },
+  {
+    "name":"Merikarvia, Honkajärvi Joutsenjärvi",
+    "address":"Merikarvia, Honkajärvi Joutsenjärvi",
+    "longitude":21.58977,
+    "latitude":61.98003
+  },
+  {
+    "name":"Mustasaari, Söderfjärden",
+    "address":"Mustasaari, Söderfjärden",
+    "longitude":21.62717,
+    "latitude":63.01677
+  },
+  {
+    "name":"Vaasa, Sundominlahti Ryövärinkari",
+    "address":"Vaasa, Sundominlahti Ryövärinkari",
+    "longitude":21.67610,
+    "latitude":63.05722
+  },
+  {
+    "name":"Vaasa, Sundominlahti Tuovilanjokisuu",
+    "address":"Vaasa, Sundominlahti Tuovilanjokisuu",
+    "longitude":21.67848,
+    "latitude":63.05138
+  },
+  {
+    "name":"Vaasa, Sundominlahti",
+    "address":"Vaasa, Sundominlahti",
+    "longitude":21.68384,
+    "latitude":63.05013
+  },
+  {
+    "name":"Teuva, Suksenjärvi N",
+    "address":"Teuva, Suksenjärvi N",
+    "longitude":21.79548,
+    "latitude":62.40163
+  },
+  {
+    "name":"Teuva, Suksenjärvi S",
+    "address":"Teuva, Suksenjärvi S",
+    "longitude":21.79622,
+    "latitude":62.39626
+  },
+  {
+    "name":"Siikainen, Leväslammi",
+    "address":"Siikainen, Leväslammi",
+    "longitude":21.81287,
+    "latitude":61.78563
+  },
+  {
+    "name":"Pori, Noormarkku Inhottu",
+    "address":"Pori, Noormarkku Inhottu",
+    "longitude":22.14976,
+    "latitude":61.61401
+  },
+  {
+    "name":"Pomarkku, Isoneva",
+    "address":"Pomarkku, Isoneva",
+    "longitude":21.96115,
+    "latitude":61.67662
+  },
+  {
+    "name":"Jämijärvi, Jämi Soininharju",
+    "address":"Jämijärvi, Jämi Soininharju",
+    "longitude":22.72247,
+    "latitude":61.77648
+  },
+  {
+    "name":"Kankaanpää, Kyynärjärvi",
+    "address":"Kankaanpää, Kyynärjärvi",
+    "longitude":22.31775,
+    "latitude":61.84072
+  },
+  {
+    "name":"Siikainen, Pappilanniemi",
+    "address":"Siikainen, Pappilanniemi",
+    "longitude":21.83948,
+    "latitude":61.85104
+  },
+  {
+    "name":"Kankaanpää, Korvajärvi",
+    "address":"Kankaanpää, Korvajärvi",
+    "longitude":22.48430,
+    "latitude":61.94766
+  },
+  {
+    "name":"Siikainen, Katselma",
+    "address":"Siikainen, Katselma",
+    "longitude":21.92955,
+    "latitude":61.95354
+  },
+  {
+    "name":"Honkajoki, Huidankeidas",
+    "address":"Honkajoki, Huidankeidas",
+    "longitude":22.05089,
+    "latitude":61.99202
+  },
+  {
+    "name":"Isojoki, Mustansaarenkeidas",
+    "address":"Isojoki, Mustansaarenkeidas",
+    "longitude":21.84113,
+    "latitude":62.01872
+  },
+  {
+    "name":"Honkajoki, Satamakeidas",
+    "address":"Honkajoki, Satamakeidas",
+    "longitude":22.35376,
+    "latitude":62.02505
+  },
+  {
+    "name":"Kauhajoki, Lauhanvuori",
+    "address":"Kauhajoki, Lauhanvuori",
+    "longitude":22.17421,
+    "latitude":62.15273
+  },
+  {
+    "name":"Kauhajoki, Kauhaneva",
+    "address":"Kauhajoki, Kauhaneva",
+    "longitude":22.44552,
+    "latitude":62.21021
+  },
+  {
+    "name":"Kauhajoki, Ylimysjärvi",
+    "address":"Kauhajoki, Ylimysjärvi",
+    "longitude":22.38270,
+    "latitude":62.31612
+  },
+  {
+    "name":"Kauhajoki, Aninkuja",
+    "address":"Kauhajoki, Aninkuja",
+    "longitude":22.06146,
+    "latitude":62.43771
+  },
+  {
+    "name":"Jalasjärvi, Ponsijärvi",
+    "address":"Jalasjärvi, Ponsijärvi",
+    "longitude":22.54242,
+    "latitude":62.50075
+  },
+  {
+    "name":"Kurikka, Luopa Loukajanvuori",
+    "address":"Kurikka, Luopa Loukajanvuori",
+    "longitude":22.52327,
+    "latitude":62.60161
+  },
+  {
+    "name":"Kurikka, Niinistönjärvi",
+    "address":"Kurikka, Niinistönjärvi",
+    "longitude":22.14728,
+    "latitude":62.64637
+  },
+  {
+    "name":"Ilmajoki, Santavuori",
+    "address":"Ilmajoki, Santavuori",
+    "longitude":22.48020,
+    "latitude":62.65263
+  },
+  {
+    "name":"Laihia, Levaneva",
+    "address":"Laihia, Levaneva",
+    "longitude":22.04321,
+    "latitude":62.77617
+  },
+  {
+    "name":"Ilmajoki, Alajoki",
+    "address":"Ilmajoki, Alajoki",
+    "longitude":22.69145,
+    "latitude":62.79705
+  },
+  {
+    "name":"Ilmajoki, Alajoki museosauna",
+    "address":"Ilmajoki, Alajoki museosauna",
+    "longitude":22.66206,
+    "latitude":62.79717
+  },
+  {
+    "name":"Laihia, Rajavuori",
+    "address":"Laihia, Rajavuori",
+    "longitude":21.93751,
+    "latitude":62.80296
+  },
+  {
+    "name":"Hämeenkyrö, Kirkkojärvi",
+    "address":"Hämeenkyrö, Kirkkojärvi",
+    "longitude":23.19585,
+    "latitude":61.63098
+  },
+  {
+    "name":"Ylöjärvi, Viljakkala",
+    "address":"Ylöjärvi, Viljakkala",
+    "longitude":23.23427,
+    "latitude":61.66681
+  },
+  {
+    "name":"Ikaalinen Kurinperänlahti",
+    "address":"Ikaalinen Kurinperänlahti",
+    "longitude":23.06960,
+    "latitude":61.77498
+  },
+  {
+    "name":"Virrat, Vermasjärvi Mäntylänlahti",
+    "address":"Virrat, Vermasjärvi Mäntylänlahti",
+    "longitude":23.60805,
+    "latitude":62.27617
+  },
+  {
+    "name":"Virrat, Kurjenkylä Kurjenjärvi",
+    "address":"Virrat, Kurjenkylä Kurjenjärvi",
+    "longitude":23.30876,
+    "latitude":62.32399
+  },
+  {
+    "name":"Jalasjärvi, Hirvijärvi Ventelä",
+    "address":"Jalasjärvi, Hirvijärvi Ventelä",
+    "longitude":22.81840,
+    "latitude":62.46795
+  },
+  {
+    "name":"Jalasjärvi, Hirvijärvi N",
+    "address":"Jalasjärvi, Hirvijärvi N",
+    "longitude":22.82776,
+    "latitude":62.47290
+  },
+  {
+    "name":"Alavus, Kuivasjärvi Perunakielenniemi",
+    "address":"Alavus, Kuivasjärvi Perunakielenniemi",
+    "longitude":23.53040,
+    "latitude":62.58046
+  },
+  {
+    "name":"Alavus, Kuivasjärvi Pikkuselkä torni",
+    "address":"Alavus, Kuivasjärvi Pikkuselkä torni",
+    "longitude":23.48228,
+    "latitude":62.59135
+  },
+  {
+    "name":"Alavus, Kuivasjärvi Pikkuselkä lava",
+    "address":"Alavus, Kuivasjärvi Pikkuselkä lava",
+    "longitude":23.48017,
+    "latitude":62.59258
+  },
+  {
+    "name":"Kuortane, Sarvijärvi",
+    "address":"Kuortane, Sarvijärvi",
+    "longitude":23.60986,
+    "latitude":62.69557
+  },
+  {
+    "name":"Alavus, Mulkkujärvi",
+    "address":"Alavus, Mulkkujärvi",
+    "longitude":23.32660,
+    "latitude":62.69569
+  },
+  {
+    "name":"Seinäjoki, Nurmo Kivijärvenmäki",
+    "address":"Seinäjoki, Nurmo Kivijärvenmäki",
+    "longitude":23.14287,
+    "latitude":62.71406
+  },
+  {
+    "name":"Seinäjoki, Kyrkösvuori",
+    "address":"Seinäjoki, Kyrkösvuori",
+    "longitude":22.80258,
+    "latitude":62.75707
+  },
+  {
+    "name":"Kuortane, Mäyry Rumavuori",
+    "address":"Kuortane, Mäyry Rumavuori",
+    "longitude":23.55816,
+    "latitude":62.77536
+  },
+  {
+    "name":"Kuortane, Pennalanlahti",
+    "address":"Kuortane, Pennalanlahti",
+    "longitude":23.49866,
+    "latitude":62.79676
+  },
+  {
+    "name":"Seinäjoki, Nurmo Hirvijärvi",
+    "address":"Seinäjoki, Nurmo Hirvijärvi",
+    "longitude":23.12234,
+    "latitude":62.81086
+  },
+  {
+    "name":"Seinäjoki, Nurmo Paukaneva",
+    "address":"Seinäjoki, Nurmo Paukaneva",
+    "longitude":22.87982,
+    "latitude":62.83188
+  },
+  {
+    "name":"Lapua, Hirvijärvi",
+    "address":"Lapua, Hirvijärvi",
+    "longitude":23.11254,
+    "latitude":62.83508
+  },
+  {
+    "name":"Lapua, Simpsiö",
+    "address":"Lapua, Simpsiö",
+    "longitude":22.95230,
+    "latitude":62.95878
+  },
+  {
+    "name":"Lapua, Alajoki",
+    "address":"Lapua, Alajoki",
+    "longitude":22.90260,
+    "latitude":63.05463
+  },
+  {
+    "name":"Orivesi, Hirtopohja",
+    "address":"Orivesi, Hirtopohja",
+    "longitude":24.53740,
+    "latitude":61.60952
+  },
+  {
+    "name":"Orivesi, Pappilanlahti Pappilanniemi",
+    "address":"Orivesi, Pappilanlahti Pappilanniemi",
+    "longitude":24.36690,
+    "latitude":61.64361
+  },
+  {
+    "name":"Tampere, Teisko Nuutilanlahti",
+    "address":"Tampere, Teisko Nuutilanlahti",
+    "longitude":23.90933,
+    "latitude":61.74784
+  },
+  {
+    "name":"Mänttä-Vilppula, Mäntänvuori",
+    "address":"Mänttä-Vilppula, Mäntänvuori",
+    "longitude":24.64958,
+    "latitude":62.01621
+  },
+  {
+    "name":"Mänttä-Vilppula, Huhtilammi",
+    "address":"Mänttä-Vilppula, Huhtilammi",
+    "longitude":24.43138,
+    "latitude":62.05251
+  },
+  {
+    "name":"Mänttä-Vilppula, Käkijärvi",
+    "address":"Mänttä-Vilppula, Käkijärvi",
+    "longitude":24.51359,
+    "latitude":62.11735
+  },
+  {
+    "name":"Virrat, Sieralampi",
+    "address":"Virrat, Sieralampi",
+    "longitude":23.67386,
+    "latitude":62.15186
+  },
+  {
+    "name":"Virrat, Hauhuunselkä",
+    "address":"Virrat, Hauhuunselkä",
+    "longitude":23.95582,
+    "latitude":62.18538
+  },
+  {
+    "name":"Keuruu, Riiho Peräjärvi",
+    "address":"Keuruu, Riiho Peräjärvi",
+    "longitude":24.35005,
+    "latitude":62.20090
+  },
+  {
+    "name":"Keuruu, Riiho Lehdontie",
+    "address":"Keuruu, Riiho Lehdontie",
+    "longitude":24.41000,
+    "latitude":62.21479
+  },
+  {
+    "name":"Virrat, Herranen",
+    "address":"Virrat, Herranen",
+    "longitude":23.72323,
+    "latitude":62.26645
+  },
+  {
+    "name":"Keuruu, Kaivoslahti",
+    "address":"Keuruu, Kaivoslahti",
+    "longitude":24.68774,
+    "latitude":62.27351
+  },
+  {
+    "name":"Keuruu, Pihlajavesi Iso-Rimppi",
+    "address":"Keuruu, Pihlajavesi Iso-Rimppi",
+    "longitude":24.35544,
+    "latitude":62.37238
+  },
+  {
+    "name":"Keuruu, Heinä-Valkeinen",
+    "address":"Keuruu, Heinä-Valkeinen",
+    "longitude":24.35476,
+    "latitude":62.38736
+  },
+  {
+    "name":"Ähtäri, Vääräkoski Särkänlahti",
+    "address":"Ähtäri, Vääräkoski Särkänlahti",
+    "longitude":24.03262,
+    "latitude":62.52166
+  },
+  {
+    "name":"Multia, Valkeisenjärvi",
+    "address":"Multia, Valkeisenjärvi",
+    "longitude":24.78538,
+    "latitude":62.53909
+  },
+  {
+    "name":"Ähtäri, Pöyhösenlampi",
+    "address":"Ähtäri, Pöyhösenlampi",
+    "longitude":24.05846,
+    "latitude":62.54024
+  },
+  {
+    "name":"Töysä, Ponnenjärvi",
+    "address":"Töysä, Ponnenjärvi",
+    "longitude":23.85249,
+    "latitude":62.65758
+  },
+  {
+    "name":"Ähtäri, Kuorelampi",
+    "address":"Ähtäri, Kuorelampi",
+    "longitude":24.17519,
+    "latitude":62.66104
+  },
+  {
+    "name":"Alajärvi, Lehtimäki Verijärvi",
+    "address":"Alajärvi, Lehtimäki Verijärvi",
+    "longitude":23.74738,
+    "latitude":62.84682
+  },
+  {
+    "name":"Karstula, Pääjärvenmäki Kirkkovuori",
+    "address":"Karstula, Pääjärvenmäki Kirkkovuori",
+    "longitude":24.76124,
+    "latitude":62.86660
+  },
+  {
+    "name":"Karstula, Ylin-järvi",
+    "address":"Karstula, Ylin-järvi",
+    "longitude":24.80562,
+    "latitude":62.89687
+  },
+  {
+    "name":"Mustasaari, Svedjehamn",
+    "address":"Mustasaari, Svedjehamn",
+    "longitude":21.29123,
+    "latitude":63.35790
+  },
+  {
+    "name":"Mustasaari, Vassorfjärden",
+    "address":"Mustasaari, Vassorfjärden",
+    "longitude":21.99727,
+    "latitude":63.15775
+  },
+  {
+    "name":"Vöyri, Oravainen Fjärdsändan",
+    "address":"Vöyri, Oravainen Fjärdsändan",
+    "longitude":22.36752,
+    "latitude":63.29058
+  },
+  {
+    "name":"Vöyri, Oravainen Kimojoensuu Ånas",
+    "address":"Vöyri, Oravainen Kimojoensuu Ånas",
+    "longitude":22.39085,
+    "latitude":63.33000
+  },
+  {
+    "name":"Uusikaarlepyy, Sandören",
+    "address":"Uusikaarlepyy, Sandören",
+    "longitude":22.45850,
+    "latitude":63.60389
+  },
+  {
+    "name":"Uusikaarlepyy, Bådan",
+    "address":"Uusikaarlepyy, Bådan",
+    "longitude":22.48654,
+    "latitude":63.56209
+  },
+  {
+    "name":"Pedersöre, Sandsundsfjärden",
+    "address":"Pedersöre, Sandsundsfjärden",
+    "longitude":22.77504,
+    "latitude":63.63324
+  },
+  {
+    "name":"Pedersöre, Katternö",
+    "address":"Pedersöre, Katternö",
+    "longitude":22.82050,
+    "latitude":63.61295
+  },
+  {
+    "name":"Kokkola, Tankar",
+    "address":"Kokkola, Tankar",
+    "longitude":22.84530,
+    "latitude":63.95025
+  },
+  {
+    "name":"Kauhava, Ylihärmä Kangas Karhuvuori",
+    "address":"Kauhava, Ylihärmä Kangas Karhuvuori",
+    "longitude":22.84704,
+    "latitude":63.07130
+  },
+  {
+    "name":"Kauhava, Alahärmä Huhdankallio",
+    "address":"Kauhava, Alahärmä Huhdankallio",
+    "longitude":22.85826,
+    "latitude":63.16095
+  },
+  {
+    "name":"Kokkola, Öja Bergölandet",
+    "address":"Kokkola, Öja Bergölandet",
+    "longitude":22.90241,
+    "latitude":63.89189
+  },
+  {
+    "name":"Kruunupyy, Hällösfjärden",
+    "address":"Kruunupyy, Hällösfjärden",
+    "longitude":22.90388,
+    "latitude":63.71810
+  },
+  {
+    "name":"Kauhava, Saarimaa",
+    "address":"Kauhava, Saarimaa",
+    "longitude":22.92968,
+    "latitude":63.07112
+  },
+  {
+    "name":"Kokkola, Laajalahti Hietanokka",
+    "address":"Kokkola, Laajalahti Hietanokka",
+    "longitude":23.01462,
+    "latitude":63.79706
+  },
+  {
+    "name":"Kokkola, Laajalahti",
+    "address":"Kokkola, Laajalahti",
+    "longitude":23.02803,
+    "latitude":63.78868
+  },
+  {
+    "name":"Kokkola, Trullevi",
+    "address":"Kokkola, Trullevi",
+    "longitude":23.07225,
+    "latitude":63.91720
+  },
+  {
+    "name":"Kokkola, Harrbådan",
+    "address":"Kokkola, Harrbådan",
+    "longitude":23.07337,
+    "latitude":63.87779
+  },
+  {
+    "name":"Kokkola, Rummelö",
+    "address":"Kokkola, Rummelö",
+    "longitude":23.09289,
+    "latitude":63.86985
+  },
+  {
+    "name":"Kruunupyy, Stormossen Furuträsket",
+    "address":"Kruunupyy, Stormossen Furuträsket",
+    "longitude":23.13329,
+    "latitude":63.65130
+  },
+  {
+    "name":"Kauhava, Kortesjärvi Kitkankallio",
+    "address":"Kauhava, Kortesjärvi Kitkankallio",
+    "longitude":23.13721,
+    "latitude":63.26928
+  },
+  {
+    "name":"Kokkola, Lohtaja Marinkainen Harjukari",
+    "address":"Kokkola, Lohtaja Marinkainen Harjukari",
+    "longitude":23.40413,
+    "latitude":63.94638
+  },
+  {
+    "name":"Kokkola, Vattaja",
+    "address":"Kokkola, Vattaja",
+    "longitude":23.41439,
+    "latitude":64.08326
+  },
+  {
+    "name":"Kokkola, Jussinpauha",
+    "address":"Kokkola, Jussinpauha",
+    "longitude":23.44396,
+    "latitude":64.07303
+  },
+  {
+    "name":"Evijärvi, Jokisuunlahti",
+    "address":"Evijärvi, Jokisuunlahti",
+    "longitude":23.49888,
+    "latitude":63.36929
+  },
+  {
+    "name":"Lappajärvi, Ylipää Tapolanvuori",
+    "address":"Lappajärvi, Ylipää Tapolanvuori",
+    "longitude":23.60078,
+    "latitude":63.06794
+  },
+  {
+    "name":"Kalajoki, Himanka Meksinkallio",
+    "address":"Kalajoki, Himanka Meksinkallio",
+    "longitude":23.61657,
+    "latitude":64.05630
+  },
+  {
+    "name":"Kalajoki, Himanka Sautinkari",
+    "address":"Kalajoki, Himanka Sautinkari",
+    "longitude":23.62983,
+    "latitude":64.06853
+  },
+  {
+    "name":"Kalajoki, Rahjan Konikarvon kalasatama",
+    "address":"Kalajoki, Rahjan Konikarvon kalasatama",
+    "longitude":23.67939,
+    "latitude":64.21581
+  },
+  {
+    "name":"Vimpeli, Lappajärvi Katajalahti",
+    "address":"Vimpeli, Lappajärvi Katajalahti",
+    "longitude":23.79533,
+    "latitude":63.12690
+  },
+  {
+    "name":"Kalajoki, Vihaslahti",
+    "address":"Kalajoki, Vihaslahti",
+    "longitude":23.84602,
+    "latitude":64.26191
+  },
+  {
+    "name":"Kalajoki, Letto Vihaslahti",
+    "address":"Kalajoki, Letto Vihaslahti",
+    "longitude":23.84644,
+    "latitude":64.26288
+  },
+  {
+    "name":"Kalajoki, Letto Jokisuu",
+    "address":"Kalajoki, Letto Jokisuu",
+    "longitude":23.89712,
+    "latitude":64.28485
+  },
+  {
+    "name":"Kalajoki, Ämmä",
+    "address":"Kalajoki, Ämmä",
+    "longitude":23.91507,
+    "latitude":64.28999
+  },
+  {
+    "name":"Pyhäjoki, Eläväisluoto",
+    "address":"Pyhäjoki, Eläväisluoto",
+    "longitude":24.03044,
+    "latitude":64.40874
+  },
+  {
+    "name":"Kokkola, Ullava Hanhilahti",
+    "address":"Kokkola, Ullava Hanhilahti",
+    "longitude":24.06275,
+    "latitude":63.60193
+  },
+  {
+    "name":"Kannus, Viitajärvi",
+    "address":"Kannus, Viitajärvi",
+    "longitude":24.18490,
+    "latitude":63.87995
+  },
+  {
+    "name":"Sievi, Lähdeneva",
+    "address":"Sievi, Lähdeneva",
+    "longitude":24.25924,
+    "latitude":63.94739
+  },
+  {
+    "name":"Sievi, Evijärven peltoaukea",
+    "address":"Sievi, Evijärven peltoaukea",
+    "longitude":24.52157,
+    "latitude":63.93054
+  },
+  {
+    "name":"Perho, Iso-Valvatti",
+    "address":"Perho, Iso-Valvatti",
+    "longitude":24.63330,
+    "latitude":63.38131
+  },
+  {
+    "name":"Oulainen, Likalanjärvi",
+    "address":"Oulainen, Likalanjärvi",
+    "longitude":24.70197,
+    "latitude":64.31769
+  },
+  {
+    "name":"Perho, Heikinjärvenneva",
+    "address":"Perho, Heikinjärvenneva",
+    "longitude":24.71124,
+    "latitude":63.26154
+  },
+  {
+    "name":"Kinnula, Nielujärvi",
+    "address":"Kinnula, Nielujärvi",
+    "longitude":24.81119,
+    "latitude":63.32612
+  },
+  {
+    "name":"Pyhäjoki, Rajaniemi",
+    "address":"Pyhäjoki, Rajaniemi",
+    "longitude":24.12240,
+    "latitude":64.44158
+  },
+  {
+    "name":"Tornio, Koivunluoto Alkunkarinlahti N",
+    "address":"Tornio, Koivunluoto Alkunkarinlahti N",
+    "longitude":24.21645,
+    "latitude":65.78097
+  },
+  {
+    "name":"Tornio, Koivunluoto Alkunkarinlahti S",
+    "address":"Tornio, Koivunluoto Alkunkarinlahti S",
+    "longitude":24.22196,
+    "latitude":65.77663
+  },
+  {
+    "name":"Tornio, Raumonjärvi Hakaniitty",
+    "address":"Tornio, Raumonjärvi Hakaniitty",
+    "longitude":24.26483,
+    "latitude":65.85445
+  },
+  {
+    "name":"Pyhäjoki, Parhalahti",
+    "address":"Pyhäjoki, Parhalahti",
+    "longitude":24.28053,
+    "latitude":64.50721
+  },
+  {
+    "name":"Raahe, Piehinki",
+    "address":"Raahe, Piehinki",
+    "longitude":24.37791,
+    "latitude":64.57058
+  },
+  {
+    "name":"Raahe, Pitkäkari Ilolinna",
+    "address":"Raahe, Pitkäkari Ilolinna",
+    "longitude":24.44196,
+    "latitude":64.69270
+  },
+  {
+    "name":"Raahe, Aittalahti",
+    "address":"Raahe, Aittalahti",
+    "longitude":24.44357,
+    "latitude":64.66649
+  },
+  {
+    "name":"Raahe, Mikonkari",
+    "address":"Raahe, Mikonkari",
+    "longitude":24.51523,
+    "latitude":64.71407
+  },
+  {
+    "name":"Keminmaa, Kallinkangas",
+    "address":"Keminmaa, Kallinkangas",
+    "longitude":24.52271,
+    "latitude":65.81868
+  },
+  {
+    "name":"Siikajoki, Tauvo Ulkonokka",
+    "address":"Siikajoki, Tauvo Ulkonokka",
+    "longitude":24.64710,
+    "latitude":64.82325
+  },
+  {
+    "name":"Hailuoto, Sunikarin torni",
+    "address":"Hailuoto, Sunikarin torni",
+    "longitude":24.65051,
+    "latitude":64.96436
+  },
+  {
+    "name":"Kemi, Kattilalahti",
+    "address":"Kemi, Kattilalahti",
+    "longitude":24.65334,
+    "latitude":65.69022
+  },
+  {
+    "name":"Siikajoki, Merikylänlahti",
+    "address":"Siikajoki, Merikylänlahti",
+    "longitude":24.67250,
+    "latitude":64.82578
+  },
+  {
+    "name":"Hailuoto, Viinikanlahti W",
+    "address":"Hailuoto, Viinikanlahti W",
+    "longitude":24.73680,
+    "latitude":64.97809
+  },
+  {
+    "name":"Hailuoto, Kirkkosalmi",
+    "address":"Hailuoto, Kirkkosalmi",
+    "longitude":24.74885,
+    "latitude":65.00279
+  },
+  {
+    "name":"Hailuoto, Viinikanlahti E",
+    "address":"Hailuoto, Viinikanlahti E",
+    "longitude":24.75303,
+    "latitude":64.97706
+  },
+  {
+    "name":"Hailuoto, Syökarinlahti",
+    "address":"Hailuoto, Syökarinlahti",
+    "longitude":24.76208,
+    "latitude":64.96509
+  },
+  {
+    "name":"Hailuoto, Tömppä",
+    "address":"Hailuoto, Tömppä",
+    "longitude":24.80083,
+    "latitude":64.95318
+  },
+  {
+    "name":"Siikajoki, Varessäikkä",
+    "address":"Siikajoki, Varessäikkä",
+    "longitude":24.80993,
+    "latitude":64.88925
+  },
+  {
+    "name":"Hailuoto, Kaarannokka",
+    "address":"Hailuoto, Kaarannokka",
+    "longitude":24.81350,
+    "latitude":65.04377
+  },
+  {
+    "name":"Hailuoto, Maasyvänlahti",
+    "address":"Hailuoto, Maasyvänlahti",
+    "longitude":24.82983,
+    "latitude":64.96752
+  },
+  {
+    "name":"Enontekiö, Mannakoski",
+    "address":"Enontekiö, Mannakoski",
+    "longitude":22.34303,
+    "latitude":68.48315
+  },
+  {
+    "name":"Enontekiö, Sotkajärvi",
+    "address":"Enontekiö, Sotkajärvi",
+    "longitude":23.28512,
+    "latitude":68.31104
+  },
+  {
+    "name":"Muonio, Muonionjärvi Rukomasaari",
+    "address":"Muonio, Muonionjärvi Rukomasaari",
+    "longitude":23.64035,
+    "latitude":67.97438
+  },
+  {
+    "name":"Muonio, Muonionjärvi Puthaanranta",
+    "address":"Muonio, Muonionjärvi Puthaanranta",
+    "longitude":23.67098,
+    "latitude":67.96057
+  },
+  {
+    "name":"Enontekiö, Yrjö Kokko-torni",
+    "address":"Enontekiö, Yrjö Kokko-torni",
+    "longitude":23.88431,
+    "latitude":68.40752
+  },
+  {
+    "name":"Ylitornio, Portimojärvi",
+    "address":"Ylitornio, Portimojärvi",
+    "longitude":23.92027,
+    "latitude":66.38348
+  },
+  {
+    "name":"Pello, Paamajärvi",
+    "address":"Pello, Paamajärvi",
+    "longitude":23.96657,
+    "latitude":66.64591
+  },
+  {
+    "name":"Enontekiö, Pippovuoma",
+    "address":"Enontekiö, Pippovuoma",
+    "longitude":23.98327,
+    "latitude":68.26614
+  },
+  {
+    "name":"Pello, Pellojärvi Pitkäniemi",
+    "address":"Pello, Pellojärvi Pitkäniemi",
+    "longitude":24.00437,
+    "latitude":66.75351
+  },
+  {
+    "name":"Tornio, Karunginjärvi Mustasaari",
+    "address":"Tornio, Karunginjärvi Mustasaari",
+    "longitude":24.00614,
+    "latitude":66.04577
+  },
+  {
+    "name":"Pello, Pellojärvi Hannunranta",
+    "address":"Pello, Pellojärvi Hannunranta",
+    "longitude":24.02925,
+    "latitude":66.75547
+  },
+  {
+    "name":"Kolari, Teuravuoma Teurajärvi",
+    "address":"Kolari, Teuravuoma Teurajärvi",
+    "longitude":24.05728,
+    "latitude":67.34923
+  },
+  {
+    "name":"Kolari, Äkäslompolo",
+    "address":"Kolari, Äkäslompolo",
+    "longitude":24.16256,
+    "latitude":67.61415
+  },
+  {
+    "name":"Kolari, Teuravuoma Kurtakko",
+    "address":"Kolari, Teuravuoma Kurtakko",
+    "longitude":24.19951,
+    "latitude":67.37909
+  },
+  {
+    "name":"Ylitornio, Ahvenjärvi",
+    "address":"Ylitornio, Ahvenjärvi",
+    "longitude":24.26012,
+    "latitude":66.36799
+  },
+  {
+    "name":"Kolari, Ylläslompolo",
+    "address":"Kolari, Ylläslompolo",
+    "longitude":24.32098,
+    "latitude":67.50191
+  },
+  {
+    "name":"Kittilä, Porttijärvi",
+    "address":"Kittilä, Porttijärvi",
+    "longitude":24.41114,
+    "latitude":67.43643
+  },
+  {
+    "name":"Kittilä, Lompolojärvi",
+    "address":"Kittilä, Lompolojärvi",
+    "longitude":24.48508,
+    "latitude":67.44681
+  },
+  {
+    "name":"Kittilä, Latvajärvi",
+    "address":"Kittilä, Latvajärvi",
+    "longitude":24.55798,
+    "latitude":67.62342
+  },
+  {
+    "name":"Ylitornio, Iso Meltosjärvi",
+    "address":"Ylitornio, Iso Meltosjärvi",
+    "longitude":24.62098,
+    "latitude":66.53684
+  },
+  {
+    "name":"Ylitornio, Vähä Meltosjärvi Pitkäperä",
+    "address":"Ylitornio, Vähä Meltosjärvi Pitkäperä",
+    "longitude":24.64098,
+    "latitude":66.52939
+  },
+  {
+    "name":"Tervola, Elijärvi",
+    "address":"Tervola, Elijärvi",
+    "longitude":24.70988,
+    "latitude":66.10121
+  },
+  {
+    "name":"Helsinki, Lauttasaari Myllykallio",
+    "address":"Helsinki, Lauttasaari Myllykallio",
+    "longitude":24.86478,
+    "latitude":60.15916
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Kivinokka",
+    "address":"Helsinki, Vanhankaupunginlahti Kivinokka",
+    "longitude":25.01511,
+    "latitude":60.19879
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Fastholma",
+    "address":"Helsinki, Vanhankaupunginlahti Fastholma",
+    "longitude":25.01811,
+    "latitude":60.20567
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Lammassaari",
+    "address":"Helsinki, Vanhankaupunginlahti Lammassaari",
+    "longitude":25.00179,
+    "latitude":60.20876
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Pornaistenniemi",
+    "address":"Helsinki, Vanhankaupunginlahti Pornaistenniemi",
+    "longitude":24.99237,
+    "latitude":60.21413
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Purolahti",
+    "address":"Helsinki, Vanhankaupunginlahti Purolahti",
+    "longitude":25.01903,
+    "latitude":60.21440
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Hakalanniemi",
+    "address":"Helsinki, Vanhankaupunginlahti Hakalanniemi",
+    "longitude":25.00998,
+    "latitude":60.21462
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Hakalanniemi lava",
+    "address":"Helsinki, Vanhankaupunginlahti Hakalanniemi lava",
+    "longitude":25.00921,
+    "latitude":60.21507
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Purolahti lava",
+    "address":"Helsinki, Vanhankaupunginlahti Purolahti lava",
+    "longitude":25.02335,
+    "latitude":60.21568
+  },
+  {
+    "name":"Helsinki, Vanhankaupunginlahti Keinumäki",
+    "address":"Helsinki, Vanhankaupunginlahti Keinumäki",
+    "longitude":25.00323,
+    "latitude":60.21890
+  },
+  {
+    "name":"Vantaa, Porvarinlahti",
+    "address":"Vantaa, Porvarinlahti",
+    "longitude":25.16551,
+    "latitude":60.23342
+  },
+  {
+    "name":"Helsinki, Jakomäki",
+    "address":"Helsinki, Jakomäki",
+    "longitude":25.07096,
+    "latitude":60.25700
+  },
+  {
+    "name":"Porvoo, Kodderviken",
+    "address":"Porvoo, Kodderviken",
+    "longitude":25.60193,
+    "latitude":60.34326
+  },
+  {
+    "name":"Tuusula, Tuusulanjärvi Koskenmäki",
+    "address":"Tuusula, Tuusulanjärvi Koskenmäki",
+    "longitude":25.01995,
+    "latitude":60.40520
+  },
+  {
+    "name":"Järvenpää, Tuusulanjärvi Kaakkola",
+    "address":"Järvenpää, Tuusulanjärvi Kaakkola",
+    "longitude":25.07634,
+    "latitude":60.46658
+  },
+  {
+    "name":"Hyvinkää, Ridasjärvi",
+    "address":"Hyvinkää, Ridasjärvi",
+    "longitude":24.99163,
+    "latitude":60.64986
+  },
+  {
+    "name":"Mäntsälä, Kilpijärvi",
+    "address":"Mäntsälä, Kilpijärvi",
+    "longitude":25.21873,
+    "latitude":60.70845
+  },
+  {
+    "name":"Lahti, Luhdanjoki Sipilä",
+    "address":"Lahti, Luhdanjoki Sipilä",
+    "longitude":25.56344,
+    "latitude":60.94435
+  },
+  {
+    "name":"Hollola, Kutajärvi",
+    "address":"Hollola, Kutajärvi",
+    "longitude":25.47597,
+    "latitude":61.04111
+  },
+  {
+    "name":"Hollola, Kutajärvi lava",
+    "address":"Hollola, Kutajärvi lava",
+    "longitude":25.47352,
+    "latitude":61.04235
+  },
+  {
+    "name":"Hollola, Vesijärvi Lahdenpohja",
+    "address":"Hollola, Vesijärvi Lahdenpohja",
+    "longitude":25.32245,
+    "latitude":61.07900
+  },
+  {
+    "name":"Loviisa, Ruotsinpyhtää Lehtinen",
+    "address":"Loviisa, Ruotsinpyhtää Lehtinen",
+    "longitude":26.51052,
+    "latitude":60.33119
+  },
+  {
+    "name":"Porvoo, Lakasalmi",
+    "address":"Porvoo, Lakasalmi",
+    "longitude":25.67063,
+    "latitude":60.35475
+  },
+  {
+    "name":"Porvoo, Sammalviken",
+    "address":"Porvoo, Sammalviken",
+    "longitude":25.70169,
+    "latitude":60.36416
+  },
+  {
+    "name":"Porvoo, Ruskis",
+    "address":"Porvoo, Ruskis",
+    "longitude":25.68326,
+    "latitude":60.37125
+  },
+  {
+    "name":"Porvoo, Ruskis pohjoisniitty",
+    "address":"Porvoo, Ruskis pohjoisniitty",
+    "longitude":25.69112,
+    "latitude":60.37909
+  },
+  {
+    "name":"Loviisa, Pernaja Isnäs",
+    "address":"Loviisa, Pernaja Isnäs",
+    "longitude":26.00148,
+    "latitude":60.38698
+  },
+  {
+    "name":"Porvoo, Kiialan kartano",
+    "address":"Porvoo, Kiialan kartano",
+    "longitude":25.61143,
+    "latitude":60.40695
+  },
+  {
+    "name":"Loviisa, Haravankylä",
+    "address":"Loviisa, Haravankylä",
+    "longitude":26.22791,
+    "latitude":60.43349
+  },
+  {
+    "name":"Loviisa, Loviisanlahti",
+    "address":"Loviisa, Loviisanlahti",
+    "longitude":26.23560,
+    "latitude":60.45611
+  },
+  {
+    "name":"Loviisa, Pernaja Baggnäs",
+    "address":"Loviisa, Pernaja Baggnäs",
+    "longitude":25.92387,
+    "latitude":60.47899
+  },
+  {
+    "name":"Askola, Särkijärvi Kylänpäänjärvi",
+    "address":"Askola, Särkijärvi Kylänpäänjärvi",
+    "longitude":25.70788,
+    "latitude":60.51069
+  },
+  {
+    "name":"Loviisa. Liljendal Sävträsk",
+    "address":"Loviisa. Liljendal Sävträsk",
+    "longitude":26.04916,
+    "latitude":60.56803
+  },
+  {
+    "name":"Kouvola, Elimäki Teutjärvi Kanasaari",
+    "address":"Kouvola, Elimäki Teutjärvi Kanasaari",
+    "longitude":26.49224,
+    "latitude":60.60800
+  },
+  {
+    "name":"Lapinjärvi, Lapinjärvi",
+    "address":"Lapinjärvi, Lapinjärvi",
+    "longitude":26.18239,
+    "latitude":60.61801
+  },
+  {
+    "name":"Pukkila, Kanteleenjärvi",
+    "address":"Pukkila, Kanteleenjärvi",
+    "longitude":25.67553,
+    "latitude":60.66033
+  },
+  {
+    "name":"Orimattila, Artjärvi Säyhtee",
+    "address":"Orimattila, Artjärvi Säyhtee",
+    "longitude":26.06662,
+    "latitude":60.75219
+  },
+  {
+    "name":"Orimattila, Mieliäissuo",
+    "address":"Orimattila, Mieliäissuo",
+    "longitude":25.87782,
+    "latitude":60.82069
+  },
+  {
+    "name":"Iitti, Mukulanlahti",
+    "address":"Iitti, Mukulanlahti",
+    "longitude":26.43092,
+    "latitude":60.94263
+  },
+  {
+    "name":"Lahti, Kilpiäistenpohja",
+    "address":"Lahti, Kilpiäistenpohja",
+    "longitude":25.64828,
+    "latitude":61.02791
+  },
+  {
+    "name":"Kouvola, Jaala Jaalanlahti",
+    "address":"Kouvola, Jaala Jaalanlahti",
+    "longitude":26.47229,
+    "latitude":61.04250
+  },
+  {
+    "name":"Heinola, Nyynäistenlahti",
+    "address":"Heinola, Nyynäistenlahti",
+    "longitude":25.97694,
+    "latitude":61.16128
+  },
+  {
+    "name":"Heinola, Maitiaislahti",
+    "address":"Heinola, Maitiaislahti",
+    "longitude":26.05845,
+    "latitude":61.20642
+  },
+  {
+    "name":"Padasjoki, Nyystölänlahti",
+    "address":"Padasjoki, Nyystölänlahti",
+    "longitude":25.32441,
+
+    "latitude":61.31975
+  },
+  {
+    "name":"Sysmä, Päijätsalo",
+    "address":"Sysmä, Päijätsalo",
+    "longitude":25.56658,
+    "latitude":61.48068
+  },
+  {
+    "name":"Kangasala, Kuhmalahti Yli-Kirjamo",
+    "address":"Kangasala, Kuhmalahti Yli-Kirjamo",
+    "longitude":24.86227,
+    "latitude":61.52842
+  },
+  {
+    "name":"Jämsä, Lokalahti",
+    "address":"Jämsä, Lokalahti",
+    "longitude":25.22032,
+    "latitude":61.81325
+  },
+  {
+    "name":"Jämsä, Alhojärvi",
+    "address":"Jämsä, Alhojärvi",
+    "longitude":25.12705,
+    "latitude":61.83193
+  },
+  {
+    "name":"Jyväskylä, Korpilahti Oravivuori",
+    "address":"Jyväskylä, Korpilahti Oravivuori",
+    "longitude":25.53402,
+    "latitude":61.92542
+  },
+  {
+    "name":"Jämsä, Juokslahti Vilunen",
+    "address":"Jämsä, Juokslahti Vilunen",
+    "longitude":25.31688,
+    "latitude":61.94870
+  },
+  {
+    "name":"Jyväskylä, Korpilahti Hyrkkölä Juurikkajärvi",
+    "address":"Jyväskylä, Korpilahti Hyrkkölä Juurikkajärvi",
+    "longitude":25.57587,
+    "latitude":61.99497
+  },
+  {
+    "name":"Muurame, Muuramenlampi",
+    "address":"Muurame, Muuramenlampi",
+    "longitude":25.65732,
+    "latitude":62.13575
+  },
+  {
+    "name":"Petäjävesi, Piesalankylä",
+    "address":"Petäjävesi, Piesalankylä",
+    "longitude":25.19049,
+    "latitude":62.21178
+  },
+  {
+    "name":"Petäjävesi, Pieni-Hete",
+    "address":"Petäjävesi, Pieni-Hete",
+    "longitude":25.10289,
+    "latitude":62.30959
+  },
+  {
+    "name":"Petäjävesi, Lahnajärvi",
+    "address":"Petäjävesi, Lahnajärvi",
+    "longitude":25.12662,
+    "latitude":62.36350
+  },
+  {
+    "name":"Petäjävesi, Ylä-Kintaus Sallistensuo",
+    "address":"Petäjävesi, Ylä-Kintaus Sallistensuo",
+    "longitude":25.30334,
+    "latitude":62.36982
+  },
+  {
+    "name":"Uurainen, Sorvanen",
+    "address":"Uurainen, Sorvanen",
+    "longitude":25.51022,
+    "latitude":62.39181
+  },
+  {
+    "name":"Uurainen, Miehinkäinen",
+    "address":"Uurainen, Miehinkäinen",
+    "longitude":25.26795,
+    "latitude":62.42816
+  },
+  {
+    "name":"Multia, Linna-Peurala Iso-Kaleton",
+    "address":"Multia, Linna-Peurala Iso-Kaleton",
+    "longitude":24.93908,
+    "latitude":62.47353
+  },
+  {
+    "name":"Uurainen, Särkilampi",
+    "address":"Uurainen, Särkilampi",
+    "longitude":25.41177,
+    "latitude":62.47647
+  },
+  {
+    "name":"Multia, Kiiskilänmäki",
+    "address":"Multia, Kiiskilänmäki",
+    "longitude":25.15366,
+    "latitude":62.50089
+  },
+  {
+    "name":"Äänekoski, Tärttävuori",
+    "address":"Äänekoski, Tärttävuori",
+    "longitude":25.67104,
+    "latitude":62.60587
+  },
+  {
+    "name":"Saarijärvi, Lautajärvi",
+    "address":"Saarijärvi, Lautajärvi",
+    "longitude":25.24768,
+    "latitude":62.62843
+  },
+  {
+    "name":"Saarijärvi, Kuorejärvi",
+    "address":"Saarijärvi, Kuorejärvi",
+    "longitude":25.03410,
+    "latitude":62.82596
+  },
+  {
+    "name":"Joutsa, Myllynlahti",
+    "address":"Joutsa, Myllynlahti",
+    "longitude":26.14235,
+    "latitude":61.73504
+  },
+  {
+    "name":"Joutsa, Tammimäki",
+    "address":"Joutsa, Tammimäki",
+    "longitude":25.99307,
+    "latitude":61.83479
+  },
+  {
+    "name":"Joutsa, Keskisenlampi",
+    "address":"Joutsa, Keskisenlampi",
+    "longitude":26.31725,
+    "latitude":61.84912
+  },
+  {
+    "name":"Joutsa, Haapasuo",
+    "address":"Joutsa, Haapasuo",
+    "longitude":26.07833,
+    "latitude":61.91245
+  },
+  {
+    "name":"Toivakka, Liikalanlampi",
+    "address":"Toivakka, Liikalanlampi",
+    "longitude":26.09908,
+    "latitude":62.13889
+  },
+  {
+    "name":"Jyväskylä, Raudanlahti",
+    "address":"Jyväskylä, Raudanlahti",
+    "longitude":25.71334,
+    "latitude":62.14247
+  },
+  {
+    "name":"Kangasniemi, Häppälänmäki Makkarasuo",
+    "address":"Kangasniemi, Häppälänmäki Makkarasuo",
+    "longitude":26.33860,
+    "latitude":62.19353
+  },
+  {
+    "name":"Jyväskylä, Hämeenlahti",
+    "address":"Jyväskylä, Hämeenlahti",
+    "longitude":25.79934,
+    "latitude":62.21718
+  },
+  {
+    "name":"Laukaa, Lapinjärvi",
+    "address":"Laukaa, Lapinjärvi",
+    "longitude":26.26724,
+    "latitude":62.22963
+  },
+  {
+    "name":"Jyväskylä, Pitkäruoho",
+    "address":"Jyväskylä, Pitkäruoho",
+    "longitude":25.78860,
+    "latitude":62.23249
+  },
+  {
+    "name":"Jyväskylä, Eerolanlahti",
+    "address":"Jyväskylä, Eerolanlahti",
+    "longitude":25.72667,
+    "latitude":62.25059
+  },
+  {
+    "name":"Jyväskylä, Rautpohja",
+    "address":"Jyväskylä, Rautpohja",
+    "longitude":25.71221,
+    "latitude":62.25089
+  },
+  {
+    "name":"Hankasalmi, Pieni-Kaihlanen",
+    "address":"Hankasalmi, Pieni-Kaihlanen",
+    "longitude":26.34136,
+    "latitude":62.27267
+  },
+  {
+    "name":"Laukaa, Vuontee",
+    "address":"Laukaa, Vuontee",
+    "longitude":25.98071,
+    "latitude":62.32181
+  },
+  {
+    "name":"Hankasalmi, Keskisenlampi",
+    "address":"Hankasalmi, Keskisenlampi",
+    "longitude":26.48809,
+    "latitude":62.32878
+  },
+  {
+    "name":"Laukaa, Vuojärvi",
+    "address":"Laukaa, Vuojärvi",
+    "longitude":25.93684,
+    "latitude":62.41827
+  },
+  {
+    "name":"Hankasalmi, Leväsenlampi",
+    "address":"Hankasalmi, Leväsenlampi",
+    "longitude":26.37007,
+    "latitude":62.42271
+  },
+  {
+    "name":"Laukaa, Torikkasalmi",
+    "address":"Laukaa, Torikkasalmi",
+    "longitude":25.86907,
+    "latitude":62.50488
+  },
+  {
+    "name":"Hankasalmi, Suojärvi",
+    "address":"Hankasalmi, Suojärvi",
+    "longitude":26.26825,
+    "latitude":62.50977
+  },
+  {
+    "name":"Äänekoski, Kalajärvi",
+    "address":"Äänekoski, Kalajärvi",
+    "longitude":26.12767,
+    "latitude":62.65256
+  },
+  {
+    "name":"Äänekoski, Pyhäjärvi",
+    "address":"Äänekoski, Pyhäjärvi",
+    "longitude":26.13555,
+    "latitude":62.75551
+  },
+  {
+    "name":"Konnevesi, Pyhäjärvi",
+    "address":"Konnevesi, Pyhäjärvi",
+    "longitude":26.14288,
+    "latitude":62.76127
+  },
+  {
+    "name":"Pyhtää, Valkmusa",
+    "address":"Pyhtää, Valkmusa",
+    "longitude":26.71629,
+    "latitude":60.56895
+  },
+  {
+    "name":"Kouvola, Valkeala Lappalanjärvi",
+    "address":"Kouvola, Valkeala Lappalanjärvi",
+    "longitude":26.78005,
+    "latitude":60.93425
+  },
+  {
+    "name":"Kouvola, Mustanlamminvuori",
+    "address":"Kouvola, Mustanlamminvuori",
+    "longitude":26.84834,
+    "latitude":61.18028
+  },
+  {
+    "name":"Kotka, Salminlahti Rantahaka",
+    "address":"Kotka, Salminlahti Rantahaka",
+    "longitude":27.00682,
+    "latitude":60.55541
+  },
+  {
+    "name":"Hamina, Siliävuori",
+    "address":"Hamina, Siliävuori",
+    "longitude":27.14331,
+    "latitude":60.67198
+  },
+  {
+    "name":"Hamina, Kirkkojärvi",
+    "address":"Hamina, Kirkkojärvi",
+    "longitude":27.20485,
+    "latitude":60.58099
+  },
+  {
+    "name":"Hamina, Lupinlahti",
+    "address":"Hamina, Lupinlahti",
+    "longitude":27.22860,
+    "latitude":60.55075
+  },
+  {
+    "name":"Hamina, Rakin Kotka",
+    "address":"Hamina, Rakin Kotka",
+    "longitude":27.29456,
+    "latitude":60.44778
+  },
+  {
+    "name":"Savitaipale, Mäntyperänkylä",
+    "address":"Savitaipale, Mäntyperänkylä",
+    "longitude":27.40572,
+    "latitude":61.15418
+  },
+  {
+    "name":"Hamina, Ulko-Tammio",
+    "address":"Hamina, Ulko-Tammio",
+    "longitude":27.45861,
+    "latitude":60.34933
+  },
+  {
+    "name":"Virolahti, Klamila",
+    "address":"Virolahti, Klamila",
+    "longitude":27.48484,
+    "latitude":60.52060
+  },
+  {
+    "name":"Savitaipale, Tikka Valkjärvi",
+    "address":"Savitaipale, Tikka Valkjärvi",
+    "longitude":27.55393,
+    "latitude":61.17766
+  },
+  {
+    "name":"Virolahti, Vilkkiläntura Lintulahti",
+    "address":"Virolahti, Vilkkiläntura Lintulahti",
+    "longitude":27.70845,
+    "latitude":60.51905
+  },
+  {
+    "name":"Virolahti, Vilkkiläntura Kolsinpohja",
+    "address":"Virolahti, Vilkkiläntura Kolsinpohja",
+    "longitude":27.72087,
+    "latitude":60.51055
+  },
+  {
+    "name":"Virolahti, Kellovuori",
+    "address":"Virolahti, Kellovuori",
+    "longitude":27.72822,
+    "latitude":60.50423
+  },
+  {
+    "name":"Virolahti, Hurppu",
+    "address":"Virolahti, Hurppu",
+    "longitude":27.73603,
+    "latitude":60.49131
+  },
+  {
+    "name":"Luumäki, Ylä-Hirvas",
+    "address":"Luumäki, Ylä-Hirvas",
+    "longitude":27.78658,
+    "latitude":60.85174
+  },
+  {
+    "name":"Virolahti, Kurkela",
+    "address":"Virolahti, Kurkela",
+    "longitude":27.83360,
+    "latitude":60.56716
+  },
+  {
+    "name":"Lappeenranta, Ylämaa Väkevänjärvi",
+    "address":"Lappeenranta, Ylämaa Väkevänjärvi",
+    "longitude":27.97554,
+    "latitude":60.67135
+  },
+  {
+    "name":"Lappeenranta, Askola",
+    "address":"Lappeenranta, Askola",
+    "longitude":28.20229,
+    "latitude":61.02125
+  },
+  {
+    "name":"Lappeenranta, Haapajärvi",
+    "address":"Lappeenranta, Haapajärvi",
+    "longitude":28.27885,
+    "latitude":60.93344
+  },
+  {
+    "name":"Vesanto, Sonkari Koivulahti",
+    "address":"Vesanto, Sonkari Koivulahti",
+    "longitude":26.56943,
+    "latitude":62.84425
+  },
+  {
+    "name":"Kangasniemi, Leppäselkä",
+    "address":"Kangasniemi, Leppäselkä",
+    "longitude":26.67241,
+    "latitude":61.95156
+  },
+  {
+    "name":"Kangasniemi, Leppäselkä",
+    "address":"Kangasniemi, Leppäselkä",
+    "longitude":26.67654,
+    "latitude":61.95686
+  },
+  {
+    "name":"Tervo, Haapamäki",
+    "address":"Tervo, Haapamäki",
+    "longitude":26.72589,
+    "latitude":62.86675
+  },
+  {
+    "name":"Rautalampi, Rastunsuo",
+    "address":"Rautalampi, Rastunsuo",
+    "longitude":26.72978,
+    "latitude":62.73182
+  },
+  {
+    "name":"Rautalampi, Vaajasalmi Tyyrinvirta",
+    "address":"Rautalampi, Vaajasalmi Tyyrinvirta",
+    "longitude":26.81924,
+    "latitude":62.66532
+  },
+  {
+    "name":"Mäntyharju, Laijärvi",
+    "address":"Mäntyharju, Laijärvi",
+    "longitude":26.90881,
+    "latitude":61.33388
+  },
+  {
+    "name":"Kangasniemi, Pukkiselkä",
+    "address":"Kangasniemi, Pukkiselkä",
+    "longitude":26.90951,
+    "latitude":61.99918
+  },
+  {
+    "name":"Pieksämäki, Vehkalampi",
+    "address":"Pieksämäki, Vehkalampi",
+    "longitude":27.09605,
+    "latitude":62.29946
+  },
+  {
+    "name":"Mikkeli, Naistinki",
+    "address":"Mikkeli, Naistinki",
+    "longitude":27.19520,
+    "latitude":61.68258
+  },
+  {
+    "name":"Pieksämäki, Tuomiojärvi",
+    "address":"Pieksämäki, Tuomiojärvi",
+    "longitude":27.24692,
+    "latitude":62.46832
+  },
+  {
+    "name":"Mikkeli, Porrassalmi",
+    "address":"Mikkeli, Porrassalmi",
+    "longitude":27.28207,
+    "latitude":61.63244
+  },
+  {
+    "name":"Mikkeli, Kenkävero",
+    "address":"Mikkeli, Kenkävero",
+    "longitude":27.28585,
+    "latitude":61.67899
+  },
+  {
+    "name":"Mikkeli, Hujassuo",
+    "address":"Mikkeli, Hujassuo",
+    "longitude":27.32480,
+    "latitude":61.75632
+  },
+  {
+    "name":"Joroinen, Pasala Revonpesä",
+    "address":"Joroinen, Pasala Revonpesä",
+    "longitude":27.73388,
+    "latitude":62.22438
+  },
+  {
+    "name":"Varkaus, Ruokojärvi",
+    "address":"Varkaus, Ruokojärvi",
+    "longitude":27.79585,
+    "latitude":62.32557
+  },
+  {
+    "name":"Varkaus, Mula",
+    "address":"Varkaus, Mula",
+    "longitude":27.85211,
+    "latitude":62.29775
+  },
+  {
+    "name":"Kuopio, Vehmersalmi Sahkari",
+    "address":"Kuopio, Vehmersalmi Sahkari",
+    "longitude":28.05558,
+    "latitude":62.75110
+  },
+  {
+    "name":"Rantasalmi, Hyppinginmäki",
+    "address":"Rantasalmi, Hyppinginmäki",
+    "longitude":28.28519,
+    "latitude":62.04880
+  },
+  {
+    "name":"Rantasalmi, Kosulanlampi",
+    "address":"Rantasalmi, Kosulanlampi",
+    "longitude":28.29337,
+    "latitude":62.07307
+  },
+  {
+    "name":"Rantasalmi, Putkilahti",
+    "address":"Rantasalmi, Putkilahti",
+    "longitude":28.40240,
+    "latitude":62.00931
+  },
+  {
+    "name":"Rantasalmi, Vaahersalonlampi",
+    "address":"Rantasalmi, Vaahersalonlampi",
+    "longitude":28.46305,
+    "latitude":62.04486
+  },
+  {
+    "name":"Lappeenranta, Joutseno Konnunsuo 2",
+    "address":"Lappeenranta, Joutseno Konnunsuo 2",
+    "longitude":28.55053,
+    "latitude":61.04448
+  },
+  {
+    "name":"Lappeenranta, Joutseno Konnunsuo 1",
+    "address":"Lappeenranta, Joutseno Konnunsuo 1",
+    "longitude":28.55171,
+    "latitude":61.03834
+  },
+  {
+    "name":"Savonlinna, Haapalahti",
+    "address":"Savonlinna, Haapalahti",
+    "longitude":28.91189,
+    "latitude":61.90657
+  },
+  {
+    "name":"Ruokolahti, Kuokkalampi",
+    "address":"Ruokolahti, Kuokkalampi",
+    "longitude":28.99824,
+    "latitude":61.25278
+  },
+  {
+    "name":"Ruokolahti, Pohja-Lankila Alanen",
+    "address":"Ruokolahti, Pohja-Lankila Alanen",
+    "longitude":29.01138,
+    "latitude":61.45714
+  },
+  {
+    "name":"Ruokolahti, Torsanpää",
+    "address":"Ruokolahti, Torsanpää",
+    "longitude":29.03131,
+    "latitude":61.47058
+  },
+  {
+    "name":"Kerimäki, Jouhenlahti",
+    "address":"Kerimäki, Jouhenlahti",
+    "longitude":29.27598,
+    "latitude":61.90793
+  },
+  {
+    "name":"Rautjärvi, Lahnanen Simpele",
+    "address":"Rautjärvi, Lahnanen Simpele",
+    "longitude":29.36010,
+    "latitude":61.41580
+  },
+  {
+    "name":"Parikkala, Sammallampi",
+    "address":"Parikkala, Sammallampi",
+    "longitude":29.52600,
+    "latitude":61.52185
+  },
+  {
+    "name":"Parikkala, Siikalahti Kasinniemi",
+    "address":"Parikkala, Siikalahti Kasinniemi",
+    "longitude":29.56041,
+    "latitude":61.56404
+  },
+  {
+    "name":"Parikkala, Siikalahti",
+    "address":"Parikkala, Siikalahti",
+    "longitude":29.56537,
+    "latitude":61.56098
+  },
+  {
+    "name":"Parikkala, Siikalahti Patotie",
+    "address":"Parikkala, Siikalahti Patotie",
+    "longitude":29.56771,
+    "latitude":61.56563
+  },
+  {
+    "name":"Parikkala, Akonpohja",
+    "address":"Parikkala, Akonpohja",
+    "longitude":29.68502,
+    "latitude":61.68379
+  },
+  {
+    "name":"Parikkala, Pohjanranta",
+    "address":"Parikkala, Pohjanranta",
+    "longitude":29.70598,
+    "latitude":61.72192
+  },
+  {
+    "name":"Kesälahti, Kuolemalammen suo",
+    "address":"Kesälahti, Kuolemalammen suo",
+    "longitude":29.72454,
+    "latitude":61.79682
+  },
+  {
+    "name":"Parikkala, Vaaranmäki",
+    "address":"Parikkala, Vaaranmäki",
+    "longitude":29.75094,
+    "latitude":61.65739
+  },
+  {
+    "name":"Parikkala, Mikkolanniemi Tarassiinlahti",
+    "address":"Parikkala, Mikkolanniemi Tarassiinlahti",
+    "longitude":29.77383,
+    "latitude":61.68871
+  },
+  {
+    "name":"Kesälahti, Pienivaara Hunonmäki",
+    "address":"Kesälahti, Pienivaara Hunonmäki",
+    "longitude":29.81691,
+    "latitude":61.92743
+  },
+  {
+    "name":"Parikkala, Kumpu  Uukuniemi",
+    "address":"Parikkala, Kumpu  Uukuniemi",
+    "longitude":29.82664,
+    "latitude":61.77044
+  },
+  {
+    "name":"Kesälahti, Totkunniemi Hovinmäki",
+    "address":"Kesälahti, Totkunniemi Hovinmäki",
+    "longitude":29.86518,
+    "latitude":61.84556
+  },
+  {
+    "name":"Kitee, Ätäskö",
+    "address":"Kitee, Ätäskö",
+    "longitude":29.96458,
+    "latitude":62.07552
+  },
+  {
+    "name":"Kitee, Päätyeenlahti Sepänniemi",
+    "address":"Kitee, Päätyeenlahti Sepänniemi",
+    "longitude":30.12872,
+    "latitude":62.11072
+  },
+  {
+    "name":"Heinävesi, Pääskyvuori",
+    "address":"Heinävesi, Pääskyvuori",
+    "longitude":28.56412,
+    "latitude":62.43165
+  },
+  {
+    "name":"Outokumpu, Sysmäjärvi Lahdenjoensuu",
+    "address":"Outokumpu, Sysmäjärvi Lahdenjoensuu",
+    "longitude":29.05768,
+    "latitude":62.70131
+  },
+  {
+    "name":"Outokumpu, Sysmäjärvi Jakaranlahti",
+    "address":"Outokumpu, Sysmäjärvi Jakaranlahti",
+    "longitude":29.08692,
+    "latitude":62.68497
+  },
+  {
+    "name":"Outokumpu, Laikanlahti",
+    "address":"Outokumpu, Laikanlahti",
+    "longitude":29.21099,
+    "latitude":62.69986
+  },
+  {
+    "name":"Liperi, Särkijärvi",
+    "address":"Liperi, Särkijärvi",
+    "longitude":29.30079,
+    "latitude":62.64206
+  },
+  {
+    "name":"Polvijärvi, Solanlampi",
+    "address":"Polvijärvi, Solanlampi",
+    "longitude":29.34522,
+    "latitude":62.75155
+  },
+  {
+    "name":"Liperi, Härkinlampi",
+    "address":"Liperi, Härkinlampi",
+    "longitude":29.42352,
+    "latitude":62.54576
+  },
+  {
+    "name":"Liperi, Roukalahti Tutjunlampi",
+    "address":"Liperi, Roukalahti Tutjunlampi",
+    "longitude":29.52464,
+    "latitude":62.47983
+  },
+  {
+    "name":"Rääkkylä, Ruokosalmi",
+    "address":"Rääkkylä, Ruokosalmi",
+    "longitude":29.53049,
+    "latitude":62.30873
+  },
+  {
+    "name":"Joensuu, Höytiäisen kanavan suisto",
+    "address":"Joensuu, Höytiäisen kanavan suisto",
+    "longitude":29.66915,
+    "latitude":62.61603
+  },
+  {
+    "name":"Rääkkylä, Vuoniemi",
+    "address":"Rääkkylä, Vuoniemi",
+    "longitude":29.76262,
+    "latitude":62.39541
+  },
+  {
+    "name":"Rääkkylä, Jouhtenuslampi",
+    "address":"Rääkkylä, Jouhtenuslampi",
+    "longitude":29.76532,
+    "latitude":62.30610
+  },
+  {
+    "name":"Kontiolahti, Satamalahti",
+    "address":"Kontiolahti, Satamalahti",
+    "longitude":29.83608,
+    "latitude":62.74904
+  },
+  {
+    "name":"Rääkkylä, Kiesjärvi",
+    "address":"Rääkkylä, Kiesjärvi",
+    "longitude":29.87066,
+    "latitude":62.28376
+  },
+  {
+    "name":"Kitee, Hovinlampi Kyöpelinvuori",
+    "address":"Kitee, Hovinlampi Kyöpelinvuori",
+    "longitude":29.94445,
+    "latitude":62.17726
+  },
+  {
+    "name":"Kontiolahti, Pitkäranta",
+    "address":"Kontiolahti, Pitkäranta",
+    "longitude":30.00367,
+    "latitude":62.67122
+  },
+  {
+    "name":"Kitee, Päätyeenlahti Perukka",
+    "address":"Kitee, Päätyeenlahti Perukka",
+    "longitude":30.11569,
+    "latitude":62.13690
+  },
+  {
+    "name":"Tohmajärvi, Peijonniemenlahti",
+    "address":"Tohmajärvi, Peijonniemenlahti",
+    "longitude":30.39364,
+    "latitude":62.19991
+  },
+  {
+    "name":"Tohmajärvi, Värtsilä Sääperi",
+    "address":"Tohmajärvi, Värtsilä Sääperi",
+    "longitude":30.61242,
+    "latitude":62.21250
+  },
+  {
+    "name":"Tohmajärvi, Värtsilä Uusikylä Hopeakallio",
+    "address":"Tohmajärvi, Värtsilä Uusikylä Hopeakallio",
+    "longitude":30.62140,
+    "latitude":62.20256
+  },
+  {
+    "name":"Ilomantsi, Kesonsuo",
+    "address":"Ilomantsi, Kesonsuo",
+    "longitude":30.81224,
+    "latitude":62.79030
+  },
+  {
+    "name":"Ilomantsi, Möhkö Möhkönvaara",
+    "address":"Ilomantsi, Möhkö Möhkönvaara",
+    "longitude":31.28784,
+    "latitude":62.62929
+  },
+  {
+    "name":"Karstula, Humppi Iso-Korpinen",
+    "address":"Karstula, Humppi Iso-Korpinen",
+    "longitude":24.85876,
+    "latitude":62.90863
+  },
+  {
+    "name":"Karstula, Pieni-Korppinen",
+    "address":"Karstula, Pieni-Korppinen",
+    "longitude":24.83950,
+    "latitude":62.91074
+  },
+  {
+    "name":"Pihtipudas, Kelkkämä",
+    "address":"Pihtipudas, Kelkkämä",
+    "longitude":25.21937,
+    "latitude":63.54647
+  },
+  {
+    "name":"Reisjärvi, Saarinen Niittujärvi",
+    "address":"Reisjärvi, Saarinen Niittujärvi",
+    "longitude":24.92710,
+    "latitude":63.66346
+  },
+  {
+    "name":"Nivala, Erkkisjärvi",
+    "address":"Nivala, Erkkisjärvi",
+    "longitude":25.04800,
+    "latitude":63.97143
+  },
+  {
+    "name":"Haapavesi, Kirkkojärvi",
+    "address":"Haapavesi, Kirkkojärvi",
+    "longitude":25.38231,
+    "latitude":64.13144
+  },
+  {
+    "name":"Haapavesi, Ainali",
+    "address":"Haapavesi, Ainali",
+    "longitude":25.38954,
+    "latitude":64.22881
+  },
+  {
+    "name":"Vihanti, Saarelanjärvi",
+    "address":"Vihanti, Saarelanjärvi",
+    "longitude":24.96899,
+    "latitude":64.49224
+  },
+  {
+    "name":"Vihanti, Rantasenjärvi",
+    "address":"Vihanti, Rantasenjärvi",
+    "longitude":24.96145,
+    "latitude":64.49810
+  },
+  {
+    "name":"Liminka, Hirvineva",
+    "address":"Liminka, Hirvineva",
+    "longitude":25.29045,
+    "latitude":64.70602
+  },
+  {
+    "name":"Liminka, Virkkula S",
+    "address":"Liminka, Virkkula S",
+    "longitude":25.30972,
+    "latitude":64.82818
+  },
+  {
+    "name":"Liminka, Virkkula N",
+    "address":"Liminka, Virkkula N",
+    "longitude":25.31050,
+    "latitude":64.82921
+  },
+  {
+    "name":"Lumijoki, Puhkiavanperä",
+    "address":"Lumijoki, Puhkiavanperä",
+    "longitude":25.28790,
+    "latitude":64.84628
+  },
+  {
+    "name":"Liminka, Temmesjokisuu",
+    "address":"Liminka, Temmesjokisuu",
+    "longitude":25.35154,
+    "latitude":64.86124
+  },
+  {
+    "name":"Lumijoki, Sannanlahti",
+    "address":"Lumijoki, Sannanlahti",
+    "longitude":25.20430,
+    "latitude":64.87991
+  },
+  {
+    "name":"Oulunsalo, Koivukari",
+    "address":"Oulunsalo, Koivukari",
+    "longitude":25.38995,
+    "latitude":64.90282
+  },
+  {
+    "name":"Oulunsalo, Papinkari",
+    "address":"Oulunsalo, Papinkari",
+    "longitude":25.38096,
+    "latitude":64.90870
+  },
+  {
+    "name":"Kempele, Vihiluoto",
+    "address":"Kempele, Vihiluoto",
+    "longitude":25.44938,
+    "latitude":64.94622
+  },
+  {
+    "name":"Oulunsalo, Kempeleenlahti",
+    "address":"Oulunsalo, Kempeleenlahti",
+    "longitude":25.47878,
+    "latitude":64.95142
+  },
+  {
+    "name":"Oulunsalo, Akionlahti",
+    "address":"Oulunsalo, Akionlahti",
+    "longitude":25.30432,
+    "latitude":64.98723
+  },
+  {
+    "name":"Oulu, Hietasaari Rantakurvi",
+    "address":"Oulu, Hietasaari Rantakurvi",
+    "longitude":25.41450,
+    "latitude":65.01620
+  },
+  {
+    "name":"Viitasaari, Huopana",
+    "address":"Viitasaari, Huopana",
+    "longitude":25.54330,
+    "latitude":63.04894
+  },
+  {
+    "name":"Viitasaari, Luotolansaari",
+    "address":"Viitasaari, Luotolansaari",
+    "longitude":25.59488,
+    "latitude":63.11499
+  },
+  {
+    "name":"Keitele, Hetejärvi Kallioniemi",
+    "address":"Keitele, Hetejärvi Kallioniemi",
+    "longitude":26.22669,
+    "latitude":63.14880
+  },
+  {
+    "name":"Keitele, Hetejärvi Saunaniemi",
+    "address":"Keitele, Hetejärvi Saunaniemi",
+    "longitude":26.24190,
+    "latitude":63.14998
+  },
+  {
+    "name":"Viitasaari, Heinä-Suvanto E",
+    "address":"Viitasaari, Heinä-Suvanto E",
+    "longitude":26.15346,
+    "latitude":63.15475
+  },
+  {
+    "name":"Viitasaari, Heinä-Suvanto W",
+    "address":"Viitasaari, Heinä-Suvanto W",
+    "longitude":26.12509,
+    "latitude":63.16398
+  },
+  {
+    "name":"Pihtipudas, Haapavuori",
+    "address":"Pihtipudas, Haapavuori",
+    "longitude":25.68368,
+    "latitude":63.35776
+  },
+  {
+    "name":"Pihtipudas, Putaanlahti",
+    "address":"Pihtipudas, Putaanlahti",
+    "longitude":25.58763,
+    "latitude":63.37029
+  },
+  {
+    "name":"Pihtipudas, Heinäjoki E",
+    "address":"Pihtipudas, Heinäjoki E",
+    "longitude":25.56412,
+    "latitude":63.38433
+  },
+  {
+    "name":"Pihtipudas, Heinäjoki W",
+    "address":"Pihtipudas, Heinäjoki W",
+    "longitude":25.55621,
+    "latitude":63.38494
+  },
+  {
+    "name":"Keitele, Lahnasjärvet",
+    "address":"Keitele, Lahnasjärvet",
+    "longitude":26.21635,
+    "latitude":63.39033
+  },
+  {
+    "name":"Pihtipudas, Kortteinen",
+    "address":"Pihtipudas, Kortteinen",
+    "longitude":25.68566,
+    "latitude":63.45804
+  },
+  {
+    "name":"Pyhäjärvi, Vuohtomäki",
+    "address":"Pyhäjärvi, Vuohtomäki",
+    "longitude":26.06568,
+    "latitude":63.57310
+  },
+  {
+    "name":"Kiuruvesi, Luupuvesi Jokilahti",
+    "address":"Kiuruvesi, Luupuvesi Jokilahti",
+    "longitude":26.77884,
+    "latitude":63.70407
+  },
+  {
+    "name":"Kärsämäki, Nurmesjärvi",
+    "address":"Kärsämäki, Nurmesjärvi",
+    "longitude":25.70563,
+    "latitude":63.80396
+  },
+  {
+    "name":"Pyhäntä, Kivijärvi",
+    "address":"Pyhäntä, Kivijärvi",
+    "longitude":26.22272,
+    "latitude":64.13892
+  },
+  {
+    "name":"Vaala, Enonkylä Kuvaja",
+    "address":"Vaala, Enonkylä Kuvaja",
+    "longitude":26.73054,
+    "latitude":64.32432
+  },
+  {
+    "name":"Vaala, Säräisniemi Painuanlahti",
+    "address":"Vaala, Säräisniemi Painuanlahti",
+    "longitude":26.77838,
+    "latitude":64.44245
+  },
+  {
+    "name":"Siikalatva, Rantsila Kurunneva",
+    "address":"Siikalatva, Rantsila Kurunneva",
+    "longitude":25.57816,
+    "latitude":64.45464
+  },
+  {
+    "name":"Utajärvi, Ahmasjärvi",
+    "address":"Utajärvi, Ahmasjärvi",
+    "longitude":26.45602,
+    "latitude":64.64382
+  },
+  {
+    "name":"Muhos, Matokorpi",
+    "address":"Muhos, Matokorpi",
+    "longitude":25.92683,
+    "latitude":64.79546
+  },
+  {
+    "name":"Oulu, Kiviniemi",
+    "address":"Oulu, Kiviniemi",
+    "longitude":25.48586,
+    "latitude":64.96728
+  },
+  {
+    "name":"Kuopio, Neulamäki",
+    "address":"Kuopio, Neulamäki",
+    "longitude":27.59433,
+    "latitude":62.88811
+  },
+  {
+    "name":"Maaninka, Pieni Lapinjärvi",
+    "address":"Maaninka, Pieni Lapinjärvi",
+    "longitude":27.38603,
+    "latitude":63.12179
+  },
+  {
+    "name":"Maaninka, Kinnulanlahti",
+    "address":"Maaninka, Kinnulanlahti",
+    "longitude":27.38585,
+    "latitude":63.12189
+  },
+  {
+    "name":"Maaninka, Lapinranta",
+    "address":"Maaninka, Lapinranta",
+    "longitude":27.43301,
+    "latitude":63.13338
+  },
+  {
+    "name":"Lieksa, Lahnasuo",
+    "address":"Lieksa, Lahnasuo",
+    "longitude":27.13875,
+    "latitude":63.16934
+  },
+  {
+    "name":"Maaninka, Patalahti SE",
+    "address":"Maaninka, Patalahti SE",
+    "longitude":27.18731,
+    "latitude":63.22751
+  },
+  {
+    "name":"Maaninka, Patalahti W",
+    "address":"Maaninka, Patalahti W",
+    "longitude":27.17907,
+    "latitude":63.22754
+  },
+  {
+    "name":"Maaninka, Patalahti E",
+    "address":"Maaninka, Patalahti E",
+    "longitude":27.18642,
+    "latitude":63.23547
+  },
+  {
+    "name":"Lapinlahti, Väisälänmäki",
+    "address":"Lapinlahti, Väisälänmäki",
+    "longitude":27.23734,
+    "latitude":63.34545
+  },
+  {
+    "name":"Lapinlahti, Linnansalmi",
+    "address":"Lapinlahti, Linnansalmi",
+    "longitude":27.36835,
+    "latitude":63.36559
+  },
+  {
+    "name":"Iisalmi, Kihlovirta",
+    "address":"Iisalmi, Kihlovirta",
+    "longitude":27.01627,
+    "latitude":63.56986
+  },
+  {
+    "name":"Iisalmi, Keskimmäinen",
+    "address":"Iisalmi, Keskimmäinen",
+    "longitude":27.12359,
+    "latitude":63.59815
+  },
+  {
+    "name":"Sonkajärvi, Hankalampi",
+    "address":"Sonkajärvi, Hankalampi",
+    "longitude":27.94829,
+    "latitude":63.71652
+  },
+  {
+    "name":"Kajaani, Vuottolahti",
+    "address":"Kajaani, Vuottolahti",
+    "longitude":27.27878,
+    "latitude":64.11776
+  },
+  {
+    "name":"Kajaani, Otanmäen lintuvesiallas",
+    "address":"Kajaani, Otanmäen lintuvesiallas",
+    "longitude":27.11677,
+    "latitude":64.13154
+  },
+  {
+    "name":"Kajaani, Otanmäen lintuvesiallas korkea valli",
+    "address":"Kajaani, Otanmäen lintuvesiallas korkea valli",
+    "longitude":27.10636,
+    "latitude":64.13229
+  },
+  {
+    "name":"Kajaani, Otanmäen lintuvesiallas Pikkusirri",
+    "address":"Kajaani, Otanmäen lintuvesiallas Pikkusirri",
+    "longitude":27.10050,
+    "latitude":64.13544
+  },
+  {
+    "name":"Kajaani, Otanmäen lintuvesiallas Isosirri",
+    "address":"Kajaani, Otanmäen lintuvesiallas Isosirri",
+    "longitude":27.09263,
+    "latitude":64.14040
+  },
+  {
+    "name":"Kajaani, Kuluntajärvi",
+    "address":"Kajaani, Kuluntajärvi",
+    "longitude":27.87575,
+    "latitude":64.29441
+  },
+  {
+    "name":"Paltamo, Mieslahti",
+    "address":"Paltamo, Mieslahti",
+    "longitude":27.98169,
+    "latitude":64.38210
+  },
+  {
+    "name":"Paltamo, Matalansuo",
+    "address":"Paltamo, Matalansuo",
+    "longitude":27.65484,
+    "latitude":64.44869
+  },
+  {
+    "name":"Utajärvi, Vähä-Ruohonen",
+    "address":"Utajärvi, Vähä-Ruohonen",
+    "longitude":27.02641,
+    "latitude":64.99196
+  },
+  {
+    "name":"Sotkamo, Naapurinvaara",
+    "address":"Sotkamo, Naapurinvaara",
+    "longitude":28.20911,
+    "latitude":64.16958
+  },
+  {
+    "name":"Kuopio, Riistavesi Keskimmäinen",
+    "address":"Kuopio, Riistavesi Keskimmäinen",
+    "longitude":28.23711,
+    "latitude":62.88781
+  },
+  {
+    "name":"Nilsiä, Pisa",
+    "address":"Nilsiä, Pisa",
+    "longitude":28.32503,
+    "latitude":63.21642
+  },
+  {
+    "name":"Suomussalmi, Joutenjärvi",
+    "address":"Suomussalmi, Joutenjärvi",
+    "longitude":28.58409,
+    "latitude":64.94020
+  },
+  {
+    "name":"Valtimo, Patojärvi",
+    "address":"Valtimo, Patojärvi",
+    "longitude":28.80785,
+    "latitude":63.62094
+  },
+  {
+    "name":"Valtimo, Kalliojärvi",
+    "address":"Valtimo, Kalliojärvi",
+    "longitude":28.82105,
+    "latitude":63.61887
+  },
+  {
+    "name":"Hyrynsalmi, Kuivajärvi",
+    "address":"Hyrynsalmi, Kuivajärvi",
+    "longitude":28.90924,
+    "latitude":64.61736
+  },
+  {
+    "name":"Nurmes, Saramo Suojärvi",
+    "address":"Nurmes, Saramo Suojärvi",
+    "longitude":29.25693,
+    "latitude":63.69008
+  },
+  {
+    "name":"Juuka, Kaajanlampi",
+    "address":"Juuka, Kaajanlampi",
+    "longitude":29.28915,
+    "latitude":63.29956
+  },
+  {
+    "name":"Suomussalmi, Hirvasjärvi",
+    "address":"Suomussalmi, Hirvasjärvi",
+    "longitude":29.41331,
+    "latitude":64.97196
+  },
+  {
+    "name":"Juuka, Paalasmaa",
+    "address":"Juuka, Paalasmaa",
+    "longitude":29.44544,
+    "latitude":63.30425
+  },
+  {
+    "name":"Kuhmo, Rytilampi",
+    "address":"Kuhmo, Rytilampi",
+    "longitude":29.69052,
+    "latitude":64.11916
+  },
+  {
+    "name":"Kontiolahti, Iso-Suopoli",
+    "address":"Kontiolahti, Iso-Suopoli",
+    "longitude":29.72759,
+    "latitude":62.99119
+  },
+  {
+    "name":"Lieksa, Pappilanluhta",
+    "address":"Lieksa, Pappilanluhta",
+    "longitude":30.04200,
+    "latitude":63.30483
+  },
+  {
+    "name":"Lieksa, Simananvaara",
+    "address":"Lieksa, Simananvaara",
+    "longitude":30.13173,
+    "latitude":63.12099
+  },
+  {
+    "name":"Lieksa, Reposuo 1",
+    "address":"Lieksa, Reposuo 1",
+    "longitude":30.24419,
+    "latitude":63.33646
+  },
+  {
+    "name":"Lieksa, Reposuo 2",
+    "address":"Lieksa, Reposuo 2",
+    "longitude":30.24616,
+    "latitude":63.33548
+  },
+  {
+    "name":"Lieksa, Pikku-Kili Keljanvaara",
+    "address":"Lieksa, Pikku-Kili Keljanvaara",
+    "longitude":30.26027,
+    "latitude":63.06326
+  },
+  {
+    "name":"Joensuu, Uimaharju Koukkujoki",
+    "address":"Joensuu, Uimaharju Koukkujoki",
+    "longitude":30.26870,
+    "latitude":62.88541
+  },
+  {
+    "name":"Lieksa, Huuhkajanvaara",
+    "address":"Lieksa, Huuhkajanvaara",
+    "longitude":30.55053,
+    "latitude":63.36940
+  },
+  {
+    "name":"Lieksa, Lakkapolku",
+    "address":"Lieksa, Lakkapolku",
+    "longitude":30.68144,
+    "latitude":63.14814
+  },
+  {
+    "name":"Ilomantsi, Patvinsuo Teretinniemi",
+    "address":"Ilomantsi, Patvinsuo Teretinniemi",
+    "longitude":30.74746,
+    "latitude":63.09158
+  },
+  {
+    "name":"Simo, Simoniemi Ruunakari",
+    "address":"Simo, Simoniemi Ruunakari",
+    "longitude":24.88972,
+    "latitude":65.66099
+  },
+  {
+    "name":"Keminmaa, Keski-Penikka",
+    "address":"Keminmaa, Keski-Penikka",
+    "longitude":25.02843,
+    "latitude":65.87100
+  },
+  {
+    "name":"Simo, Martimojärvi",
+    "address":"Simo, Martimojärvi",
+    "longitude":25.19752,
+    "latitude":65.83118
+  },
+  {
+    "name":"Simo, Järviaapa",
+    "address":"Simo, Järviaapa",
+    "longitude":25.22807,
+    "latitude":65.83898
+  },
+  {
+    "name":"Haukipudas, Kello Kiviniemi",
+    "address":"Haukipudas, Kello Kiviniemi",
+    "longitude":25.32787,
+    "latitude":65.11197
+  },
+  {
+    "name":"Ii, Hiastinlahti",
+    "address":"Ii, Hiastinlahti",
+    "longitude":25.33584,
+    "latitude":65.35174
+  },
+  {
+    "name":"Haukipudas, Vainiolanjärvi",
+    "address":"Haukipudas, Vainiolanjärvi",
+    "longitude":25.36388,
+    "latitude":65.15163
+  },
+  {
+    "name":"Oulu, Letonniemi",
+    "address":"Oulu, Letonniemi",
+    "longitude":25.39048,
+    "latitude":65.05789
+  },
+  {
+    "name":"Oulu, Hietasaari Loistokari",
+    "address":"Oulu, Hietasaari Loistokari",
+    "longitude":25.41374,
+    "latitude":65.02368
+  },
+  {
+    "name":"Ii, Vuosijärvi",
+    "address":"Ii, Vuosijärvi",
+    "longitude":25.49736,
+    "latitude":65.61436
+  },
+  {
+    "name":"Oulu, Huutilanlampi",
+
+    "address":"Oulu, Huutilanlampi",
+    "longitude":25.70057,
+    "latitude":65.06079
+  },
+  {
+    "name":"Yli-Ii, Pahkakoski Vitsasuo",
+    "address":"Yli-Ii, Pahkakoski Vitsasuo",
+    "longitude":26.00335,
+    "latitude":65.40062
+  },
+  {
+    "name":"Yli-Ii, Iso-Mättäisjärvi",
+    "address":"Yli-Ii, Iso-Mättäisjärvi",
+    "longitude":26.02091,
+    "latitude":65.41620
+  },
+  {
+    "name":"Oulu, Ylikiiminki Jolosjärvi",
+    "address":"Oulu, Ylikiiminki Jolosjärvi",
+    "longitude":26.16309,
+    "latitude":65.13430
+  },
+  {
+    "name":"Oulu, Ylikiiminki Hirvisuo",
+    "address":"Oulu, Ylikiiminki Hirvisuo",
+    "longitude":26.28525,
+    "latitude":65.20641
+  },
+  {
+    "name":"Ranua, Papinsalo Tervonsuo",
+    "address":"Ranua, Papinsalo Tervonsuo",
+    "longitude":26.33128,
+    "latitude":65.81663
+  },
+  {
+    "name":"Pudasjärvi, Aittojärvi Ihmelampi",
+    "address":"Pudasjärvi, Aittojärvi Ihmelampi",
+    "longitude":26.79277,
+    "latitude":65.26106
+  },
+  {
+    "name":"Pudasjärvi, Pudasjärvi",
+    "address":"Pudasjärvi, Pudasjärvi",
+    "longitude":26.94582,
+    "latitude":65.39078
+  },
+  {
+    "name":"Utajärvi, Pikku-Timonen",
+    "address":"Utajärvi, Pikku-Timonen",
+    "longitude":26.96019,
+    "latitude":65.05220
+  },
+  {
+    "name":"Pudasjärvi, Sammakkosuo",
+    "address":"Pudasjärvi, Sammakkosuo",
+    "longitude":27.08305,
+    "latitude":65.24168
+  },
+  {
+    "name":"Utajärvi, Kirkaslampi",
+    "address":"Utajärvi, Kirkaslampi",
+    "longitude":27.15335,
+    "latitude":65.08428
+  },
+  {
+    "name":"Ranua, Kuhajärvi",
+    "address":"Ranua, Kuhajärvi",
+    "longitude":26.71989,
+    "latitude":65.90299
+  },
+  {
+    "name":"Ranua, Takajärvi Salmenniemi",
+    "address":"Ranua, Takajärvi Salmenniemi",
+    "longitude":26.53397,
+    "latitude":65.91807
+  },
+  {
+    "name":"Ranua, Portimojärvi",
+    "address":"Ranua, Portimojärvi",
+    "longitude":26.32149,
+    "latitude":66.10407
+  },
+  {
+    "name":"Ranua, Topin lintutorni Simojärvi",
+    "address":"Ranua, Topin lintutorni Simojärvi",
+    "longitude":26.97117,
+    "latitude":66.11860
+  },
+  {
+    "name":"Rovaniemi, Niskanperä",
+    "address":"Rovaniemi, Niskanperä",
+    "longitude":25.61237,
+    "latitude":66.45493
+  },
+  {
+    "name":"Rovaniemi, Paavalniemi",
+    "address":"Rovaniemi, Paavalniemi",
+    "longitude":25.58089,
+    "latitude":66.46545
+  },
+  {
+    "name":"Rovaniemi, Harjulampi",
+    "address":"Rovaniemi, Harjulampi",
+    "longitude":25.72227,
+    "latitude":66.48648
+  },
+  {
+    "name":"Rovaniemi, Ounasjokisuisto Koivusaari",
+    "address":"Rovaniemi, Ounasjokisuisto Koivusaari",
+    "longitude":25.73427,
+    "latitude":66.51461
+  },
+  {
+    "name":"Rovaniemi, Vianaapa",
+    "address":"Rovaniemi, Vianaapa",
+    "longitude":26.14200,
+    "latitude":66.57557
+  },
+  {
+    "name":"Rovaniemi, Vattunkivaara",
+    "address":"Rovaniemi, Vattunkivaara",
+    "longitude":26.19028,
+    "latitude":66.60912
+  },
+  {
+    "name":"Rovaniemi, Lehtojärvi",
+    "address":"Rovaniemi, Lehtojärvi",
+    "longitude":25.31201,
+    "latitude":66.63706
+  },
+  {
+    "name":"Kemijärvi, Pyhätunturi Tunturiaapa",
+    "address":"Kemijärvi, Pyhätunturi Tunturiaapa",
+    "longitude":27.21071,
+    "latitude":67.00208
+  },
+  {
+    "name":"Sodankylä, Hanhiaapa",
+    "address":"Sodankylä, Hanhiaapa",
+    "longitude":26.92424,
+    "latitude":67.45722
+  },
+  {
+    "name":"Sodankylä, Viiankiaapa Siurunmaa",
+    "address":"Sodankylä, Viiankiaapa Siurunmaa",
+    "longitude":26.84994,
+    "latitude":67.47624
+  },
+  {
+    "name":"Sodankylä, Viiankiaapa Kersilö",
+    "address":"Sodankylä, Viiankiaapa Kersilö",
+    "longitude":26.80491,
+    "latitude":67.55770
+  },
+  {
+    "name":"Kittilä, Karinnokka",
+    "address":"Kittilä, Karinnokka",
+    "longitude":24.90910,
+    "latitude":67.66234
+  },
+  {
+    "name":"Sodankylä, Ilmakkijärvi",
+    "address":"Sodankylä, Ilmakkijärvi",
+    "longitude":26.74658,
+    "latitude":67.70648
+  },
+  {
+    "name":"Kittilä, Kukkura",
+    "address":"Kittilä, Kukkura",
+    "longitude":25.00178,
+    "latitude":67.75915
+  },
+  {
+    "name":"Sodankylä, Peurasuvanto",
+    "address":"Sodankylä, Peurasuvanto",
+    "longitude":26.76270,
+    "latitude":67.82037
+  },
+  {
+    "name":"Sodankylä, Pikku-Tankavaara",
+    "address":"Sodankylä, Pikku-Tankavaara",
+    "longitude":27.13930,
+    "latitude":68.17006
+  },
+  {
+    "name":"Sodankylä, Tankavaara",
+    "address":"Sodankylä, Tankavaara",
+    "longitude":27.10700,
+    "latitude":68.17585
+  },
+  {
+    "name":"Inari, Kaamanen Toivoniemi",
+    "address":"Inari, Kaamanen Toivoniemi",
+    "longitude":27.10432,
+    "latitude":69.07065
+  },
+  {
+    "name":"Pudasjärvi, Kalettomansuo",
+    "address":"Pudasjärvi, Kalettomansuo",
+    "longitude":27.27901,
+    "latitude":65.34743
+  },
+  {
+    "name":"Pudasjärvi, Sotkajärvi",
+    "address":"Pudasjärvi, Sotkajärvi",
+    "longitude":27.29448,
+    "latitude":65.33453
+  },
+  {
+    "name":"Kemijärvi, Luusua",
+    "address":"Kemijärvi, Luusua",
+    "longitude":27.33354,
+    "latitude":66.50230
+  },
+  {
+    "name":"Pudasjärvi, Juutislampi",
+    "address":"Pudasjärvi, Juutislampi",
+    "longitude":27.35154,
+    "latitude":65.80998
+  },
+  {
+    "name":"Kemijärvi, Kotavaara",
+    "address":"Kemijärvi, Kotavaara",
+    "longitude":27.57678,
+    "latitude":66.70789
+  },
+  {
+    "name":"Kemijärvi, Suomujoki",
+    "address":"Kemijärvi, Suomujoki",
+    "longitude":27.98920,
+    "latitude":66.58104
+  },
+  {
+    "name":"Puolanka, Kempasvaara",
+    "address":"Puolanka, Kempasvaara",
+    "longitude":28.07510,
+    "latitude":65.01905
+  },
+  {
+    "name":"Posio, Posionjärvi Ahosenlahti",
+    "address":"Posio, Posionjärvi Ahosenlahti",
+    "longitude":28.15076,
+    "latitude":66.12926
+  },
+  {
+    "name":"Salla, Kivelänaukea",
+    "address":"Salla, Kivelänaukea",
+    "longitude":28.20362,
+    "latitude":66.43219
+  },
+  {
+    "name":"Taivalkoski, Kisoslammet",
+    "address":"Taivalkoski, Kisoslammet",
+    "longitude":28.36058,
+    "latitude":65.39645
+  },
+  {
+    "name":"Taivalkoski, Latva-Juurikka",
+    "address":"Taivalkoski, Latva-Juurikka",
+    "longitude":28.40305,
+    "latitude":65.56452
+  },
+  {
+    "name":"Taivalkoski, Tyrälampi",
+    "address":"Taivalkoski, Tyrälampi",
+    "longitude":28.58039,
+    "latitude":65.48149
+  },
+  {
+    "name":"Kuusamo, Kitkajärvi Vasaralahti",
+    "address":"Kuusamo, Kitkajärvi Vasaralahti",
+    "longitude":28.74462,
+    "latitude":66.06924
+  },
+  {
+    "name":"Salla, Topsakka-aapa",
+    "address":"Salla, Topsakka-aapa",
+    "longitude":28.82027,
+    "latitude":66.63967
+  },
+  {
+    "name":"Kuusamo, Ala-Kitka Kaukosaari",
+    "address":"Kuusamo, Ala-Kitka Kaukosaari",
+    "longitude":29.08447,
+    "latitude":66.24520
+  },
+  {
+    "name":"Kuusamo, Torankijärvi Jätäri",
+    "address":"Kuusamo, Torankijärvi Jätäri",
+    "longitude":29.17413,
+    "latitude":65.95679
+  },
+  {
+    "name":"Kuusamo, Kuusamojärvi Nilojoki",
+    "address":"Kuusamo, Kuusamojärvi Nilojoki",
+    "longitude":29.18971,
+    "latitude":65.97096
+  },
+  {
+    "name":"Kuusamo, Torankijärvi",
+    "address":"Kuusamo, Torankijärvi",
+    "longitude":29.22099,
+    "latitude":65.94440
+  },
+  {
+    "name":"Kuusamo, Vihtasalmi",
+    "address":"Kuusamo, Vihtasalmi",
+    "longitude":29.24661,
+    "latitude":65.95469
+  },
+  {
+    "name":"Kuusamo, Rukajärvi Antinperä",
+    "address":"Kuusamo, Rukajärvi Antinperä",
+    "longitude":29.29521,
+    "latitude":66.12877
+  },
+  {
+    "name":"Kuusamo, Vuotunki",
+    "address":"Kuusamo, Vuotunki",
+    "longitude":29.58329,
+    "latitude":66.14098
+  },
+  {
+    "name":"Kuusamo, Suininki Olkivaara",
+    "address":"Kuusamo, Suininki Olkivaara",
+    "longitude":29.71055,
+    "latitude":66.05831
+  },
+  {
+    "name":"Utsjoki, Roavvetsohkka Mierasjärvi",
+    "address":"Utsjoki, Roavvetsohkka Mierasjärvi",
+    "longitude":27.22072,
+    "latitude":69.52570
+  },
+  {
+    "name":"Sodankylä, Tervamaa",
+    "address":"Sodankylä, Tervamaa",
+    "longitude":27.34908,
+    "latitude":68.03365
+  },
+  {
+    "name":"Sodankylä, Sompiojärvi",
+    "address":"Sodankylä, Sompiojärvi",
+    "longitude":27.43674,
+    "latitude":68.10937
+  },
+  {
+    "name":"Pelkosenniemi, Kilpiaapa",
+    "address":"Pelkosenniemi, Kilpiaapa",
+    "longitude":27.44974,
+    "latitude":67.10441
+  },
+  {
+    "name":"Pelkosenniemi, Kairanaapa",
+    "address":"Pelkosenniemi, Kairanaapa",
+    "longitude":27.49552,
+    "latitude":67.25767
+  },
+  {
+    "name":"Kemijärvi, Myllykumpu",
+    "address":"Kemijärvi, Myllykumpu",
+    "longitude":27.54661,
+    "latitude":66.83503
+  },
+  {
+    "name":"Pelkosenniemi, Keminsaaret",
+    "address":"Pelkosenniemi, Keminsaaret",
+    "longitude":27.56955,
+    "latitude":67.12733
+  },
+  {
+    "name":"Pelkosenniemi, Sokanaapa",
+    "address":"Pelkosenniemi, Sokanaapa",
+    "longitude":27.57046,
+    "latitude":67.16103
+  },
+  {
+    "name":"Pelkosenniemi, Arvosjoki",
+    "address":"Pelkosenniemi, Arvosjoki",
+    "longitude":27.57885,
+    "latitude":67.05932
+  },
+  {
+    "name":"Inari, Ivalonjokisuu Juurakkovuopaja",
+    "address":"Inari, Ivalonjokisuu Juurakkovuopaja",
+    "longitude":27.65088,
+    "latitude":68.76918
+  },
+  {
+    "name":"Inari, Alempi Akujärvi",
+    "address":"Inari, Alempi Akujärvi",
+    "longitude":27.69074,
+    "latitude":68.67565
+  },
+  {
+    "name":"Pelkosenniemi, Kokonaapa",
+    "address":"Pelkosenniemi, Kokonaapa",
+    "longitude":27.69524,
+    "latitude":67.08711
+  },
+  {
+    "name":"Inari, Mielikköjärvi",
+    "address":"Inari, Mielikköjärvi",
+    "longitude":27.70129,
+    "latitude":68.73486
+  },
+  {
+    "name":"Sodankylä, Lokka Kotivaara",
+    "address":"Sodankylä, Lokka Kotivaara",
+    "longitude":27.71117,
+    "latitude":67.81837
+  },
+  {
+    "name":"Sodankylä, Lokka",
+    "address":"Sodankylä, Lokka",
+    "longitude":27.76707,
+    "latitude":67.82771
+  },
+  {
+    "name":"Savukoski, Sarvilampi",
+    "address":"Savukoski, Sarvilampi",
+    "longitude":28.19094,
+    "latitude":67.28173
+  },
+  {
+    "name":"Salla, Termusjärvi",
+    "address":"Salla, Termusjärvi",
+    "longitude":28.60843,
+    "latitude":66.87245
+  },
+  {
+    "name":"Salla, Hangasjärvi",
+    "address":"Salla, Hangasjärvi",
+    "longitude":28.73250,
+    "latitude":66.75200
+  },
+  {
+    "name":"Salla, Ruuhitunturi",
+    "address":"Salla, Ruuhitunturi",
+    "longitude":28.77837,
+    "latitude":66.71571
+  },
+  {
+    "name":"Salla, Pieni Pyhätunturi",
+    "address":"Salla, Pieni Pyhätunturi",
+    "longitude":28.78865,
+    "latitude":66.76218
+  },
+  {
+    "name":"Salla, Iso Pyhätunturi",
+    "address":"Salla, Iso Pyhätunturi",
+    "longitude":28.80079,
+    "latitude":66.78155
+  },
+  {
+    "name":"Salla, Aapa-Tuohilampi",
+    "address":"Salla, Aapa-Tuohilampi",
+    "longitude":28.86523,
+    "latitude":66.98503
+  }
+];
+</script>
+
+
+<script type="text/javascript">
+$(window).on('load', function(){
+    //Set default credentials
+    $.jHERE.defaultCredentials('_peU-uCkp-j8ovkzFGNU', 'gBoUkAMoxoqIWfxWA5DuMQ');
+
+    $('#map').jHERE({enable: ['behavior'], center: [52.51, 13.4], zoom: 4});
+    $('#map').jHERE('cluster', data);
+});
+</script>
+</body>
+</html>
