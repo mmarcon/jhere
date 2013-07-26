@@ -136,3 +136,22 @@ This extansion is useful when it is necessary to categorize (i.e. group) markers
 
 	//Stupid example: show all Burger Kings and hide all the Mc Donalds
 	$('.map').jHERE('markergroups', 'b-king', true).jHERE('markergroups', 'mc-donald', false);
+
+### clustering extension
+
+Exposes markers clustering for better data visualuzation. When your maps get crowded with markers, this is the extension for you.
+
+	var data = [
+		{
+		  "name":"Name of the place",
+		  "longitude": 20.17920,
+		  "latitude": 59.96930
+		}
+		//,many other points here
+	];
+	
+	 $('#map').jHERE('cluster', data);
+
+To get rid of the clusters:
+
+	$('#map').jHERE('nocluster', data);
