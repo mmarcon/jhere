@@ -507,7 +507,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         this.map.overlays.add(hm);
     };
 
-    //###Access the underlying JSLA framework
+    //###Access the underlying HERE JavaScript API framework
     //`$('.selector').jHERE('originalMap', closure);`
     //
     //This is useful when advanced operations
@@ -518,8 +518,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`closure` should look like this:
     //<pre><code>function(map, here){
     //    //this is the DOM element
-    //    //map is the JSLA map object
-    //    //here is the whole JSLA API namespace
+    //    //map is the HERE JavaScript API map object
+    //    //here is the whole HERE JavaScript API namespace
     //}</code></pre>
     H.originalMap = function(closure) {
         /*
@@ -711,7 +711,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //<pre><code class="dark">$.jHERE.extend('myextension', function(param1, param2){
     //  //this is the plugin object
     //  //this.element is the DOM element
-    //  //this.map is the JSLA map
+    //  //this.map is the HERE JavaScript API map
     //});</code></pre>
     //
     //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
