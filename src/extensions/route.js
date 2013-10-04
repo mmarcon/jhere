@@ -122,7 +122,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 });
                 $(this.element).trigger(evt);
             } else if (status === 'failed') {
-                $.error('Failed to calcolate route');
+                $.error('Failed to calculate route');
             }
         };
 
