@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+<div id="map"></div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
+<script type="text/javascript" src="../zepto.adapter.js"></script>
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
+<script type="text/javascript" src="../jhere.js"></script>
+<script type="text/javascript" src="../extensions/customize.js"></script>
+<script type="text/javascript">
+$(window).on('load', function(){
+    //Set default credentials
+    $.jHERE.defaultCredentials('_peU-uCkp-j8ovkzFGNU', 'gBoUkAMoxoqIWfxWA5DuMQ');
+
+    $('#map').jHERE({enable: ['behavior', 'zoombar', 'typeselector', 'positioning', 'contextmenu']})
+        .jHERE('customize', {
+            bubble: {
+                backgroundColor: '#ff6347',
+                color: '#ffffff',
+                autoClose: false
+            }
+        });
+    var point1 = [52.49, 13.39];
+    $('#map').jHERE('marker', point1, {text: '❤', textColor: '#fff', fill: '#004C9A'}).jHERE('bubble', point1, {content: JSON.stringify(point1), closable: false});
+    var point2 = {latitude: 52.521, longitude: 13.433};
+    $('#map').jHERE('marker', point2, {text: 'Ï', textColor: '#fff', fill: '#004C9A'}).jHERE('bubble', point2, {content: JSON.stringify(point2), closable: false});
+    });
+</script>
+</body>
+</html>
