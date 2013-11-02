@@ -290,7 +290,7 @@ customize the heatmap look.</p>
             
                 
                 <div id="section-14">
-                    <h3>Access the underlying JSLA framework</h3>
+                    <h3>Access the underlying HERE JavaScript API framework</h3>
 <p><code>$(&#39;.selector&#39;).jHERE(&#39;originalMap&#39;, closure);</code></p>
 <p>This is useful when advanced operations
 that are not exposed by this plugin need to be
@@ -299,8 +299,8 @@ documentation.</p>
 <p><code>closure</code> should look like this:</p>
 <pre><code>function(map, here){
    //this is the DOM element
-   //map is the JSLA map object
-   //here is the whole JSLA API namespace
+   //map is the HERE JavaScript API map object
+   //here is the whole HERE JavaScript API namespace
 }</code></pre>
 
                 </div>
@@ -343,7 +343,7 @@ that will be called via</p>
 <pre><code class="dark">$.jHERE.extend('myextension', function(param1, param2){
  //this is the plugin object
  //this.element is the DOM element
- //this.map is the JSLA map
+ //this.map is the HERE JavaScript API map
 });</code></pre>
 
 <p>A good example of extension is the <a href="https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js">routing extension</a>.</p>
