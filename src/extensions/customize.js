@@ -23,6 +23,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ;(function($){
     var _ns;
 
+    //### Customize particular aspects of the map
+    //`$('.selector').jHERE('customize', options)`
+    //
+    //Supported options are currently the following:
+    //
+    //<pre><code>{
+    //  bubble: {
+    //    backgroundColor: '#ffffff',
+    //    color: '#111111',
+    //    autoClose: false /*Should bubbles be autoclosed when a new one is open?*/
+    //  }
+    //}</code></pre>
     function customize(options){
         _ns = _ns || nokia.maps;
         var map = this.map;

@@ -155,3 +155,19 @@ Exposes markers clustering for better data visualuzation. When your maps get cro
 To get rid of the clusters:
 
 	$('#map').jHERE('nocluster', data);
+	
+### customize extension
+
+Allows to customize particular aspects of the map.
+
+    $('.selector').jHERE('customize', options);
+    
+Supported options are currently the following:
+
+    {
+      bubble: {
+        backgroundColor: '#ffffff',
+        color: '#111111',
+        autoClose: false /*Should bubbles be autoclosed when a new one is open?*/
+      }
+    }
