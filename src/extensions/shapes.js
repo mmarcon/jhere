@@ -113,6 +113,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 $.error(shape + ' not supported');
         }
     };
+    
+    //###Clear all shapes from the map
+    clearShapes = function() {
+        if (shapeContainer && shapeContainer.objects) {
+            shapeContainer.objects.clear();
+        }
+    };
 
     circle = function(options){
         shape.call(this, 'circle', options);
