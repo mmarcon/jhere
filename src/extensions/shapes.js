@@ -21,7 +21,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 ;(function($){
-    var _ns, shape, circle, rectangle, polyline, polygon, shapeContainer;
+    var _ns, shape, clearShapes, circle, rectangle, polyline, polygon, shapeContainer;
 
     function normalize(position){
         return position instanceof Array ? {latitude: position[0], longitude: position[1]} : position;
@@ -113,6 +113,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 $.error(shape + ' not supported');
         }
     };
+    
+    //###Clear all shapes from the map
+    clearShapes = function() {
+        if (shapeContainer && shapeContainer.objects) {
+            shapeContainer.objects.clear();
+        }
+    };
 
     circle = function(options){
         shape.call(this, 'circle', options);
@@ -131,6 +138,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     $.jHERE.extend('shape', shape);
+    $.jHERE.extend('clearShapes', clearShapes);
     $.jHERE.extend('circle', circle);
     $.jHERE.extend('rectangle', rectangle);
     $.jHERE.extend('polyline', polyline);
