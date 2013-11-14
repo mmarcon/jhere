@@ -1,4 +1,4 @@
-/* normalize.css v2.1.0 | MIT License | git.io/normalize */
+/*! normalize.css v2.1.0 | MIT License | git.io/normalize */
 /* ==========================================================================
    HTML5 display definitions
    ========================================================================== */
@@ -199,7 +199,7 @@ figure {
  * Define consistent border, margin, and padding.
  */
 fieldset {
-  border: 1px solid silver;
+  border: 1px solid #c0c0c0;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em; }
 
@@ -335,7 +335,7 @@ html {
 
 body {
   background: #fff;
-  font-family: "Titillium Web", sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   font-weight: 400; }
 
 #map {
@@ -372,7 +372,7 @@ header {
       margin: 0;
       padding: 0; }
       header nav ul li {
-        font-family: "Oswald", sans-serif;
+        font-family: 'Oswald', sans-serif;
         color: #fff;
         display: inline-block;
         font-size: 3rem;
@@ -395,7 +395,7 @@ header {
     z-index: 11;
     padding-bottom: 8rem; }
     header .title h1 {
-      font-family: "Oswald", sans-serif;
+      font-family: 'Oswald', sans-serif;
       font-size: 11rem;
       line-height: 1.2;
       margin: 0;
@@ -403,7 +403,7 @@ header {
       color: #fff;
       font-weight: normal; }
     header .title h2 {
-      font-family: "Syncopate", sans-serif;
+      font-family: 'Syncopate', sans-serif;
       font-size: 2.2rem;
       text-transform: uppercase;
       color: #fff;
@@ -511,10 +511,10 @@ header {
       color: #fff;
       font-size: 1.6rem; }
     .content#docs div p {
-      margin: 0.5rem 0; }
+      margin: .5rem 0; }
     .content#docs div h3 {
       text-transform: uppercase;
-      font-family: "Oswald", sans-serif;
+      font-family: 'Oswald', sans-serif;
       color: coral;
       text-shadow: none;
       text-shadow: rgba(139, 34, 34, 0.4) 1px 0px 0px; }
@@ -528,7 +528,7 @@ header {
     height: auto;
     background: transparent; }
     .content header h3 {
-      font-family: "Oswald", sans-serif;
+      font-family: 'Oswald', sans-serif;
       font-size: 6rem;
       margin: 0;
       text-transform: uppercase;
@@ -546,8 +546,9 @@ header {
     width: 30%;
     min-width: 20rem;
     height: 25.6rem;
-    border: 2px solid #333333;
-    background: #eee; }
+    border: 2px solid #333;
+    background: #eee;
+    overflow: hidden; }
     .content .demos li span, .content .demos li .caption {
       position: absolute;
       right: 0;
@@ -555,14 +556,14 @@ header {
       left: 0;
       z-index: 10;
       display: block;
-      padding: 0.4rem 0;
+      padding: .4rem 0;
       background: #333;
       color: #fff;
       text-align: center;
       text-transform: uppercase;
       letter-spacing: .1rem;
       font-size: 1.6rem;
-      font-family: "Oswald", sans-serif; }
+      font-family: 'Oswald', sans-serif; }
     .content .demos li a.playground:link, .content .demos li a.playground:visited {
       position: absolute;
       bottom: 0;
@@ -574,7 +575,7 @@ header {
     .content .demos li a.playground:hover, .content .demos li a.playground:active {
       background-image: url(../img/console-r.png); }
     .content .demos li .address, .content .demos li .location {
-      font-family: "Oswald", sans-serif;
+      font-family: 'Oswald', sans-serif;
       position: absolute;
       color: #333;
       top: 1rem;
@@ -585,8 +586,8 @@ header {
       top: 50%; }
   .content .gravatar {
     float: left;
-    margin: 0.5rem 1rem 1rem 0;
-    border: 8px solid white; }
+    margin: .5rem 1rem 1rem 0;
+    border: 8px solid #fff; }
 
 footer {
   background: #fff;
