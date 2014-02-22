@@ -668,7 +668,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         };
         head = doc.getElementsByTagName('head')[0];
         jsla = doc.createElement('script');
-        jsla.src = 'http://js.cit.api.here.com/se/2.5.3jsl.js';
+        jsla.src = 'http://js.cit.api.here.com/se/2.5.3/jsl.js';
         jsla.type = 'text/javascript';
         jsla.charset = 'utf-8';
         jsla.onreadystatechange = function(){
