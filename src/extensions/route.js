@@ -104,13 +104,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 leg = r.legs && r.legs.length && r.legs[0];
                 info.time = leg.travelTime;
                 info.length = leg.length;
-                info.maneuvers = $.map(leg.maneuvers, function(m){
-                    return {
-                        street: m.streetName,
-                        length: m.length,
-                        route: m.routeName
-                    };
-                });
+                info.maneuvers = leg.maneuvers;
                 /*Fire callback if present*/
                 if(typeof options.onroute === 'function') {
                     options.onroute.call(this.element, info);
