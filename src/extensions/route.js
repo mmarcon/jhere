@@ -31,7 +31,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         marker: {
             text: '#',
             textColor: '#fff'
-        }
+        },
+        zoomTo: true
     };
 
     function normalize(position){
@@ -100,6 +101,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     this.marker(w.originalPosition, o);
                 }, this));
                 this.map.objects.add(routeContainer);
+                /*Zoom map to bounds of route*/
+                if(options.zoomTo){
+                    this.map.zoomTo(routeContainer.getBoundingBox(), false, "default");
+                }
                 /*Now let's look into the route infos*/
                 leg = r.legs && r.legs.length && r.legs[0];
                 info.time = leg.travelTime;

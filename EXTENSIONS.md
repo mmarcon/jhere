@@ -51,6 +51,7 @@ or an array
 	  trafficMode: 'default',    //can be enabled, disabled, default
 	  width: 4,                  //width in px of the route drawn on the map
 	  color: '#ff6347',          //color of the route drawn on the map
+	  zoomTo: false,             //will disable zooming to bounds of calculated route
 	  onroute: function(route){} //optional callbacks that gets the list of maneuvers with some
                                  //basic info, plus total time (seconds) and length (meters)
 	}
