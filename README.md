@@ -76,3 +76,17 @@ I normally like single line comments, i.e.
 	//My comment goes here
 	
 However I am using [Docco](http://jashkenas.github.com/docco/) to automatically generate documentation for the API, so `//` is reserved for documentation, as single line comments are parsed by the tool. Anything that developers using the plugin should not see in the API docs will have to be commented with `/* */`.
+
+#### Before submitting a pull request
+
+If you changed anything in jhere.js before pushing please run a
+	
+	make test
+	
+If something fails, please fix the problem.
+	
+If you changed anything else (e.g. extensions, adapters) please run
+
+	make dist
+	
+before submitting the pull request.
