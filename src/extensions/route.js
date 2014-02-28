@@ -22,6 +22,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 ;(function($){
     var _ns, route, _default = {
+        zoomToRoute: true,
         type: 'shortest',
         transportMode: 'car',
         options: '',
@@ -100,6 +101,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     this.marker(w.originalPosition, o);
                 }, this));
                 this.map.objects.add(routeContainer);
+                if(options.zoomToRoute) {
+                    console.log(routeContainer.getBoundingBox());
+                    this.map.zoomTo(routeContainer.getBoundingBox());
+                }
                 /*Now let's look into the route infos*/
                 leg = r.legs && r.legs.length && r.legs[0];
                 info.time = leg.travelTime;
@@ -140,7 +145,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             options: options.options,
             trafficMode: options.trafficMode
         };
-
         router.calculateRoute(wp, [cleanOptions]);
     };
 
