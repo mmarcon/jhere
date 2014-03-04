@@ -40,11 +40,11 @@ or an array
 `[-43, 55]`
 
 `via` is optional and can be an array of coordinates of type
-[[-43, 55], [52.33, 13.08]]
+`[[-43, 55], [52.33, 13.08]]`
 
 or
 
-[{latitude: 52.33812, longitude: 13.08835}]
+`[{latitude: 52.33812, longitude: 13.08835}]`
 
 `routeOptions` is optional and can be an object of type
 
