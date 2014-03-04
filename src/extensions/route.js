@@ -69,13 +69,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`marker` is an object containing the same options used for
     //`$('.selector').jHERE('marker')`. Options apply to both start and destionation markers.
-    route = function(from, to, options){
+    route = function(from, to, via, options){
         var router, wp, done, cleanOptions;
         _ns = _ns || nokia.maps;
         from = normalize(from);
         to = normalize(to);
-        options = $.extend({}, _default, options);
 
+        //in this case options is the options object, like expected
+        if( Object.prototype.toString.call( via ) === '[object Array]' ){
+            options = $.extend({}, _default, options);
+        }
+        //in this case via is the options object, probably older implementation of plugin
+        else {
+            options = $.extend({}, _default, via);
+            via = [];
+        }
         /*Call me with the correct context!*/
         done = function(router, key, status) {
             var routes, routeContainer, poly, r, leg, info = {}, evt;
@@ -130,6 +138,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         wp = new _ns.routing.WaypointParameterList();
         wp.addCoordinate(from);
+        $.each(via, function(i,item){
+            wp.addCoordinate(normalize(item));
+        });
         wp.addCoordinate(to);
 
         /*Fix for insanity*/
