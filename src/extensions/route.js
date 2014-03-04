@@ -114,10 +114,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     this.map.zoomTo(routeContainer.getBoundingBox(), false, "default");
                 }
                 /*Now let's look into the route infos*/
-                leg = r.legs && r.legs.length && r.legs[0];
-                info.time = leg.travelTime;
-                info.length = leg.length;
-                info.maneuvers = leg.maneuvers;
+                info.time = r.summary.travelTime;
+                info.length = r.summary.distance;
+                info.waypoints = r.waypoints;
+                info.legs = r.legs;
+
                 /*Fire callback if present*/
                 if(typeof options.onroute === 'function') {
                     options.onroute.call(this.element, info);
