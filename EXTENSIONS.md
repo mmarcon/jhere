@@ -40,6 +40,7 @@ or an array
 `[-43, 55]`
 
 `via` is optional and can be an array of coordinates of type
+
 `[[-43, 55], [52.33, 13.08]]`
 
 or
