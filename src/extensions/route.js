@@ -86,7 +86,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }
         /*Call me with the correct context!*/
         done = function(router, key, status) {
-            var routes, routeContainer, poly, r, leg, info = {}, evt;
+            var routes, routeContainer, poly, r, info = {}, evt;
             if (status === 'finished') {
                 routes = router.getRoutes();
                 r = routes[0];
