@@ -76,7 +76,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         to = normalize(to);
 
         //in this case options is the options object, like expected
-        if( Object.prototype.toString.call( via ) === '[object Array]' ){
+        if( via instanceof Array ){
             options = $.extend({}, _default, options);
         }
         //in this case via is the options object, probably older implementation of plugin
