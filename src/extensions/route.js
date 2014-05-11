@@ -69,16 +69,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`marker` is an object containing the same options used for
     //`$('.selector').jHERE('marker')`. Options apply to both start and destionation markers.
-    route = function(from, to, options){
+    route = function(from, to, via, options){
         var router, wp, done, cleanOptions;
         _ns = _ns || nokia.maps;
         from = normalize(from);
         to = normalize(to);
-        options = $.extend({}, _default, options);
 
+        //in this case options is the options object, like expected
+        if( via instanceof Array ){
+            options = $.extend({}, _default, options);
+        }
+        //in this case via is the options object, probably older implementation of plugin
+        else {
+            options = $.extend({}, _default, via);
+            via = [];
+        }
         /*Call me with the correct context!*/
         done = function(router, key, status) {
-            var routes, routeContainer, poly, r, leg, info = {}, evt;
+            var routes, routeContainer, poly, r, info = {}, evt;
             if (status === 'finished') {
                 routes = router.getRoutes();
                 r = routes[0];
@@ -106,10 +114,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     this.map.zoomTo(routeContainer.getBoundingBox(), false, "default");
                 }
                 /*Now let's look into the route infos*/
-                leg = r.legs && r.legs.length && r.legs[0];
-                info.time = leg.travelTime;
-                info.length = leg.length;
-                info.maneuvers = leg.maneuvers;
+                info.time = r.summary.travelTime;
+                info.length = r.summary.distance;
+                info.waypoints = r.waypoints;
+                info.legs = r.legs;
+
                 /*Fire callback if present*/
                 if(typeof options.onroute === 'function') {
                     options.onroute.call(this.element, info);
@@ -130,6 +139,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         wp = new _ns.routing.WaypointParameterList();
         wp.addCoordinate(from);
+        $.each(via, function(i,item){
+            wp.addCoordinate(normalize(item));
+        });
         wp.addCoordinate(to);
 
         /*Fix for insanity*/

@@ -29,7 +29,7 @@ This extension packaged together with the plugin enables *HTML developers* to in
 
 When this extension is included it is possible to add routes to the map by simply doing the following:
 
-`$('.selector').jHERE('route', from, to, routeOptions);`
+`$('.selector').jHERE('route', from, to, via, routeOptions);`
 
 `from` and `to` can be objects of type
 
@@ -38,6 +38,14 @@ When this extension is included it is possible to add routes to the map by simpl
 or an array
 
 `[-43, 55]`
+
+`via` is optional and can be an array of coordinates of type
+
+`[[-43, 55], [52.33, 13.08]]`
+
+or
+
+`[{latitude: 52.33812, longitude: 13.08835}]`
 
 `routeOptions` is optional and can be an object of type
 
