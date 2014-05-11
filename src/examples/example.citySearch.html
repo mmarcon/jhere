@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Example for the City Search extension</title>
+</head>
+
+<body>
+
+    <h2>Results for '<span id="query"></span>'</h2>
+    <ul id="results">
+        <li>Loading...</li>
+    </ul>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="../jhere.js"></script>
+<script type="text/javascript" src="../extensions/citySearch.js"></script>
+<script type="text/javascript">
+$(window).on('load', function(){
+    //Set default credentials
+    $.jHERE.defaultCredentials('69Dgg78qt4obQKxVbRA8', 'Nz7ilIB_v1CRwPXxgPdvuA');
+
+    var query = 'jaragua';
+
+    $('#query').text(query);
+
+    $.jHERE.searchCities(query).done(function(cities) {
+        var results = $('#results').empty();
+
+        function displayCity(city) {
+            var addr = city.address;
+            var pos = city.position;
+
+            var formatted = [addr.city, addr.state, addr.country].join(', ') + 
+                ' (' + [pos.latitude, pos.longitude].join(', ') + ')';
+            results.append($('<li>'+formatted+'</li>'));
+        }
+
+        cities.forEach(displayCity);
+    });
+});
+</script>
+</body>
+</html>
