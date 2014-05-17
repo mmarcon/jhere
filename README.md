@@ -22,7 +22,7 @@ In case you are using [Zepto](http://zeptojs.com/), you will need to include the
 	<!--Only when using Zepto-->
 	</script>
 	
-**New**: In case you are using [Tire](http://tirejs.com/), then include the Tire adapter (adds `$.Deferred`, `$.data`, `$.proxy`, `$.inArray` and `$.Event` to Tire):
+In case you are using [Tire](http://tirejs.github.io/), then include the Tire adapter (adds `$.Deferred`, `$.data`, `$.proxy`, `$.inArray` and `$.Event` to Tire):
 
 	<script type="text/javascript" src="js/tire.adapter.js">
 	<!--Only when using Tire-->
