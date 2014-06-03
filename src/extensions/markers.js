@@ -22,7 +22,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 ;(function($){
     var _ns, marker, nomarkers,
-        markergroups,
+        markergroups, zoomToMarkers,
         _defaults = {
             text: '',
             textColor: '#333333',
@@ -152,6 +152,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         this.groups = {};
     };
 
+    //### ZoomToMarkers extent on the map
+    //`$('.selector').jHERE('zoomToMarkers', keepCenter);`
+    //
+    //`keepCenter` is a boolean weather the center should be kept, defaults to false
+    zoomToMarkers = function(keepCenter){
+        if(this._mc.objects.getLength() > 1) {
+            var bbox = this._mc.getBoundingBox();
+            this.map.zoomTo(bbox, keepCenter || false);
+        }
+    };
 
     /*
      Following is copy-pasted from jhere.js, but I can't
@@ -193,4 +203,5 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     $.jHERE.extend('marker', marker);
     $.jHERE.extend('markergroups', markergroups);
     $.jHERE.extend('nomarkers', nomarkers);
+    $.jHERE.extend('zoomToMarkers', zoomToMarkers);
 }(jQuery));

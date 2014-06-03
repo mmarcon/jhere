@@ -85,6 +85,7 @@
         $('li').on('click', function(e){
             $('#map').jHERE('markergroups', $(this).data('group'), !$(this).hasClass('active'));
             $(this).toggleClass('active');
+            $('#map').jHERE('zoomToMarkers');
         });
     });
 </script>
