@@ -148,7 +148,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //### Remove all the markers from the map
     //`$('.selector').jHERE('nomarkers');`
     nomarkers = function(){
-        console.log(this.map);
         this._mc.objects.clear();
         this.groups = {};
     };
