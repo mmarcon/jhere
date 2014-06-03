@@ -95,7 +95,7 @@
     //     * *useGeoLocation*: use current user location to aid on the search
 
     // The function returns a jQuery promise object or call the success
-    // callback with all the cities matching the criteria. In the case where 
+    // callback with all the cities matching the criteria. In the case where
     // the geocoder fails for a specific city, only its position will be returned
     // without the city address details.
     $.jHERE.searchCities = function(opts, success, error) {
