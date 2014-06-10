@@ -155,7 +155,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //### ZoomToMarkers extent on the map
     //`$('.selector').jHERE('zoomToMarkers', keepCenter);`
     //
-    //`keepCenter` is a boolean weather the center should be kept, defaults to false
+    //`keepCenter` is a boolean whether the center should be kept, defaults to false
     zoomToMarkers = function(keepCenter){
         if(this._mc.objects.getLength() > 1) {
             var bbox = this._mc.getBoundingBox();
