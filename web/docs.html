@@ -130,12 +130,12 @@ I used for development, and it is ok for you to use the same credentials for dev
 and testing purpose.</p>
 <p>However you should really register on the <a href="http://developer.here.com">HERE developer website</a>
 and get your own. I strongly encourage you to do so especially for production use, as
-my credentials may unexpectedtly stop working at any time.</p>
+my credentials may unexpectedly stop working at any time.</p>
 <h3>Map events</h3>
 <p>It is possible to listen for events on the map in the usual jQuery way (<code>on</code>, <code>off</code>). All the event
 names start with <code>map</code>. The event passed to the callback function always has a <code>geo</code> (<code>data.geo</code> for Tire users) property that
 contains latitude and longitude of the point where the event originated.</p>
-<p>For example, to listen for clicks events:</p>
+<p>For example, to listen for click events:</p>
 <p><code>$(&#39;.mymap&#39;).on(&#39;mapclick&#39;, function(e){ console.log (e.geo)});</code></p>
 <p>Supported events are:</p>
 <p><code>mapclick</code>, <code>mapmouseup</code>, <code>mapmousedown</code>, <code>mapmousemove</code>, <code>mapmouseover</code>, <code>mapmouseout</code>,
