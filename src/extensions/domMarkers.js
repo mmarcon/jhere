@@ -71,7 +71,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	//
 	// Update the position of the marker on the map with
 	// $('.markerSelector')
-	//All parameters are **optional**.
+	//markerOptions are **optional**.
 	function dommarker(position, domElement, markerOptions) {
 		var $domElements, map = this.map;
 		if (!domMarkerContainer) {
