@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: white;
+        }
+        .marker {
+            width:50px;
+            height:50px;
+            background: red;
+            border-radius: 3px;
+            border: 2px dashed black;
+            display: none;
+        }
+        #examplemarker2 {
+            background:green;
+        }
+    </style>
+</head>
+
+<body>
+<div id="map"></div>
+<div class="marker" id="examplemarker"></div>
+<div class="marker" id="examplemarker2"></div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="../jhere.js"></script>
+<script type= "text/javascript" src="../extensions/dommarkers.js"></script>
+<script type="text/javascript">
+    $(window).on('load', function(){
+        $('.marker').on('maploaded', function() {
+            $(this).show();
+        });
+
+
+        $('#map').jHERE({
+            center: [52.5, 13.3],
+            zoom: 12
+        })
+        .jHERE('dommarker', [52.46, 13.31], '.marker', {anchor: {x: 10, y: 10}});
+
+        $('#map').jHERE('dommarkerupdate', [52.6, 13.3], '#examplemarker2');
+
+    });
+</script>
+</body>
+</html>
