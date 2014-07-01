@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: lightblue;
+        }
+        #options {
+            background:snow;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            width: 250px;
+            margin-left: -125px;
+        }
+        button {
+            background:lightgreengray;
+            border:1px solid black;
+        }
+        .on {
+            background:lightgreen;
+            border:1px solid green;
+        }
+    </style>
+</head>
+
+<body>
+<div id="map"></div>
+<div id="options">
+    <select id="builtin">
+        <option>map</option>
+        <option>satellite</option>
+        <option>smart</option>
+        <option>terrain</option>
+        <option>pt</option>
+        <option>community</option>
+        <option>satcommunity</option>
+        <option>traffic</option>
+    </select>
+
+    <select id="scheme">
+        <option>terrain</option>
+        <option>satellite</option>
+        <option>hybrid</option>
+    </select>
+    <button id="labels">Labels</button>
+    <button class="on" id="borders">Borders</button>
+    <button id="land">Land</button>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="../jhere.js"></script>
+<script type="text/javascript" src="../extensions/customTypes.js"></script>
+<script type="text/javascript">
+$(window).on('load', function() {
+    //Set default credentials
+    $.jHERE.defaultCredentials('1220G0MOv2PBLjLq6tex', '0MM0Lr7hPyqfv3GiPmBOyg');
+
+    $('#map').jHERE({
+        enable: ['behavior', 'zoombar', 'typeselector', 'positioning', 'contextmenu']
+    });
+    // $('#map').jHERE('type', "terrain", {
+    //     labels: false,
+    //     borders: true,
+    //     land: false
+    // });
+});
+
+function combinationSupported(scheme, options) {
+    var schemeTree = {
+        terrain: [false, 'labeltile', 'linetile', 'streettile', 'xbasetile', false, 'basetile', 'maptile'],
+        satellite: [false, false, false, false, 'xbasetile', false, 'basetile', 'maptile'],
+        hybrid: [false, 'labeltile', 'linetile', 'streettile', 'xbasetile', false, 'basetile', 'maptile'],
+    }, mask = (4 * options.land) + (2 * options.borders) + (options.labels);
+    return schemeTree[scheme][mask];
+}
+function getOptions() {
+    return {
+        labels:$('#labels').hasClass('on'),
+        borders: $('#borders').hasClass('on'),
+        land: $('#land').hasClass('on')
+    };
+}
+function updateTiles() {
+    $('#map').jHERE('type', $('#scheme').val(), getOptions());
+}
+$('button').on('click', function() {
+    var options = getOptions();
+    options[$(this).attr('id')] = !$(this).hasClass('on');
+    if(combinationSupported($('#scheme').val(), options)) {
+        $(this).toggleClass('on');
+        updateTiles();
+    }
+});
+function setTiles(type) {
+    $('#map').jHERE('type', type);
+}
+$('#scheme').on('change', function() {
+    updateTiles();
+});
+$('#builtin').on('change', function() {
+    setTiles($(this).val());
+});
+</script>
+</body>
+</html>
