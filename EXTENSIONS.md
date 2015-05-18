@@ -123,7 +123,7 @@ The syntax is the following:
 	$('.selector').jHERE('shape', 'polygon', {points: array, style: object});
 	/*or*/ $('.selector').jHERE('polygon', {points: array, style: object});
 	
-`style` is always an object that defines the way the shape looks. Can be specified as in the JSLA API (pen, brush, see [here](http://developer.here.net/apiexplorer/index.html#examples/js/shapes/map-with-shapes/)) or in a simpler way as follows:
+`style` is always an object that defines the way the shape looks. Can be specified as in the JSLA API (pen, brush, see [here](http://developer.here.com/apiexplorer/index.html#examples/js/shapes/map-with-shapes/)) or in a simpler way as follows:
 
 	{
 		stroke: "#CC0000FF", //RGBA

@@ -82,7 +82,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`$('.selector').jHERE('shape', 'polygon', {points: array, style: object});`
     //
     //`style` is always an object that defines the way the shape looks. Can be specified as
-    //in the JSLA API (pen, brush, see [here](http://developer.here.net/apiexplorer/index.html#examples/js/shapes/map-with-shapes/))
+    //in the JSLA API (pen, brush, see [here](http://developer.here.com/apiexplorer/index.html#examples/js/shapes/map-with-shapes/))
     //or in a simpler way as follows:
     //<pre><code>{
     //  stroke: "#CC0000FF", //RGBA
@@ -113,7 +113,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 $.error(shape + ' not supported');
         }
     };
-    
+
     //###Clear all shapes from the map
     clearShapes = function() {
         if (shapeContainer && shapeContainer.objects) {
