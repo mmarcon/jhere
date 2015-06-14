@@ -8,26 +8,24 @@ RUNNER = test/SpecRunner.html
 deps:
 	@npm install
 
-dist: hint plugin zepto tire extensions summary
+dist:
+	@grunt dist
 
 plugin:
-	@./node_modules/.bin/uglifyjs -nc -o dist/$(PLUGIN).min.js src/$(PLUGIN).js
+	@grunt jshint uglify:jhere
 
-zepto:
-	@./node_modules/.bin/uglifyjs -nc -o dist/zepto.adapter.min.js src/zepto.adapter.js
-
-tire:
-	@./node_modules/.bin/uglifyjs -nc -o dist/tire.adapter.min.js src/tire.adapter.js
+adapters:
+	@grunt jshint uglify:adapters
 
 extensions:
-	@./build-scripts/build-extensions.sh
+	grunt uglify:extensions
 
 summary:
 	@ls -nhl dist | grep -v ^d | awk '{print $$9,$$5}' | tail -n +2; \
 	ls -nhl dist/extensions | grep -v ^d | awk '{print $$9,$$5}' | tail -n +2
 
 hint:
-	@./node_modules/.bin/jshint ./src
+	@grunt jshint
 
 doc:
 	@docco -t docs/docco.new.jst -o docs src/$(PLUGIN).js;mv docs/$(PLUGIN).html web/docs.html;
