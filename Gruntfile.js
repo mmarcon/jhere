@@ -34,9 +34,45 @@ module.exports = function (grunt) {
                         return path.join(destBase, destPath.replace('.js', '.min.js'));
                     }
               }]
+            },
+            webpack: {
+                files: {
+                    './out/jhere.min.js': ['./out/jhere.js']
+                }
             }
+        },
+
+        webpack: {
+          dist: {
+            // webpack options
+            entry: './src/modules/core.js',
+            output: {
+                path: "out/",
+                filename: "jhere.js",
+            },
+
+            stats: {
+                // Configure the console output
+                colors: false,
+                modules: true,
+                reasons: true
+            },
+
+            module: {
+                loaders: [{
+                    test: /\.js$/,
+                    loader: 'babel-loader'
+                }]
+            },
+
+            resolve: {
+                extensions: ['', '.js']
+            },
+
+            failOnError: true
         }
+    }
     });
 
-    grunt.registerTask('dist', 'Creates distribution', ['jshint', 'uglify']);
+    grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:webpack']);
 };
