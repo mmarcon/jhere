@@ -47,9 +47,11 @@ module.exports = function (grunt) {
             // webpack options
             entry: './src/modules/core.js',
             output: {
-                path: "out/",
-                filename: "jhere.js",
+                path: 'out/',
+                filename: 'jhere.js'
             },
+
+            //devtool: 'eval',
 
             stats: {
                 // Configure the console output

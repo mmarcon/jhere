@@ -1,8 +1,7 @@
 import Loader from './loader';
 
 const apiLoader = new Loader();
+const jsApiUrl = 'http://js.api.here.com/v3/3.0/mapsjs-M.js';
+const modules = ['core', 'service'].map(module => jsApiUrl.replace('M', module));
 
-apiLoader.require([
-    'http://js.api.here.com/v3/3.0/mapsjs-core.js',
-    'http://js.api.here.com/v3/3.0/mapsjs-service.js'
-    ], document.querySelector('script.test'));
+apiLoader.require(modules, document.querySelector('script.test'));
