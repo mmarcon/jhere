@@ -72,9 +72,42 @@ module.exports = function (grunt) {
             },
 
             failOnError: true
+        },
+        dev: {
+            // webpack options
+            entry: './src/modules/core.js',
+            output: {
+                path: 'out/',
+                filename: 'jhere.js'
+            },
+
+            devtool: 'eval',
+
+            stats: {
+                // Configure the console output
+                colors: false,
+                modules: true,
+                reasons: true
+            },
+
+            module: {
+                loaders: [{
+                    test: /\.js$/,
+                    loader: 'babel-loader'
+                }]
+            },
+
+            resolve: {
+                extensions: ['', '.js']
+            },
+
+            failOnError: true,
+            keepalive: true,
+            watch: true
         }
     }
     });
 
     grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:webpack']);
+    grunt.registerTask('dev', 'Creates distribution', ['jshint', 'webpack:dev']);
 };
