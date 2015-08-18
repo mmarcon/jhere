@@ -1,3 +1,4 @@
+const d = document;
 const Loader = function(){};
 
 Loader.prototype = {
@@ -18,8 +19,7 @@ Loader.prototype = {
         }
     },
     writeScript: function (src) {
-        var self = this;
-        var s = document.createElement('script');
+        var self = this, s = d.querySelector('script[src="' + src + '"]') || d.createElement('script');
         s.async = false;
         s.src = src;
         s.onload = self.loaded.bind(self);

@@ -4,22 +4,25 @@
     <meta charset="utf-8" />
     <title>HTML5 boilerplate—all you really need…</title>
     <style>
-        #map {
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
+        html, body { height: 100%;}
+        .map {
+            margin: 0;
+            padding: 0;
+            height: 50%;
+            width: 100%;
             background: white;
         }
     </style>
 </head>
 
 <body>
-<div id="map"></div>
-<script src="../../out/jhere.js" class="test"></script>
+<div id="map" class="map"></div>
+<div id="other_map" class="map"></div>
+
+<script src="../../out/jhere.js"></script>
 <script>
-    var jHERE = new jHERE(document.querySelector('#map'), {zoom: 14});
+    var map = new jHERE(document.querySelector('#map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}});
+    // var other_map = new jHERE(document.querySelector('#other_map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}});
 </script>
 </body>
 </html>
