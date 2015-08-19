@@ -1,11 +1,7 @@
 /* globals H: true */
-require("babel/polyfill");
-
 import Loader from './loader';
 import * as config from './config';
-import {extend} from './utils';
-
-new Promise();
+import {extend, Runner} from './utils';
 
 
 const w = window;
@@ -14,6 +10,7 @@ const d = document;
 const constructor = w.jHERE = function jHERE(element, options){
     this.el = element;
     this.options = extend(config.defaults, options);
+    this._runner = new Runner();
     this._init();
 };
 
@@ -29,7 +26,8 @@ JH._init = function(){
         return;
     }
     self.el.classList.add(config.lib);
-    apiLoader.require(modules, d.querySelector('script[src*="jhere"]'), () => self._makemap());
+    self._runner.run(() => self._makemap());
+    apiLoader.require(modules, d.querySelector('script[src*="jhere"]'), () => self._runner.start());
 };
 
 JH._makemap = function(){
@@ -43,6 +41,7 @@ JH._makemap = function(){
 };
 
 JH.center = function(newCenter, animate){
-    this.map.setCenter(newCenter, animate);
-    return this;
+    const self = this;
+    self._runner.run(() => self.map.setCenter(newCenter, animate));
+    return self;
 };
