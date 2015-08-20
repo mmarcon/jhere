@@ -45,3 +45,17 @@ JH.center = function(newCenter, animate){
     self._runner.run(() => self.map.setCenter(newCenter, animate));
     return self;
 };
+
+JH.zoom = function(newZoomLevel, animate){
+    const self = this;
+    self._runner.run(() => self.map.setZoom(newZoomLevel, animate));
+    return self;
+};
+
+JH.type = function(type, layer){
+    const self = this;
+    type = type || 'normal';
+    layer = layer || 'map';
+    self._runner.run(() => self.map.setBaseLayer(self.layers[type][layer]));
+    return self;
+};
