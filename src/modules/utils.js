@@ -8,6 +8,10 @@ export function extend(target, ...source){
     return target;
 }
 
+export function isFn(){
+    return typeof f === 'function';
+}
+
 export function Runner(){
     this._queue = [];
     this._done = false;

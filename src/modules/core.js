@@ -1,7 +1,7 @@
 /* globals H: true */
 import Loader from './loader';
 import * as config from './config';
-import {extend, Runner} from './utils';
+import {extend, isFn, Runner} from './utils';
 
 
 const w = window;
@@ -58,4 +58,21 @@ JH.type = function(type, layer){
     layer = layer || 'map';
     self._runner.run(() => self.map.setBaseLayer(self.layers[type][layer]));
     return self;
+};
+
+JH.marker = function(){};
+JH.nomarkers = function(){};
+JH.bubble = function(){};
+JH.nobubbles = function(){};
+
+JH.originalMap = function(closure){
+    const self = this;
+    self._runner.run(() => closure.call(self, self.map, H));
+    return self;
+};
+
+constructor.extend = function(name, fn) {
+    if (typeof name === 'string' && isFn(fn)) {
+        JH[name] = fn;
+    }
 };
