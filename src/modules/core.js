@@ -38,6 +38,8 @@ JH._makemap = function(){
     });
     self.layers = self.platform.createDefaultLayers();
     self.map = new H.Map(self.el, self.layers.normal.map, self.options);
+    self.mc = new H.map.Group();
+    self.map.addObject(self.mc);
 };
 
 JH.center = function(newCenter, animate){
@@ -60,8 +62,30 @@ JH.type = function(type, layer){
     return self;
 };
 
-JH.marker = function(){};
-JH.nomarkers = function(){};
+//options.icon is the URL
+//options.size is the size in px
+//options.anchor is the anchor point
+JH.marker = function(coords, options){
+    options = options || {};
+    const self = this;
+    const _marker = function(){
+        if (options.icon) {
+            options.crossOrigin = true;
+            options.icon = new H.map.Icon(options.icon, options);
+        }
+        const marker = new H.map.Marker(coords, options);
+        self.mc.addObject(marker);
+    };
+    self._runner.run(_marker);
+    return self;
+};
+
+JH.nomarkers = function(){
+    const self = this;
+    self._runner.run(() => self.mc.removeAll());
+    return self;
+};
+
 JH.bubble = function(){};
 JH.nobubbles = function(){};
 

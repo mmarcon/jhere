@@ -22,7 +22,7 @@
 <script src="../../out/jhere.js"></script>
 <script>
     var map = new jHERE(document.querySelector('#map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}});
-    map.center({lat: 52.13, lng: 13.23}).zoom(10).type('terrain', 'base');
+    map.zoom(10).type('terrain', 'base').marker({lat: 52.5, lng: 13.3});
     // var other_map = new jHERE(document.querySelector('#other_map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}});
 </script>
 </body>
