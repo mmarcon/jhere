@@ -91,8 +91,24 @@ JH.nomarkers = function(){
     return self;
 };
 
-JH.bubble = function(){};
-JH.nobubbles = function(){};
+JH.bubble = function(coords, options){
+    options = options || {};
+    const self = this;
+    const _bubble = function(){
+        self.ui.addBubble(new H.ui.InfoBubble(coords, options));
+    };
+    self._runner.run(_bubble);
+    return self;
+};
+
+JH.nobubbles = function(){
+    const self = this;
+    const _nobubbles = function(){
+        self.ui.getBubbles().forEach((bubble) => (bubble.close() && bubble.dipose()));
+    };
+    self._runner.run(_nobubbles);
+    return self;
+};
 
 JH.originalMap = function(closure){
     const self = this;
