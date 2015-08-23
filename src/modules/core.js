@@ -27,17 +27,22 @@ JH._init = function(){
     }
     self.el.classList.add(config.lib);
     self._runner.run(() => self._makemap());
-    apiLoader.require(modules, d.querySelector('script[src*="jhere"]'), () => self._runner.start());
+    apiLoader.require(modules, d.querySelector('script[src*="jhere"]'), () => self._runner.start()).requireCss([config.uiCss]);
 };
 
 JH._makemap = function(){
     const self = this;
+    const Behavior = H.mapevents.Behavior;
     self.platform = new H.service.Platform({
         app_id: self.options.credentials.appId,
-        app_code: self.options.credentials.authToken
+        app_code: self.options.credentials.authToken,
+        useHTTPS: true
     });
     self.layers = self.platform.createDefaultLayers();
     self.map = new H.Map(self.el, self.layers.normal.map, self.options);
+    self.ui = new H.ui.UI(self.map);
+    //TODO: look at the options Behavior.DRAGGING, Behavior.WHEELZOOM, Behavior.DBLTAPZOOM
+    new Behavior(new H.mapevents.MapEvents(self.map));
     self.mc = new H.map.Group();
     self.map.addObject(self.mc);
 };

@@ -1,6 +1,7 @@
 export const lib = '_jHERE';
 export const url = 'https://js.api.here.com/v3/3.0/mapsjs-M.js';
-export const modules = ['core', 'service'];
+export const uiCss = url.replace('M.js', 'ui.css');
+export const modules = ['core', 'service', 'mapevents', 'ui'];
 export const defaultCredentials = {
     appId: 'lPY5MGHzyXJTYJXt2Sog',
     authToken: 'qUtXEMHxFTwoz_WeIKbLrA'

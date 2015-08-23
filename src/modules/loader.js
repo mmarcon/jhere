@@ -3,7 +3,7 @@ const Loader = function(){};
 
 Loader.prototype = {
     require: function(scripts, target, callback) {
-        var self = this;
+        const self = this;
         self.loadCount = 0;
         self.totalRequired = scripts.length;
         self.target = target;
@@ -11,6 +11,18 @@ Loader.prototype = {
         scripts.forEach(function(s){
             self.writeScript(s);
         });
+        return self;
+    },
+    requireCss: function(css){
+        const head = d.querySelector('head');
+        css.forEach(function(href){
+            const link = d.createElement('link');
+            link.rel  = 'stylesheet';
+            link.type = 'text/css';
+            link.href = href;
+            head.appendChild(link);
+        });
+        return this;
     },
     loaded: function() {
         this.loadCount++;
@@ -19,7 +31,7 @@ Loader.prototype = {
         }
     },
     writeScript: function (src) {
-        var self = this, s = d.querySelector('script[src="' + src + '"]') || d.createElement('script');
+        const self = this, s = d.querySelector('script[src="' + src + '"]') || d.createElement('script');
         s.async = false;
         s.src = src;
         s.onload = self.loaded.bind(self);
