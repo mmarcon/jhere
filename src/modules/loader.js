@@ -8,9 +8,7 @@ Loader.prototype = {
         self.totalRequired = scripts.length;
         self.target = target;
         self.callback = callback;
-        scripts.forEach(function(s){
-            self.writeScript(s);
-        });
+        scripts.forEach(s => self.writeScript(s));
         return self;
     },
     requireCss: function(css){
