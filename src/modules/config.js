@@ -30,3 +30,31 @@ export const defaults  = {
         coarseness: 2
     }
 };
+
+const mouse = 'pointer';
+const click = 'tap';
+const drag = 'drag';
+const touch = 'touch';
+const start = 'start';
+const end = 'end';
+const move = 'move';
+
+export const supportedEvents = [
+    click,
+    'dbl' + click,
+    mouse + 'up',
+    mouse + 'down',
+    mouse + move,
+    mouse + 'over',
+    mouse + 'out',
+    mouse + 'enter',
+    mouse + 'leave',
+    'longpress',
+    drag + start,
+    drag,
+    drag + end,
+    'resize',
+    touch + start,
+    touch + end,
+    touch + move
+];

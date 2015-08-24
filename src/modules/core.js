@@ -27,7 +27,9 @@ JH._init = function(){
     }
     self.el.classList.add(config.lib);
     self._runner.run(() => self._makemap());
-    apiLoader.require(modules, d.querySelector('script[src*="jhere"]'), () => self._runner.start()).requireCss([config.uiCss]);
+    apiLoader
+        .require(modules, d.querySelector('script[src*="jhere"]'), () => self._runner.start())
+        .requireCss([config.uiCss]);
 };
 
 JH._makemap = function(){
@@ -63,7 +65,7 @@ JH.type = function(type, layer){
     const self = this;
     type = type || 'normal';
     layer = layer || 'map';
-    self._runner.run(() => self.map.setBaseLayer(self.layers[type][layer]));
+    self._runner.run(() => self.layers[type] && self.layers[type][layer] && self.map.setBaseLayer(self.layers[type][layer]));
     return self;
 };
 
@@ -79,6 +81,11 @@ JH.marker = function(coords, options){
             options.icon = new H.map.Icon(options.icon, options);
         }
         const marker = new H.map.Marker(coords, options);
+        config.supportedEvents.forEach(function(e){
+            if(options[e]) {
+                marker.addEventListener(e, options[e], true, marker);
+            }
+        });
         self.mc.addObject(marker);
     };
     self._runner.run(_marker);
@@ -95,6 +102,9 @@ JH.bubble = function(coords, options){
     options = options || {};
     const self = this;
     const _bubble = function(){
+        if(options.only) {
+            self.nobubbles();
+        }
         self.ui.addBubble(new H.ui.InfoBubble(coords, options));
     };
     self._runner.run(_bubble);
