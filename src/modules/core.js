@@ -105,7 +105,13 @@ JH.bubble = function(coords, options){
         if(options.only) {
             self.nobubbles();
         }
-        self.ui.addBubble(new H.ui.InfoBubble(coords, options));
+        const infoBubble = new H.ui.InfoBubble(coords, options);
+        if(isFn(options.onclose)) {
+            infoBubble.addEventListener('statechange', function(){
+                return (this.getState() === 'closed' && options.onclose.call(this));
+            });
+        }
+        self.ui.addBubble(infoBubble);
     };
     self._runner.run(_bubble);
     return self;

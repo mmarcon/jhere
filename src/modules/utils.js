@@ -8,7 +8,7 @@ export function extend(target, ...source){
     return target;
 }
 
-export function isFn(){
+export function isFn(f){
     return typeof f === 'function';
 }
 
