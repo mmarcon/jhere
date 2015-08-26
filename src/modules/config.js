@@ -31,30 +31,24 @@ export const defaults  = {
     }
 };
 
-const mouse = 'pointer';
-const click = 'tap';
+const pointer = 'pointer';
+const tap = 'tap';
 const drag = 'drag';
-const touch = 'touch';
 const start = 'start';
 const end = 'end';
 const move = 'move';
 
 export const supportedEvents = [
-    click,
-    'dbl' + click,
-    mouse + 'up',
-    mouse + 'down',
-    mouse + move,
-    mouse + 'over',
-    mouse + 'out',
-    mouse + 'enter',
-    mouse + 'leave',
-    'longpress',
+    pointer + 'down', /*mousedown, touchstart, pointerdown*/
+    pointer + 'up', /*mouseup, touchend, pointerup*/
+    pointer + move, /*mousemove, touchmove, pointermove*/
+    pointer + 'enter', /*mouseenter, touchenter, pointerenter*/
+    pointer + 'leave', /*mouseleave, touchleave, pointerleave*/
+    pointer + 'cancel', /*touchcancel, pointercancel*/
     drag + start,
     drag,
     drag + end,
-    'resize',
-    touch + start,
-    touch + end,
-    touch + move
+    tap, /*click, tap*/
+    'dbl' + tap,
+    'longpress'
 ];
