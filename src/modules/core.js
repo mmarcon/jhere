@@ -43,7 +43,7 @@ JH._makemap = function(){
     self.layers = self.platform.createDefaultLayers();
     self.map = new H.Map(self.el, self.layers.normal.map, self.options);
     self.ui = new H.ui.UI(self.map);
-    //TODO: look at the options Behavior.DRAGGING, Behavior.WHEELZOOM, Behavior.DBLTAPZOOM
+    //TODO: look at the options {enabled: Behavior.DRAGGING, Behavior.WHEELZOOM, Behavior.DBLTAPZOOM}
     new Behavior(new H.mapevents.MapEvents(self.map));
     self.mc = new H.map.Group();
     self.map.addObject(self.mc);
@@ -66,6 +66,18 @@ JH.type = function(type, layer){
     type = type || 'normal';
     layer = layer || 'map';
     self._runner.run(() => self.layers[type] && self.layers[type][layer] && self.map.setBaseLayer(self.layers[type][layer]));
+    return self;
+};
+
+JH.on = function(event, callback) {
+    const self = this;
+    self._runner.run(() => self.map.addEventListener(event, callback, true, self));
+    return self;
+};
+
+JH.off = function(event, callback) {
+    const self = this;
+    self._runner.run(() => self.map.removeEventListener(event, callback, true, self));
     return self;
 };
 
