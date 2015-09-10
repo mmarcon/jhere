@@ -25,7 +25,7 @@
     map.zoom(10).type('terrain', 'base').marker({lat: 52.5, lng: 13.3}, {tap: function() {
         map.bubble(this.getPosition(), {content: 'foo', onclose: function(){console.log('closed');}});
     }}).on('tap', function(e){
-        console.log(e);
+        console.log(e.geo);
     });
     // var other_map = new jHERE(document.querySelector('#other_map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}});
 </script>

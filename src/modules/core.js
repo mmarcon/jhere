@@ -71,7 +71,23 @@ JH.type = function(type, layer){
 
 JH.on = function(event, callback) {
     const self = this;
-    self._runner.run(() => self.map.addEventListener(event, callback, true, self));
+    const _callback = function(e){
+        const currentPointer = e.currentPointer;
+        if(!!self.map.getObjectAt(currentPointer.viewportX, currentPointer.viewportY)) {
+            /*
+            returns if there is an object at this pointer position: this means that the pointer
+            event happened on an object (e.g. marker) and not on the map itself. For some reason the
+            event seems to buuble up to the map, so thie prevents it.
+            */
+            return;
+        }
+        if(currentPointer) {
+            /*Add the geo-coordinate of the pointer*/
+            e.geo = self.map.screenToGeo(currentPointer.viewportX, currentPointer.viewportY);
+        }
+        callback.call(self, e);
+    };
+    self._runner.run(() => self.map.addEventListener(event, _callback));
     return self;
 };
 
@@ -93,9 +109,9 @@ JH.marker = function(coords, options){
             options.icon = new H.map.Icon(options.icon, options);
         }
         const marker = new H.map.Marker(coords, options);
-        config.supportedEvents.forEach(function(e){
-            if(options[e]) {
-                marker.addEventListener(e, options[e], true, marker);
+        config.supportedEvents.forEach(function(eventName){
+            if(options[eventName]) {
+                marker.addEventListener(eventName, options[eventName], true, marker);
             }
         });
         self.mc.addObject(marker);
