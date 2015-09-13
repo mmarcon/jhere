@@ -8,6 +8,9 @@ const w = window;
 const d = document;
 
 const constructor = w.jHERE = function jHERE(element, options){
+    if(!(this instanceof constructor)) {
+        return new constructor(element, options);
+    }
     this.el = element;
     this.options = extend(config.defaults, options);
     this._runner = new Runner();
