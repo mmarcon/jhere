@@ -101,6 +101,6 @@ jHERE is kindly supported by:
 
 ![Digital Ocean logo](https://dl.dropboxusercontent.com/u/234787/DO_Logo_Vertical_Blue-75e0d68b.png)
 
-[**BrowserStack**](https://www.browserstack.com): Simple Cloud Hosting, 
+[**Digital Ocean**](https://www.digitalocean.com/): Simple Cloud Hosting, 
 Built for Developers. Soon jhere.net and the [playground](http://bin.jhere.net) will be hosted on Digital Ocean.
  
