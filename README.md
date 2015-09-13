@@ -90,3 +90,17 @@ If you changed anything else (e.g. extensions, adapters) please run
 	make dist
 	
 before submitting the pull request.
+
+## Supporters
+
+jHERE is kindly supported by:
+
+![BrowserStack logo](https://dgzoq9b5asjg1.cloudfront.net/production/images/layout/logo-header.png?1441983233)
+
+[**BrowserStack**](https://www.browserstack.com): Live, Web-Based Browser Testing on all desktop and mobile browsers. I use BrowserStack to make sure jHERE runs on all the supported browsers.
+
+![Digital Ocean logo](https://dl.dropboxusercontent.com/u/234787/DO_Logo_Vertical_Blue-75e0d68b.png)
+
+[**BrowserStack**](https://www.browserstack.com): Simple Cloud Hosting, 
+Built for Developers. Soon jhere.net and the [playground](http://bin.jhere.net) will be hosted on Digital Ocean.
+ 
