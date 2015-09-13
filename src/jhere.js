@@ -88,8 +88,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         ];
 
     defaults = {
-        appId: '69Dgg78qt4obQKxVbRA8',
-        authToken: 'Nz7ilIB_v1CRwPXxgPdvuA',
+        appId: 'lPY5MGHzyXJTYJXt2Sog',
+        authToken: 'qUtXEMHxFTwoz_WeIKbLrA',
         zoom: 12,
         center: [52.49, 13.37],
         enable: ['behavior', 'zoombar', 'scalebar', 'typeselector'],

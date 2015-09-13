@@ -5,3 +5,4 @@ docs/*.css
 jhere.sublime*
 test/lib/jhere.js
 .sass-cache
+out
