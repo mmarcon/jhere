@@ -3,13 +3,11 @@ import Loader from './loader';
 import * as config from './config';
 import {extend, isFn, Runner} from './utils';
 
-
-const w = window;
 const d = document;
 
-const constructor = w.jHERE = function jHERE(element, options){
-    if(!(this instanceof constructor)) {
-        return new constructor(element, options);
+const jHERE = function jHERE(element, options){
+    if(!(this instanceof jHERE)) {
+        return new jHERE(element, options);
     }
     this.el = element;
     this.options = extend(config.defaults, options);
@@ -17,7 +15,7 @@ const constructor = w.jHERE = function jHERE(element, options){
     this._init();
 };
 
-const JH = constructor.prototype;
+const JH = jHERE.prototype;
 
 JH._init = function(){
     const self = this;
@@ -163,8 +161,10 @@ JH.originalMap = function(closure){
     return self;
 };
 
-constructor.extend = function(name, fn) {
+jHERE.extend = function(name, fn) {
     if (typeof name === 'string' && isFn(fn)) {
         JH[name] = fn;
     }
 };
+
+export default jHERE;

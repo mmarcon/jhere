@@ -45,7 +45,7 @@ module.exports = function (grunt) {
         webpack: {
           dist: {
             // webpack options
-            entry: './src/modules/core.js',
+            entry: './src/jhere.js',
             output: {
                 path: 'out/',
                 filename: 'jhere.js'
@@ -75,7 +75,7 @@ module.exports = function (grunt) {
         },
         dev: {
             // webpack options
-            entry: './src/modules/core.js',
+            entry: './src/jhere.js',
             output: {
                 path: 'out/',
                 filename: 'jhere.js'
