@@ -4,6 +4,7 @@ const Loader = function(){};
 Loader.prototype = {
     require: function(scripts, target, callback) {
         const self = this;
+        self.started = true;
         self.loadCount = 0;
         self.totalRequired = scripts.length;
         self.target = target;
@@ -29,7 +30,7 @@ Loader.prototype = {
         }
     },
     writeScript: function (src) {
-        const self = this, s = d.querySelector('script[src="' + src + '"]') || d.createElement('script');
+        const self = this, s = d.createElement('script');
         s.async = false;
         s.src = src;
         s.onload = self.loaded.bind(self);

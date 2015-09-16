@@ -11,26 +11,29 @@ const jHERE = function jHERE(element, options){
     }
     this.el = element;
     this.options = extend(config.defaults, options);
-    this._runner = new Runner();
     this._init();
 };
 
 const JH = jHERE.prototype;
 
+const apiLoader = new Loader();
+const modules = config.modules.map(module => config.url.replace('M', module));
+const runner = new Runner();
+
 JH._init = function(){
     const self = this;
     const classList = self.el.classList;
-    const apiLoader = new Loader();
-    const modules = config.modules.map(module => config.url.replace('M', module));
     //Using classList because dataset is not supported in IE10
     if(classList.contains(config.lib)) {
         return;
     }
     self.el.classList.add(config.lib);
-    self._runner.run(() => self._makemap());
-    apiLoader
-        .require(modules, d.querySelector('script[src*="jhere"]'), () => self._runner.start())
-        .requireCss([config.uiCss]);
+    runner.run(() => self._makemap());
+    if(!apiLoader.started) {
+        apiLoader
+            .require(modules, d.querySelector('script[src*="jhere"]'), () => runner.start())
+            .requireCss([config.uiCss]);
+    }
 };
 
 JH._makemap = function(){
@@ -52,13 +55,13 @@ JH._makemap = function(){
 
 JH.center = function(newCenter, animate){
     const self = this;
-    self._runner.run(() => self.map.setCenter(newCenter, animate));
+    runner.run(() => self.map.setCenter(newCenter, animate));
     return self;
 };
 
 JH.zoom = function(newZoomLevel, animate){
     const self = this;
-    self._runner.run(() => self.map.setZoom(newZoomLevel, animate));
+    runner.run(() => self.map.setZoom(newZoomLevel, animate));
     return self;
 };
 
@@ -66,7 +69,7 @@ JH.type = function(type, layer){
     const self = this;
     type = type || 'normal';
     layer = layer || 'map';
-    self._runner.run(() => self.layers[type] && self.layers[type][layer] && self.map.setBaseLayer(self.layers[type][layer]));
+    runner.run(() => self.layers[type] && self.layers[type][layer] && self.map.setBaseLayer(self.layers[type][layer]));
     return self;
 };
 
@@ -88,13 +91,13 @@ JH.on = function(event, callback) {
         }
         callback.call(self, e);
     };
-    self._runner.run(() => self.map.addEventListener(event, _callback));
+    runner.run(() => self.map.addEventListener(event, _callback));
     return self;
 };
 
 JH.off = function(event, callback) {
     const self = this;
-    self._runner.run(() => self.map.removeEventListener(event, callback, true, self));
+    runner.run(() => self.map.removeEventListener(event, callback, true, self));
     return self;
 };
 
@@ -117,13 +120,13 @@ JH.marker = function(coords, options){
         });
         self.mc.addObject(marker);
     };
-    self._runner.run(_marker);
+    runner.run(_marker);
     return self;
 };
 
 JH.nomarkers = function(){
     const self = this;
-    self._runner.run(() => self.mc.removeAll());
+    runner.run(() => self.mc.removeAll());
     return self;
 };
 
@@ -142,7 +145,7 @@ JH.bubble = function(coords, options){
         }
         self.ui.addBubble(infoBubble);
     };
-    self._runner.run(_bubble);
+    runner.run(_bubble);
     return self;
 };
 
@@ -151,13 +154,13 @@ JH.nobubbles = function(){
     const _nobubbles = function(){
         self.ui.getBubbles().forEach((bubble) => (bubble.close() && bubble.dipose()));
     };
-    self._runner.run(_nobubbles);
+    runner.run(_nobubbles);
     return self;
 };
 
 JH.originalMap = function(closure){
     const self = this;
-    self._runner.run(() => closure.call(self, self.map, H));
+    runner.run(() => closure.call(self, self.map, H));
     return self;
 };
 
