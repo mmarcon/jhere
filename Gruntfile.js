@@ -106,12 +106,12 @@ module.exports = function(grunt) {
                 watch: true
             }
         },
-        doxx: {
-            all: {
-                src: './src/modules',
-                target: './out/docs',
-                options: {
-                    // Task-specific options go here.
+        doxdox: {
+            jhere: {
+                input: 'src/modules/core.js',
+                output: 'out/docs/index.html',
+                config: {
+                    package: 'package.json'
                 }
             }
         }

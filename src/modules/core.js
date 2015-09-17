@@ -8,8 +8,11 @@ const d = document;
 /**
  * Creates an instance of jHERE. The "new" is not required.
  *
- * @param      {Element} the DOM element where the map will be shown
- * @param      {Object}  the options for the map
+ * @example
+ * var map = jHERE(document.querySelector('#map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}});
+ *
+ * @param      {Element} element DOM element where the map will be shown
+ * @param      {Object}  options options for the map
  * @return     {Object} the instance of jHERE
  */
 const jHERE = function jHERE(element, options){
@@ -21,9 +24,6 @@ const jHERE = function jHERE(element, options){
     this._init();
 };
 
-/**
- * @private
- */
 const JH = jHERE.prototype;
 
 const apiLoader = new Loader();
@@ -66,8 +66,15 @@ JH._makemap = function(){
 /**
  * Sets the center of the map
  *
- * @param      {Object} the new center of the map (lat, lng)
- * @param      {boolean} an optional flag to enable and disable animations when recentering
+ * @example
+ * //Sets the new center with animation
+ * map.center({lat: 52.1, lng: 13.23}, true)
+ *
+ * //Sets the new center without animation
+ * map.center({lat: 52.1, lng: 13.23}, false)
+ *
+ * @param      {Object} newCenter the new center of the map (lat, lng)
+ * @param      {boolean} animate an optional flag to enable and disable animations when recentering
  * @return     {Object} the instance of jHERE for chainability
  */
 JH.center = function(newCenter, animate){
@@ -79,8 +86,15 @@ JH.center = function(newCenter, animate){
 /**
  * Sets the zoom level of the map
  *
- * @param      {Number} the zoom level
- * @param      {boolean} an optional flag to enable and disable animations when chaging zoom level
+ * @example
+ * //Sets the zoom to 13 with animation
+ * map.zoom(13, true)
+ *
+ * //Sets the zoom to 3 with animation
+ * map.zoom(3, false)
+ *
+ * @param      {Number} newZoomLevel the zoom level
+ * @param      {boolean} animate an optional flag to enable and disable animations when chaging zoom level
  * @return     {Object} the instance of jHERE for chainability
  */
 JH.zoom = function(newZoomLevel, animate){
@@ -102,9 +116,6 @@ JH.type = function(type, layer){
     return self;
 };
 
-/**
- * @private
- */
 JH.on = function(event, callback) {
     const self = this;
     const _callback = function(e){
@@ -127,9 +138,6 @@ JH.on = function(event, callback) {
     return self;
 };
 
-/**
- * @private
- */
 JH.off = function(event, callback) {
     const self = this;
     runner.run(() => self.map.removeEventListener(event, callback, true, self));
@@ -140,8 +148,14 @@ JH.off = function(event, callback) {
 //options.size is the size in px
 //options.anchor is the anchor point
 /**
- * @param  {Object}
- * @param  {Object}
+ * Adds a new marker to the map
+ *
+ * @example
+ * //Creates a new simple marker
+ * map.marker({lat: 52.1, lng: 13.23})
+ *
+ * @param  {Object} coord the coordinates where the marker will be added
+ * @param  {Object} options options for the marker
  * @return {Object} the instance of jHERE for chainability
  */
 JH.marker = function(coords, options){
@@ -167,8 +181,8 @@ JH.marker = function(coords, options){
 /**
  * Removes all the markers from the map
  *
- * ## Example
- *     map.nomarkers();
+ * @example
+ * map.nomarkers();
  *
  * @return {Object} the instance of jHERE for chainability
  */

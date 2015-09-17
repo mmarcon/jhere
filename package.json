@@ -1,7 +1,7 @@
 {
   "name": "jHERE",
   "version": "1.0.0",
-  "description": "Maps made simple.",
+  "description": "Maps made easy.",
   "main": "index.js",
   "directories": {
     "doc": "docs"
@@ -28,7 +28,7 @@
     "grunt-babel": "^5.0.1",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-uglify": "^0.9.1",
-    "grunt-doxx": "^0.1.2",
+    "grunt-doxdox": "mmarcon/grunt-doxdox",
     "grunt-webpack": "^1.0.11",
     "jshint": "0.9.1",
     "load-grunt-tasks": "^3.2.0",
