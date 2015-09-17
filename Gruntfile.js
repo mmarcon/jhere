@@ -111,7 +111,9 @@ module.exports = function(grunt) {
                 input: 'src/modules/core.js',
                 output: 'out/docs/index.html',
                 config: {
-                    package: 'package.json'
+                    title: 'jHERE',
+                    description: 'Maps made easy',
+                    layout: 'docs/template.hbs'
                 }
             }
         }

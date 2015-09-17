@@ -1,4 +1,4 @@
-/*! globals H: true */
+/* globals H: true */
 import Loader from './loader';
 import * as config from './config';
 import {extend, isFn, Runner} from './utils';
@@ -11,6 +11,7 @@ const d = document;
  * @example
  * var map = jHERE(document.querySelector('#map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}});
  *
+ * @constructor
  * @param      {Element} element DOM element where the map will be shown
  * @param      {Object}  options options for the map
  * @return     {Object} the instance of jHERE
@@ -65,7 +66,7 @@ JH._makemap = function(){
 
 /**
  * Sets the center of the map
- *
+ * 
  * @example
  * //Sets the new center with animation
  * map.center({lat: 52.1, lng: 13.23}, true)

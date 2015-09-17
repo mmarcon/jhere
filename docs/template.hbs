@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1">
+<title>{{title}}{{#if description}} &#8212; {{description}}{{/if}}</title>
+<style>
+
+.back-to-top {
+    display: none;
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+    z-index: 999;
+}
+
+.back-to-top a {
+    display: block;
+    padding: .5em .6em;
+    line-height: 1em;
+    border-radius: .25em;
+    background: #fff;
+}
+
+.back-to-top a svg {
+    vertical-align: middle;
+}
+
+.permalink {
+    position: absolute;
+    margin-left: -.75em;
+    font-weight: normal;
+    color: #eee;
+}
+
+.permalink:hover {
+    text-decoration: none;
+}
+
+.method h2 {
+    line-height: 1.3em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.permalink:hover,
+.doxdox .menu .file {
+    color: #E54D89;
+}
+
+pre .hljs {
+    padding: 0;
+    background: none;
+}
+
+.doxdox .wrap {
+    padding: 0 1em;
+}
+
+.doxdox .jumbotron p,
+.doxdox .label-default {
+    -webkit-font-smoothing: antialiased;
+}
+
+.doxdox .jumbotron {
+    margin-bottom: 0;
+    background-color: #2B303E;
+}
+
+.doxdox .jumbotron h1,
+.doxdox .jumbotron h1 a {
+    color: #eee;
+}
+
+.doxdox .jumbotron p {
+    color: #ccc;
+}
+
+.doxdox .menu {
+    margin: 1.5em 0 0 0;
+    padding: 0;
+}
+
+.doxdox .menu li {
+    list-style: none;
+}
+
+.doxdox .menu li ul {
+    padding: 0;
+}
+
+.doxdox .menu li a {
+    display: block;
+    padding: .25em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.doxdox .menu .scope-private a {
+    color: #8BAAC6;
+}
+
+.doxdox .bs-footer {
+    margin: 3em auto;
+    color: #777;
+    text-align: center;
+}
+
+</style>
+<script>
+
+(function (w, d, f) {
+
+    'use strict';
+
+    var protocol = w.location.protocol === 'file:' ? 'http:' : w.location.protocol,
+        resource = [
+            '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css',
+            '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/github.min.css',
+            '//code.jquery.com/jquery-2.1.4.js',
+            '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js'
+        ];
+
+    function loadResource(url) {
+
+        var tag;
+
+        if (url.match(/\.js$/)) {
+
+            tag = d.createElement('script');
+            tag.setAttribute('src', protocol + url);
+
+        } else if (url.match(/\.css$/)) {
+
+            tag = d.createElement('link');
+            tag.setAttribute('rel', 'stylesheet');
+            tag.setAttribute('href', protocol + url);
+
+        }
+
+        tag.addEventListener('load', function () {
+
+            if (resource.length) {
+
+                loadResource(resource.shift());
+
+            } else {
+
+                if ($.isReady) {
+
+                    f();
+
+                } else {
+
+                    $(document).ready(f);
+
+                }
+
+            }
+
+        });
+
+        d.head.appendChild(tag);
+
+    }
+
+    loadResource(resource.shift());
+
+}(window, document, function () {
+
+    'use strict';
+
+    var headerHeight = $('.jumbotron').outerHeight(true),
+        $backToTop = $('.back-to-top');
+
+    function handleScrollEvent() {
+
+        if (window.scrollY > headerHeight && $backToTop.not(':visible')) {
+
+            $backToTop.fadeIn();
+
+        } else if (window.scrollY < headerHeight && $backToTop.is(':visible')) {
+
+            $backToTop.fadeOut();
+
+        }
+
+    }
+
+    $('pre code:not(.hljs)').each(function () {
+        hljs.highlightBlock(this);
+    });
+
+    $(window).on('scroll', handleScrollEvent);
+
+    handleScrollEvent();
+
+}));
+
+</script>
+</head>
+
+<body class="doxdox">
+
+<div class="back-to-top">
+    <a href="#"> <svg xmlns="http://www.w3.org/2000/svg" width="13px" height="14px" viewBox="0 0 13 14"><path d="M7.18761156,13 L7.18761156,5.49249703 L10.4587853,5.49249703 L5.09931763,0.113558129 L-0.26015,5.49249703 L3.01102371,5.49249703 L3.01102371,13 L7.18761156,13 Z" fill="#428bca"></path></svg> Back to Top</a>
+</div>
+
+<div class="jumbotron">
+
+    <div class="container">
+
+        <h1>
+            {{#if pkg.homepage}}
+                <a href="{{pkg.homepage}}">{{title}}</a>
+            {{else}}
+                {{title}}
+            {{/if}}
+            {{#if pkg.version}}<small>{{pkg.version}}</small>{{/if}}
+        </h1>
+
+        {{#if description}}<p>{{description}}</p>{{/if}}
+
+    </div>
+
+</div>
+
+<div class="wrap">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3 hidden-sm hidden-xs">
+
+                <ul class="menu">
+
+                    {{#each files}}
+
+                    <li>
+                        <a href="#{{name}}" class="file"><b>{{name}}</b></a>
+                        <ul>
+
+                        {{#each methods}}
+
+                        <li class="scope-{{#if isPrivate}}private{{else}}public{{/if}}">
+                            <a href="#{{uid}}" title="{{name}}">{{replace name "JH." ""}}</a>
+                        </li>
+
+                        {{/each}}
+
+                        </ul>
+
+                    </li>
+
+                    {{/each}}
+
+                </ul>
+
+            </div>
+
+            <div class="col-md-9">
+
+                {{#each files}}
+
+                <a id="{{name}}" />
+
+                {{#each methods}}
+
+                    <div class="method scope-{{#if isPrivate}}private{{else}}public{{/if}}">
+
+                        <h2 id="{{uid}}">
+                            <a href="#{{uid}}" class="permalink">#</a> {{replace name "JH." ""}}({{params}})
+                            {{#if isPrivate}}
+                            <small>private {{type}}</small>
+                            {{/if}}
+                        </h2>
+
+                        {{{markdown description}}}
+
+                        {{{markdown body}}}
+
+                        {{#if tags.param.length}}
+
+                        <section class="parameters">
+
+                            <h3>Parameters</h3>
+
+                            {{#each tags.param}}
+
+                                <p>
+                                    <b>{{name}}</b>
+                                    {{#each types}}
+                                        <code>{{.}}</code>
+                                    {{/each}}
+                                    {{#if isOptional}}
+                                        <span class="label label-default">Optional</span>
+                                    {{/if}}
+                                </p>
+
+                                {{{markdown description}}}
+
+                            {{/each}}
+
+                        </section>
+
+                        {{/if}}
+
+                        {{#if tags.property.length}}
+
+                        <section class="property">
+
+                            <h3>Properties</h3>
+
+                            {{#each tags.property}}
+
+                                <p>
+                                    <b>{{name}}</b>
+                                    {{#each types}}
+                                        <code>{{.}}</code>
+                                    {{/each}}
+                                    {{#if isOptional}}
+                                        <span class="label label-default">Optional</span>
+                                    {{/if}}
+                                </p>
+
+                                {{{markdown description}}}
+
+                            {{/each}}
+
+                        </section>
+
+                        {{/if}}
+
+                        {{#if tags.example.length}}
+
+                        <section class="examples">
+
+                            <h3>Examples</h3>
+
+                            {{#each tags.example}}
+
+                                <pre><code class="hljs javascript">{{{highlightBlock .}}}</code></pre>
+
+                            {{/each}}
+
+                        </section>
+
+                        {{/if}}
+
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+                            {{#if tags.return.length}}
+
+                                {{#each tags.return}}
+
+                                    <p>
+                                        {{#each types}}
+                                            <code>{{.}}</code>
+                                        {{/each}}
+                                        {{#if isOptional}}
+                                            <span class="label label-default">Optional</span>
+                                        {{/if}}
+                                    </p>
+
+                                    {{{markdown description}}}
+
+                                {{/each}}
+
+                            {{else}}
+
+                            <p><code>Void</code></p>
+
+                            {{/if}}
+
+                        </section>
+
+                    </div>
+
+                {{/each}}
+
+                {{/each}}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="bs-footer">
+
+    <div class="container">
+
+        <p>Documentation generated with <a href="https://github.com/neogeek/doxdox">doxdox</a>.</p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
