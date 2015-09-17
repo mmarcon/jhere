@@ -1,6 +1,6 @@
 var path = require('path');
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
@@ -30,10 +30,10 @@ module.exports = function (grunt) {
                     cwd: 'src/extensions',
                     src: '**/*.js',
                     dest: 'dist/extensions',
-                    rename: function(destBase, destPath){
+                    rename: function(destBase, destPath) {
                         return path.join(destBase, destPath.replace('.js', '.min.js'));
                     }
-              }]
+                }]
             },
             webpack: {
                 files: {
@@ -43,69 +43,78 @@ module.exports = function (grunt) {
         },
 
         webpack: {
-          dist: {
-            // webpack options
-            entry: './src/jhere.js',
-            output: {
-                path: 'out/',
-                filename: 'jhere.js'
+            dist: {
+                // webpack options
+                entry: './src/jhere.js',
+                output: {
+                    path: 'out/',
+                    filename: 'jhere.js'
+                },
+
+                //devtool: 'eval',
+
+                stats: {
+                    // Configure the console output
+                    colors: false,
+                    modules: true,
+                    reasons: true
+                },
+
+                module: {
+                    loaders: [{
+                        test: /\.js$/,
+                        loader: 'babel-loader'
+                    }]
+                },
+
+                resolve: {
+                    extensions: ['', '.js']
+                },
+
+                failOnError: true
             },
+            dev: {
+                // webpack options
+                entry: './src/jhere.js',
+                output: {
+                    path: 'out/',
+                    filename: 'jhere.js'
+                },
 
-            //devtool: 'eval',
+                devtool: 'eval',
 
-            stats: {
-                // Configure the console output
-                colors: false,
-                modules: true,
-                reasons: true
-            },
+                stats: {
+                    // Configure the console output
+                    colors: false,
+                    modules: true,
+                    reasons: true
+                },
 
-            module: {
-                loaders: [{
-                    test: /\.js$/,
-                    loader: 'babel-loader'
-                }]
-            },
+                module: {
+                    loaders: [{
+                        test: /\.js$/,
+                        loader: 'babel-loader'
+                    }]
+                },
 
-            resolve: {
-                extensions: ['', '.js']
-            },
+                resolve: {
+                    extensions: ['', '.js']
+                },
 
-            failOnError: true
+                failOnError: true,
+                keepalive: true,
+                watch: true
+            }
         },
-        dev: {
-            // webpack options
-            entry: './src/jhere.js',
-            output: {
-                path: 'out/',
-                filename: 'jhere.js'
-            },
-
-            devtool: 'eval',
-
-            stats: {
-                // Configure the console output
-                colors: false,
-                modules: true,
-                reasons: true
-            },
-
-            module: {
-                loaders: [{
-                    test: /\.js$/,
-                    loader: 'babel-loader'
-                }]
-            },
-
-            resolve: {
-                extensions: ['', '.js']
-            },
-
-            failOnError: true,
-            keepalive: true,
-            watch: true
+        doxx: {
+            all: {
+                src: './src/modules',
+                target: './out/docs',
+                options: {
+                    // Task-specific options go here.
+                }
+            }
         }
-    }
     });
 
     grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:webpack']);

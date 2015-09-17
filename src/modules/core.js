@@ -1,10 +1,17 @@
-/* globals H: true */
+/*! globals H: true */
 import Loader from './loader';
 import * as config from './config';
 import {extend, isFn, Runner} from './utils';
 
 const d = document;
 
+/**
+ * Creates an instance of jHERE. The "new" is not required.
+ *
+ * @param      {Element} the DOM element where the map will be shown
+ * @param      {Object}  the options for the map
+ * @return     {Object} the instance of jHERE
+ */
 const jHERE = function jHERE(element, options){
     if(!(this instanceof jHERE)) {
         return new jHERE(element, options);
@@ -14,6 +21,9 @@ const jHERE = function jHERE(element, options){
     this._init();
 };
 
+/**
+ * @private
+ */
 const JH = jHERE.prototype;
 
 const apiLoader = new Loader();
@@ -23,7 +33,7 @@ const runner = new Runner();
 JH._init = function(){
     const self = this;
     const classList = self.el.classList;
-    //Using classList because dataset is not supported in IE10
+    /*! Using classList because dataset is not supported in IE10 */
     if(classList.contains(config.lib)) {
         return;
     }
@@ -53,18 +63,37 @@ JH._makemap = function(){
     self.map.addObject(self.mc);
 };
 
+/**
+ * Sets the center of the map
+ *
+ * @param      {Object} the new center of the map (lat, lng)
+ * @param      {boolean} an optional flag to enable and disable animations when recentering
+ * @return     {Object} the instance of jHERE for chainability
+ */
 JH.center = function(newCenter, animate){
     const self = this;
     runner.run(() => self.map.setCenter(newCenter, animate));
     return self;
 };
 
+/**
+ * Sets the zoom level of the map
+ *
+ * @param      {Number} the zoom level
+ * @param      {boolean} an optional flag to enable and disable animations when chaging zoom level
+ * @return     {Object} the instance of jHERE for chainability
+ */
 JH.zoom = function(newZoomLevel, animate){
     const self = this;
     runner.run(() => self.map.setZoom(newZoomLevel, animate));
     return self;
 };
 
+/**
+ * @param  {string}
+ * @param  {string}
+ * @return {Object} the instance of jHERE for chainability
+ */
 JH.type = function(type, layer){
     const self = this;
     type = type || 'normal';
@@ -73,12 +102,15 @@ JH.type = function(type, layer){
     return self;
 };
 
+/**
+ * @private
+ */
 JH.on = function(event, callback) {
     const self = this;
     const _callback = function(e){
         const currentPointer = e.currentPointer;
         if(!!self.map.getObjectAt(currentPointer.viewportX, currentPointer.viewportY)) {
-            /*
+            /*!
             returns if there is an object at this pointer position: this means that the pointer
             event happened on an object (e.g. marker) and not on the map itself. For some reason the
             event seems to buuble up to the map, so thie prevents it.
@@ -86,7 +118,7 @@ JH.on = function(event, callback) {
             return;
         }
         if(currentPointer) {
-            /*Add the geo-coordinate of the pointer*/
+            /*! Add the geo-coordinate of the pointer */
             e.geo = self.map.screenToGeo(currentPointer.viewportX, currentPointer.viewportY);
         }
         callback.call(self, e);
@@ -95,6 +127,9 @@ JH.on = function(event, callback) {
     return self;
 };
 
+/**
+ * @private
+ */
 JH.off = function(event, callback) {
     const self = this;
     runner.run(() => self.map.removeEventListener(event, callback, true, self));
@@ -104,6 +139,11 @@ JH.off = function(event, callback) {
 //options.icon is the URL
 //options.size is the size in px
 //options.anchor is the anchor point
+/**
+ * @param  {Object}
+ * @param  {Object}
+ * @return {Object} the instance of jHERE for chainability
+ */
 JH.marker = function(coords, options){
     options = options || {};
     const self = this;
@@ -124,6 +164,14 @@ JH.marker = function(coords, options){
     return self;
 };
 
+/**
+ * Removes all the markers from the map
+ *
+ * ## Example
+ *     map.nomarkers();
+ *
+ * @return {Object} the instance of jHERE for chainability
+ */
 JH.nomarkers = function(){
     const self = this;
     runner.run(() => self.mc.removeAll());
@@ -170,4 +218,7 @@ jHERE.extend = function(name, fn) {
     }
 };
 
+/**
+ * @ignore
+ */
 export default jHERE;
