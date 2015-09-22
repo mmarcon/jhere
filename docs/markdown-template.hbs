@@ -1,0 +1,65 @@
+{{#if pkg.homepage}}
+# [{{title}}]({{pkg.homepage}}) {{#if pkg.version}}*{{pkg.version}}*{{/if}}
+{{else}}
+# {{title}} {{#if pkg.version}}*{{pkg.version}}*{{/if}}
+{{/if}}
+
+{{#if description}}
+>{{description}}
+{{/if}}
+
+{{#each files}}{{#each methods}}
+
+## {{name}}({{params}}) {{#if isPrivate}} *private method*{{/if}}
+
+{{{description}}}
+
+{{{body}}}
+
+{{#if tags.param}}
+
+### Parameters
+
+{{#each tags.param}}
+- **{{name}}** {{#each types}}`{{.}}` {{/each}} {{#if isOptional}}*Optional*{{/if}} {{{description}}}
+{{/each}}
+
+{{/if}}
+
+{{#if tags.property}}
+
+### Properties
+
+{{#each tags.property}}
+- **{{name}}** {{#each types}}`{{.}}` {{/each}} {{#if isOptional}}*Optional*{{/if}} {{{description}}}
+{{/each}}
+
+{{/if}}
+
+{{#if tags.example}}
+
+### Examples
+
+{{#each tags.example}}
+```javascript
+{{{.}}}
+```
+{{/each}}
+
+{{/if}}
+
+### Returns
+
+{{#if tags.return}}
+
+{{#each tags.return}}
+- {{#each types}}`{{.}}` {{/each}} {{#if isOptional}}*Optional*{{/if}} {{{description}}}
+{{/each}}
+
+{{else}}
+
+- `Void`
+
+{{/if}}
+
+{{/each}}{{/each}}

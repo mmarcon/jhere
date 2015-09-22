@@ -109,11 +109,11 @@ module.exports = function(grunt) {
         doxdox: {
             jhere: {
                 input: 'src/modules/core.js',
-                output: 'out/docs/index.html',
+                output: 'out/docs/docs.md',
                 config: {
                     title: 'jHERE',
                     description: 'Maps made easy',
-                    layout: 'docs/template.hbs'
+                    layout: 'docs/markdown-template.hbs'
                 }
             }
         }

@@ -66,7 +66,7 @@ JH._makemap = function(){
 
 /**
  * Sets the center of the map
- * 
+ *
  * @example
  * //Sets the new center with animation
  * map.center({lat: 52.1, lng: 13.23}, true)
@@ -105,8 +105,8 @@ JH.zoom = function(newZoomLevel, animate){
 };
 
 /**
- * @param  {string}
- * @param  {string}
+ * @param  {string} type
+ * @param  {string} layer
  * @return {Object} the instance of jHERE for chainability
  */
 JH.type = function(type, layer){
