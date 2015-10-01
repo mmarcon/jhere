@@ -9,7 +9,16 @@ const d = document;
  * Creates an instance of jHERE. The "new" is not required.
  *
  * @example
- * var map = jHERE(document.querySelector('#map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}});
+ * //Create an app at https://developer.here.com/myapps
+ * //to get your app_id and app_code
+ * var map = jHERE(document.querySelector('#map'), {
+ *                                                     app_id: 'your_app_id',
+ *                                                     app_code: 'your_app_code'
+ *                                                     zoom: 14,
+ *                                                     center: {lat: 52.5, lng: 13.3
+ *                                                 }});
+ *
+ * @link https://developer.here.com/myapps
  *
  * @constructor
  * @param      {Element} element DOM element where the map will be shown
@@ -105,8 +114,22 @@ JH.zoom = function(newZoomLevel, animate){
 };
 
 /**
- * @param  {string} type
- * @param  {string} layer
+ * Sets the type for the map. Determines what type of map
+ * tiles are used.
+ *
+ * @link https://developer.here.com/javascript-apis/documentation/v3/maps/topics/map-types.html
+ *
+ * @example
+ * //Sets the map type to terrain
+ * //uses the default map layer (roads, labels, etc.)
+ * map.type('terrain')
+ *
+ * //Sets the map type to normal map
+ * //uses a very basic layer with no roads an no labels
+ * map.type('normal', 'xbase')
+ *
+ * @param  {string} type the map type (normal, satellite, terrain)
+ * @param  {string} layer (map, traffic, transit, xbase, base, labels)
  * @return {Object} the instance of jHERE for chainability
  */
 JH.type = function(type, layer){
@@ -117,6 +140,27 @@ JH.type = function(type, layer){
     return self;
 };
 
+/**
+ * Attaches event listeners to the map.
+ *
+ * @example
+ *
+ * //Logs latitude and longitude of a tap event
+ * map.on('tap', function(e){
+ *     console.log(e.geo);
+ * });
+ *
+ * @param  {String}   event    the event name. Supported events are:
+ * mousedown, touchstart, pointerdown, mouseup, touchend, pointerup,
+ * mousemove, touchmove, pointermove, mouseenter, touchenter, pointerenter,
+ * mouseleave, touchleave, pointerleave, touchcancel, pointercancel,
+ * dragstart. dragend, drag, tap (covers click and tap), dbltab (covers also dblclick),
+ * longpress
+ * @param  {Function} callback invoked when a map event is triggered. The callback is passed the
+ * event object extended with a `geo` property that contains latitude and longitude of the pointer
+ * triggering the event.
+ * @return {Object} the instance of jHERE for chainability
+ */
 JH.on = function(event, callback) {
     const self = this;
     const _callback = function(e){

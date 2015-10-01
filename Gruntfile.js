@@ -121,4 +121,5 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:webpack']);
     grunt.registerTask('dev', 'Creates distribution', ['jshint', 'webpack:dev']);
+    grunt.registerTask('docs', 'Generates documentation', ['doxdox']);
 };
