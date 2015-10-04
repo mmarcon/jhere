@@ -16,7 +16,7 @@ module.exports = function(grunt) {
             },
             jhere: {
                 files: {
-                    './dist/jhere.min.js': ['./src/jhere.js']
+                    './dist/jhere.min.js': ['./dist/jhere.js']
                 }
             },
             adapters: {
@@ -47,7 +47,7 @@ module.exports = function(grunt) {
                 // webpack options
                 entry: './src/jhere.js',
                 output: {
-                    path: 'out/',
+                    path: 'dist/',
                     filename: 'jhere.js'
                 },
 
@@ -119,7 +119,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:webpack']);
+    grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:jhere']);
     grunt.registerTask('dev', 'Creates distribution', ['jshint', 'webpack:dev']);
     grunt.registerTask('docs', 'Generates documentation', ['doxdox']);
 };

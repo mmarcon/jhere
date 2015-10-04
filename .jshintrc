@@ -4,7 +4,8 @@
         "jQuery": true,
         "nokia": true,
         "Zepto": true,
-        "tire": true
+        "tire": true,
+        "H": true
     },
 
     "browser": true,
