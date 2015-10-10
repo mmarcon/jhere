@@ -21,7 +21,8 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-var path = require('path');
+var path = require('path'),
+    version = require('./package.json').version;
 
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
@@ -139,10 +140,22 @@ module.exports = function(grunt) {
                     layout: 'docs/markdown-template.hbs'
                 }
             }
+        },
+        // make a zipfile
+        compress: {
+            main: {
+                options: {
+                    archive: 'dist/jhere.zip',
+                    pretty: true
+                },
+                files: [
+                    {expand: true, cwd: './dist/', src: ['*.js'], dest: 'jhere-' + version, filter: 'isFile'}
+                ]
+            }
         }
     });
 
-    grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:jhere']);
+    grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:jhere', 'compress']);
     grunt.registerTask('dev', 'Creates distribution', ['jshint', 'webpack:dev']);
     grunt.registerTask('docs', 'Generates documentation', ['doxdox']);
 };
