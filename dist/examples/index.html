@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 boilerplate—all you really need…</title>
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0;}
+        .map {
+            margin: 0;
+            padding: 0;
+            height: 50%;
+            width: 100%;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+<div id="map" class="map"></div>
+<div id="other_map" class="map"></div>
+
+<script src="https://cdn.rawgit.com/mmarcon/jhere/jsla3/dist/jhere.min.js"></script>
+<script>
+    /* globals jHERE: true */
+    var map = jHERE(document.querySelector('#map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}})
+    .zoom(10).type('terrain', 'base').marker({lat: 52.5, lng: 13.3}, {tap: function() {
+        map.bubble(this.getPosition(), {content: 'foo', onclose: function(){console.log('closed');}});
+    }}).on('tap', function(e){
+        console.log(e.geo);
+    });
+    jHERE(document.querySelector('#other_map'), {zoom: 14, center: {lat: 52.5, lng: 13.3}}).zoom(15);
+</script>
+</body>
+</html>

@@ -374,6 +374,28 @@
 	    return self;
 	};
 
+	/**
+	 * Adds an info bubble to the map at the given coordinates
+	 *
+	 *  @param  {Object} coord the coordinates where the marker will be added
+	 * @param  {Object} options options for the info bubble
+	 *
+	 * @example
+	 * var options = {
+	 *     content: 'foo',
+	 *     onclose: function(){
+	 *         //Called when the info bubble is closed
+	 *     },
+	 *     //Specifies that the current info bubble
+	 *     //is the only one present on the map.
+	 *     //Useful when only one info bubble should be
+	 *     //open at any given time
+	 *     only: true
+	 * }
+	 * map.bubble({lat: 52.5, lng: 13.3}, options);
+	 *
+	 * @return {Object} the instance of jHERE for chainability
+	 */
 	JH.bubble = function (coords, options) {
 	    options = options || {};
 	    var self = this;
@@ -393,6 +415,14 @@
 	    return self;
 	};
 
+	/**
+	 * Removes all the info bubbles from the map
+	 *
+	 * @example
+	 * map.nobubbles();
+	 *
+	 * @return {Object} the instance of jHERE for chainability
+	 */
 	JH.nobubbles = function () {
 	    var self = this;
 	    var _nobubbles = function _nobubbles() {
@@ -404,6 +434,21 @@
 	    return self;
 	};
 
+	/**
+	 * Returns a reference to the original map object
+	 *
+	 * @example
+	 * map.originalMap(function(map, H){
+	 *     //map is the instance of the H.Map object that represents the map
+	 *     //H is the main namespace of the HERE Maps API
+	 * });
+	 *
+	 * @param  {Function} closure a callback function to which the original map
+	 *                    and the H namespace is passed
+	 *
+	 * @return {Object} the instance of jHERE for chainability
+	 *
+	 */
 	JH.originalMap = function (closure) {
 	    var self = this;
 	    runner.run(function () {

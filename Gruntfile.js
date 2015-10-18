@@ -152,10 +152,24 @@ module.exports = function(grunt) {
                     {expand: true, cwd: './dist/', src: ['*.js'], dest: 'jhere-' + version, filter: 'isFile'}
                 ]
             }
+        },
+        replace: {
+            examples: {
+                src: ['examples/*.html'],
+                dest: 'dist/examples/',
+                replacements: [{
+                    from: '../dist/jhere.min.js',
+                    to: 'https://cdn.rawgit.com/mmarcon/jhere/jsla3/dist/jhere.min.js'
+                },
+                {
+                    from: '../dist/jhere.js',
+                    to: 'https://cdn.rawgit.com/mmarcon/jhere/jsla3/dist/jhere.js'
+                }]
+            }
         }
     });
 
-    grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:jhere', 'compress']);
+    grunt.registerTask('default', 'Creates distribution', ['jshint', 'webpack:dist', 'uglify:jhere', 'compress', 'replace:examples']);
     grunt.registerTask('dev', 'Creates distribution', ['jshint', 'webpack:dev']);
     grunt.registerTask('docs', 'Generates documentation', ['doxdox']);
 };
