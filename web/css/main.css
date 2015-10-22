@@ -440,6 +440,8 @@ header {
           background: transparent url(../img/download.png) no-repeat 50%; }
         header .title .get a:link.fork span, header .title .get a:visited.fork span {
           background: transparent url(../img/fork.png) no-repeat 50%; }
+        header .title .get a:link.star span, header .title .get a:visited.star span {
+          background: transparent url(../img/star.png) no-repeat 50%; }
       header .title .get a:hover, header .title .get a:active {
         background-color: #86c440; }
   header .controls {
