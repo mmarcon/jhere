@@ -66,12 +66,13 @@
 	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	*/
-
 	'use strict';
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _modulesCore = __webpack_require__(1);
+	__webpack_require__(1);
+
+	var _modulesCore = __webpack_require__(2);
 
 	var _modulesCore2 = _interopRequireDefault(_modulesCore);
 
@@ -79,6 +80,70 @@
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	/*
+	Copyright (c) 2015 Massimiliano Marcon, http://marcon.me
+
+	Permission is hereby granted, free of charge, to any person obtaining
+	a copy of this software and associated documentation files (the
+	"Software"), to deal in the Software without restriction, including
+	without limitation the rights to use, copy, modify, merge, publish,
+	distribute, sublicense, and/or sell copies of the Software, and to
+	permit persons to whom the Software is furnished to do so, subject to
+	the following conditions:
+
+	The above copyright notice and this permission notice shall be
+	included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	*/
+
+	//Object.assign polyfill from
+	//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+	'use strict';
+
+	if (!Object.assign) {
+	    Object.defineProperty(Object, 'assign', {
+	        enumerable: false,
+	        configurable: true,
+	        writable: true,
+	        value: function value(target) {
+	            'use strict';
+	            if (target === undefined || target === null) {
+	                throw new TypeError('Cannot convert first argument to object');
+	            }
+
+	            var to = Object(target);
+	            for (var i = 1; i < arguments.length; i++) {
+	                var nextSource = arguments[i];
+	                if (nextSource === undefined || nextSource === null) {
+	                    continue;
+	                }
+	                nextSource = Object(nextSource);
+
+	                var keysArray = Object.keys(nextSource);
+	                for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+	                    var nextKey = keysArray[nextIndex];
+	                    var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+	                    if (desc !== undefined && desc.enumerable) {
+	                        to[nextKey] = nextSource[nextKey];
+	                    }
+	                }
+	            }
+	            return to;
+	        }
+	    });
+	}
+
+/***/ },
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -114,15 +179,15 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _loader = __webpack_require__(2);
+	var _loader = __webpack_require__(3);
 
 	var _loader2 = _interopRequireDefault(_loader);
 
-	var _config = __webpack_require__(3);
+	var _config = __webpack_require__(4);
 
 	var config = _interopRequireWildcard(_config);
 
-	var _utils = __webpack_require__(4);
+	var _utils = __webpack_require__(5);
 
 	var d = document;
 
@@ -151,7 +216,7 @@
 	        return new jHERE(element, options);
 	    }
 	    this.el = element;
-	    this.options = (0, _utils.extend)(config.defaults, options);
+	    this.options = Object.assign({}, config.defaults, options);
 	    this._init();
 	};
 
@@ -184,6 +249,8 @@
 	JH._makemap = function () {
 	    var self = this;
 	    var Behavior = H.mapevents.Behavior;
+	    var enabled = self.options.enable;
+
 	    self.platform = new H.service.Platform({
 	        app_id: self.options.credentials.appId,
 	        app_code: self.options.credentials.authToken,
@@ -191,7 +258,18 @@
 	    });
 	    self.layers = self.platform.createDefaultLayers();
 	    self.map = new H.Map(self.el, self.layers.normal.map, self.options);
-	    self.ui = new H.ui.UI(self.map);
+	    self.ui = H.ui.UI.createDefault(self.map, self.layers);
+
+	    if (! ~enabled.indexOf('zoombar')) {
+	        self.ui.getControl('zoom').setVisibility(false);
+	    }
+	    if (! ~enabled.indexOf('scalebar')) {
+	        self.ui.getControl('scalebar').setVisibility(false);
+	    }
+	    if (! ~enabled.indexOf('settings')) {
+	        self.ui.getControl('mapsettings').setVisibility(false);
+	    }
+
 	    //TODO: look at the options {enabled: Behavior.DRAGGING, Behavior.WHEELZOOM, Behavior.DBLTAPZOOM}
 	    new Behavior(new H.mapevents.MapEvents(self.map));
 	    self.mc = new H.map.Group();
@@ -470,7 +548,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/*
@@ -548,7 +626,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	/*
@@ -596,7 +674,8 @@
 	    credentials: defaultCredentials,
 	    zoom: 12,
 	    center: { lat: 52.49, lng: 13.37 },
-	    type: 'map'
+	    type: 'map',
+	    enable: ['zoombar', 'scalebar', 'settings']
 	};
 
 	exports.defaults = defaults;
@@ -618,55 +697,16 @@
 	exports.supportedEvents = supportedEvents;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
-
-	/*
-	Copyright (c) 2015 Massimiliano Marcon, http://marcon.me
-
-	Permission is hereby granted, free of charge, to any person obtaining
-	a copy of this software and associated documentation files (the
-	"Software"), to deal in the Software without restriction, including
-	without limitation the rights to use, copy, modify, merge, publish,
-	distribute, sublicense, and/or sell copies of the Software, and to
-	permit persons to whom the Software is furnished to do so, subject to
-	the following conditions:
-
-	The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-	*/
 
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
 	    value: true
 	});
-	exports.extend = extend;
 	exports.isFn = isFn;
 	exports.Runner = Runner;
-
-	function extend(target) {
-	    target = target || {};
-
-	    for (var _len = arguments.length, source = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	        source[_key - 1] = arguments[_key];
-	    }
-
-	    source.forEach(function (s) {
-	        Object.keys(s).forEach(function (k) {
-	            target[k] = s[k];
-	        });
-	    });
-	    return target;
-	}
 
 	function isFn(f) {
 	    return typeof f === 'function';

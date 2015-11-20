@@ -23,7 +23,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import Loader from './loader';
 import * as config from './config';
-import {extend, isFn, Runner} from './utils';
+import {isFn, Runner} from './utils';
 
 const d = document;
 
@@ -37,7 +37,8 @@ const d = document;
  *                                                     app_id: 'your_app_id',
  *                                                     app_code: 'your_app_code'
  *                                                     zoom: 14,
- *                                                     center: {lat: 52.5, lng: 13.3
+ *                                                     center: {lat: 52.5, lng: 13.3,
+ *                                                     enable: ['zoombar', 'scalebar', 'settings']
  *                                                 }});
  *
  * @link https://developer.here.com/myapps
@@ -52,7 +53,7 @@ const jHERE = function jHERE(element, options){
         return new jHERE(element, options);
     }
     this.el = element;
-    this.options = extend(config.defaults, options);
+    this.options = Object.assign({}, config.defaults, options);
     this._init();
 };
 
@@ -81,6 +82,8 @@ JH._init = function(){
 JH._makemap = function(){
     const self = this;
     const Behavior = H.mapevents.Behavior;
+    const enabled = self.options.enable;
+
     self.platform = new H.service.Platform({
         app_id: self.options.credentials.appId,
         app_code: self.options.credentials.authToken,
@@ -88,7 +91,18 @@ JH._makemap = function(){
     });
     self.layers = self.platform.createDefaultLayers();
     self.map = new H.Map(self.el, self.layers.normal.map, self.options);
-    self.ui = new H.ui.UI(self.map);
+    self.ui = H.ui.UI.createDefault(self.map, self.layers);
+
+    if(!~enabled.indexOf('zoombar')) {
+        self.ui.getControl('zoom').setVisibility(false);
+    }
+    if(!~enabled.indexOf('scalebar')) {
+        self.ui.getControl('scalebar').setVisibility(false);
+    }
+    if(!~enabled.indexOf('settings')) {
+        self.ui.getControl('mapsettings').setVisibility(false);
+    }
+
     //TODO: look at the options {enabled: Behavior.DRAGGING, Behavior.WHEELZOOM, Behavior.DBLTAPZOOM}
     new Behavior(new H.mapevents.MapEvents(self.map));
     self.mc = new H.map.Group();

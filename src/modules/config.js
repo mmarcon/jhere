@@ -33,7 +33,8 @@ export const defaults  = {
     credentials: defaultCredentials,
     zoom: 12,
     center: {lat: 52.49, lng: 13.37},
-    type: 'map'
+    type: 'map',
+    enable: ['zoombar', 'scalebar', 'settings']
 };
 
 const pointer = 'pointer';
