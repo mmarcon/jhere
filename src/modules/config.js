@@ -34,7 +34,7 @@ export const defaults  = {
     zoom: 12,
     center: {lat: 52.49, lng: 13.37},
     type: 'map',
-    enable: ['zoombar', 'scalebar', 'settings']
+    enable: ['zoombar', 'scalebar', 'settings', 'behavior']
 };
 
 const pointer = 'pointer';

@@ -38,7 +38,7 @@ const d = document;
  *                                                     app_code: 'your_app_code'
  *                                                     zoom: 14,
  *                                                     center: {lat: 52.5, lng: 13.3,
- *                                                     enable: ['zoombar', 'scalebar', 'settings']
+ *                                                     enable: ['zoombar', 'scalebar', 'settings', 'behavior']
  *                                                 }});
  *
  * @link https://developer.here.com/myapps
@@ -102,9 +102,12 @@ JH._makemap = function(){
     if(!~enabled.indexOf('settings')) {
         self.ui.getControl('mapsettings').setVisibility(false);
     }
+    if(~enabled.indexOf('behavior')) {
+        //TODO: consider more granulr control over behavior
+        //{enabled: Behavior.DRAGGING | Behavior.WHEELZOOM | Behavior.DBLTAPZOOM}
+        new Behavior(new H.mapevents.MapEvents(self.map));
+    }
 
-    //TODO: look at the options {enabled: Behavior.DRAGGING, Behavior.WHEELZOOM, Behavior.DBLTAPZOOM}
-    new Behavior(new H.mapevents.MapEvents(self.map));
     self.mc = new H.map.Group();
     self.map.addObject(self.mc);
 };

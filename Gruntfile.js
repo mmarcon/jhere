@@ -163,7 +163,15 @@ module.exports = function(grunt) {
                 },
                 {
                     from: '../dist/jhere.js',
-                    to: 'https://cdn.rawgit.com/mmarcon/jhere/jsla3/dist/jhere.js'
+                    to: 'https://cdn.rawgit.com/mmarcon/jhere/jsla3/dist/jhere.min.js'
+                },
+                {
+                    from: '../out/jhere.min.js',
+                    to: 'https://cdn.rawgit.com/mmarcon/jhere/jsla3/dist/jhere.min.js'
+                },
+                {
+                    from: '../out/jhere.js',
+                    to: 'https://cdn.rawgit.com/mmarcon/jhere/jsla3/dist/jhere.min.js'
                 }]
             }
         }
