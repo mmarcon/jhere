@@ -23,7 +23,7 @@
 <script>
     /* globals jHERE: true */
     var map = jHERE(document.querySelector('#map'), {zoom: 14, center: {lat: 52.5, lng: 18.3}})
-    .zoom(10).type('terrain', 'base').marker({lat: 52.5, lng: 13.3}, {tap: function() {
+    .zoom(10).type('terrain', 'base').marker({lat: 52.5, lng: 18.3}, {tap: function() {
         map.bubble(this.getPosition(), {content: 'foo', onclose: function(){console.log('closed');}});
     }}).on('tap', function(e){
         console.log(e.geo);
