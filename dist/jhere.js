@@ -201,7 +201,8 @@
 	 *                                                     app_id: 'your_app_id',
 	 *                                                     app_code: 'your_app_code'
 	 *                                                     zoom: 14,
-	 *                                                     center: {lat: 52.5, lng: 13.3
+	 *                                                     center: {lat: 52.5, lng: 13.3,
+	 *                                                     enable: ['zoombar', 'scalebar', 'settings']
 	 *                                                 }});
 	 *
 	 * @link https://developer.here.com/myapps
