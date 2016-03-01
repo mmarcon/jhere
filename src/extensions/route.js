@@ -20,8 +20,9 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-;(function($){
-    var _ns, route, _default = {
+;
+(function($) {
+    var _ns, clearRoutes, routeContainer, route, _default = {
         type: 'shortest',
         transportMode: 'car',
         options: '',
@@ -35,8 +36,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         zoomTo: true
     };
 
-    function normalize(position){
-        return position instanceof Array ? {latitude: position[0], longitude: position[1]} : position;
+    function normalize(position) {
+        return position instanceof Array ? { latitude: position[0], longitude: position[1] } : position;
     }
 
     //### Calculate the route between 2 points
@@ -69,14 +70,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`marker` is an object containing the same options used for
     //`$('.selector').jHERE('marker')`. Options apply to both start and destionation markers.
-    route = function(from, to, via, options){
+    route = function(from, to, via, options) {
         var router, wp, done, cleanOptions;
         _ns = _ns || nokia.maps;
         from = normalize(from);
         to = normalize(to);
 
         //in this case options is the options object, like expected
-        if( via instanceof Array ){
+        if (via instanceof Array) {
             options = $.extend({}, _default, options);
         }
         //in this case via is the options object, probably older implementation of plugin
@@ -86,7 +87,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         }
         /*Call me with the correct context!*/
         done = function(router, key, status) {
-            var routes, routeContainer, poly, r, info = {}, evt;
+            var routes, poly, r, info = {}, evt;
             if (status === 'finished') {
                 routes = router.getRoutes();
                 r = routes[0];
@@ -98,19 +99,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         strokeColor: options.color
                     })
                 });
-                routeContainer = new _ns.map.Container();
+                if (!routeContainer) {
+                    routeContainer = new _ns.map.Container();
+                    this.map.objects.add(routeContainer);
+                }
                 routeContainer.objects.add(poly);
                 /*And add the markers next. For markers we use the corresponding jHERE method for now.*/
-                $.each(r.waypoints, $.proxy(function(i, w){
+                $.each(r.waypoints, $.proxy(function(i, w) {
                     var o = $.extend({}, options.marker);
-                    if(options.marker.text === '#') {
+                    if (options.marker.text === '#') {
                         o.text = i + 1;
                     }
                     this.marker(w.originalPosition, o);
                 }, this));
-                this.map.objects.add(routeContainer);
                 /*Zoom map to bounds of route*/
-                if(options.zoomTo){
+                if (options.zoomTo) {
                     this.map.zoomTo(routeContainer.getBoundingBox(), false, "default");
                 }
                 /*Now let's look into the route infos*/
@@ -120,7 +123,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 info.legs = r.legs;
 
                 /*Fire callback if present*/
-                if(typeof options.onroute === 'function') {
+                if (typeof options.onroute === 'function') {
                     options.onroute.call(this.element, info);
                 }
                 /*And trigger event (jQuery only)*/
@@ -139,7 +142,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         wp = new _ns.routing.WaypointParameterList();
         wp.addCoordinate(from);
-        $.each(via, function(i,item){
+        $.each(via, function(i, item) {
             wp.addCoordinate(normalize(item));
         });
         wp.addCoordinate(to);
@@ -155,5 +158,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         router.calculateRoute(wp, [cleanOptions]);
     };
 
+    //###Clear all routes from the map
+    clearRoutes = function() {
+        if (routeContainer && routeContainer.objects) {
+            routeContainer.objects.clear();
+        }
+    };
+
     $.jHERE.extend('route', route);
+    $.jHERE.extend('clearRoutes', clearRoutes);
 }(jQuery));
