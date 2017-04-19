@@ -1,4 +1,4 @@
-#jHERE
+# jHERE
 
 Maps are cool, but map APIs are complicated. jHERE solves this problem by offering a simple but powerful map API in the form of a jQuery (or Zepto.JS) plugin.
 
